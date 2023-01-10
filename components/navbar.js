@@ -1,52 +1,35 @@
 import React from 'react';
-import {TouchableOpacity, View, Image, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Icon} from 'react-native-elements';
+
+import HomeScreen from '../screens/homescreen';
+import TTSScreen from '../screens/ttsscreen';
+import AccountScreen from '../screens/account_screen';
+
+const Tab = createBottomTabNavigator();
 
 const NavBar = () => {
-  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.buttons}
-        onPress={() => navigation.navigate('Home')}>
-        <Image style={styles.icons} source={'../images/home_icon.png'} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttons}
-        onPress={() => navigation.navigate('TTS')}>
-        <Image style={styles.icons} source={'../images/search_icon.png'} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttons}
-        onPress={() => navigation.navigate('Account')}>
-        <Image style={styles.icons} source={'../images/account_icon.png'} />
-      </TouchableOpacity>
-    </View>
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarShowLabel: false,
+        tabBarIcon: ({focused, color, size}) => {
+          if (route.name === 'Home') {
+            return <Icon name={'home'} size={35} color={color} />;
+          } else if (route.name === 'TTS') {
+            return <Icon name={'search'} size={45} color={color} />;
+          } else if (route.name === 'Account') {
+            return <Icon name={'account-circle'} size={35} color={color} />;
+          }
+        },
+        tabBarActiveTintColor: 'blue',
+        tabBarInactiveTintColor: 'black',
+      })}>
+      <Tab.Screen component={HomeScreen} name="Home" />
+      <Tab.Screen component={TTSScreen} name="TTS" />
+      <Tab.Screen component={AccountScreen} name="Account" />
+    </Tab.Navigator>
   );
 };
 
 export default NavBar;
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 100,
-    backgroundColor: 'red',
-  },
-  buttons: {
-    width: '33%',
-    height: 100,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'blue',
-  },
-  icons: {
-    width: 75,
-    height: 75,
-  },
-});
