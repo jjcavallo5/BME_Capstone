@@ -9,12 +9,13 @@ import LoginScreen from './screens/login_screen';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  //comment
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           component={RegistrationScreen}
-          name="Registration"
+          name="Registrations"
           options={{headerShown: false}}
         />
         <Stack.Screen
