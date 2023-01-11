@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   Text,
@@ -10,7 +10,22 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 
+import styles from './registration_styles';
+
 const LoginScreen = ({navigation}) => {
+  const [email, changeEmail] = useState('');
+  const [pass, changePass] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const loginPressed = () => {
+    if (email === '' || pass === '') {
+      setErrorMessage('Please fill out all fields');
+      return;
+    }
+    // Communicate with backend
+    setErrorMessage('');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -23,7 +38,12 @@ const LoginScreen = ({navigation}) => {
           containerStyle={styles.icons}
           color={'gray'}
         />
-        <TextInput style={styles.textInput} placeholder={'example@gmail.com'} />
+        <TextInput
+          style={styles.textInput}
+          placeholder={'example@gmail.com'}
+          onChangeText={changeEmail}
+          value={email}
+        />
       </View>
       <View style={styles.input}>
         <Icon
@@ -36,9 +56,12 @@ const LoginScreen = ({navigation}) => {
           style={styles.textInput}
           placeholder={'********'}
           secureTextEntry={true}
+          onChangeText={changePass}
+          value={pass}
         />
       </View>
-      <TouchableOpacity style={styles.loginButton}>
+      <Text style={styles.errorMessage}>{errorMessage}</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={loginPressed}>
         <Text>Log In</Text>
       </TouchableOpacity>
       <View style={styles.registration}>
@@ -57,63 +80,3 @@ const LoginScreen = ({navigation}) => {
 };
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  header: {
-    height: 200,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    height: 60,
-    width: 300,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  loginButton: {
-    height: 50,
-    width: 200,
-    backgroundColor: 'lightblue',
-    borderTopLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 50,
-  },
-  registration: {
-    height: 100,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  headerText: {
-    fontSize: 32,
-  },
-  icons: {
-    position: 'absolute',
-    left: 5,
-    zIndex: 1,
-  },
-  textInput: {
-    height: 40,
-    width: 300,
-    backgroundColor: '#e1e1e1',
-    borderRadius: 5,
-    color: 'black',
-    paddingLeft: 50,
-  },
-});
