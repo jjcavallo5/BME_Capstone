@@ -25,9 +25,21 @@ const NavBar = () => {
         tabBarActiveTintColor: 'blue',
         tabBarInactiveTintColor: 'black',
       })}>
-      <Tab.Screen component={HomeScreen} name="Home" />
-      <Tab.Screen component={TTSScreen} name="TTS" />
-      <Tab.Screen component={AccountScreen} name="Account" />
+      <Tab.Screen
+        component={HomeScreen}
+        name="Home"
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        component={TTSScreen}
+        name="TTS"
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        component={AccountScreen}
+        name="Account"
+        options={{headerShown: false}}
+      />
     </Tab.Navigator>
   );
 };
