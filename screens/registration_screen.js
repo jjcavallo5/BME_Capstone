@@ -11,6 +11,7 @@ import {
 import {Icon} from 'react-native-elements';
 
 import styles from './registration_styles';
+import {registerUser} from '../backend/auth_functions';
 
 const LoginScreen = ({navigation}) => {
   const [email, changeEmail] = useState('');
@@ -19,28 +20,13 @@ const LoginScreen = ({navigation}) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const registerPress = () => {
-    if (email === '' || pass === '' || confirmPass === '') {
-      setErrorMessage('Please fill out all fields');
-      return;
-    }
-    var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (!emailFormat.test(email)) {
-      //Invalid email
-      setErrorMessage('Invalid email');
-      return;
-    }
-
-    if (pass.length < 6) {
-      setErrorMessage('Password too short');
-      return;
-    }
-
-    if (pass !== confirmPass) {
-      setErrorMessage("Passwords don't match");
-      return;
-    }
-
-    setErrorMessage('');
+    registerUser(
+      email,
+      pass,
+      confirmPass,
+      () => navigation.navigate('NavBar'),
+      setErrorMessage,
+    );
   };
 
   return (

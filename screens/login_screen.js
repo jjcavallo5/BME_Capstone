@@ -4,13 +4,13 @@ import {
   Text,
   View,
   SafeAreaView,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 
 import styles from './registration_styles';
+import {loginUser} from '../backend/auth_functions';
 
 const LoginScreen = ({navigation}) => {
   const [email, changeEmail] = useState('');
@@ -18,12 +18,12 @@ const LoginScreen = ({navigation}) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const loginPressed = () => {
-    if (email === '' || pass === '') {
-      setErrorMessage('Please fill out all fields');
-      return;
-    }
-    // Communicate with backend
-    setErrorMessage('');
+    loginUser(
+      email,
+      pass,
+      () => navigation.navigate('NavBar'),
+      setErrorMessage,
+    );
   };
 
   return (
@@ -70,11 +70,6 @@ const LoginScreen = ({navigation}) => {
           <Text style={{color: 'blue'}}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-
-      {/*! FOR DEBUGGING ONLY */}
-      <TouchableOpacity onPress={() => navigation.navigate('NavBar')}>
-        <Text>HOME (FOR DEBUGGING)</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
