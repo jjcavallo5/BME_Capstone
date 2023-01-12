@@ -22,8 +22,8 @@ const NavBar = () => {
             return <Icon name={'account-circle'} size={35} color={color} />;
           }
         },
-        tabBarActiveTintColor: 'blue',
-        tabBarInactiveTintColor: 'black',
+        tabBarActiveTintColor: 'lightblue',
+        tabBarInactiveTintColor: 'gray',
       })}>
       <Tab.Screen
         component={HomeScreen}
