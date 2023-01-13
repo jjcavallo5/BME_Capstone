@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
+import {getUserName} from '../backend/firestore_functions';
 
 const HomeScreen = () => {
-  const user = 'Jeremy';
+  const [name, setName] = useState('');
+  useEffect(() => {
+    getUserName(setName);
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Welcome, {user}</Text>
+        <Text style={styles.headerText}>Welcome, {name}</Text>
         <Text style={styles.subHeaderText}>
           Get started with some basic commands:
         </Text>

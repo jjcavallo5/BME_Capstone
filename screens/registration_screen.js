@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 
@@ -24,71 +26,73 @@ const LoginScreen = ({navigation}) => {
       email,
       pass,
       confirmPass,
-      () => navigation.navigate('NavBar'),
+      () => navigation.navigate('UserInfo'),
       setErrorMessage,
     );
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>App Name</Text>
-      </View>
-      <View style={styles.input}>
-        <Icon
-          name={'email'}
-          size={30}
-          containerStyle={styles.icons}
-          color={'gray'}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder={'Email'}
-          onChangeText={changeEmail}
-          value={email}
-        />
-      </View>
-      <View style={styles.input}>
-        <Icon
-          name={'lock'}
-          size={30}
-          containerStyle={styles.icons}
-          color={'gray'}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder={'Password'}
-          secureTextEntry={true}
-          onChangeText={changePass}
-          value={pass}
-        />
-      </View>
-      <View style={styles.input}>
-        <Icon
-          name={'lock-open'}
-          size={30}
-          containerStyle={styles.icons}
-          color={'gray'}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder={'Confirm Password'}
-          secureTextEntry={true}
-          onChangeText={changeConfirmPass}
-          value={confirmPass}
-        />
-      </View>
-      <Text style={styles.errorMessage}>{errorMessage}</Text>
-      <TouchableOpacity style={styles.loginButton} onPress={registerPress}>
-        <Text>Register</Text>
-      </TouchableOpacity>
-      <View style={styles.registration}>
-        <Text>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={{color: 'blue'}}>Log In</Text>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>App Name</Text>
+        </View>
+        <View style={styles.input}>
+          <Icon
+            name={'email'}
+            size={30}
+            containerStyle={styles.icons}
+            color={'gray'}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Email'}
+            onChangeText={changeEmail}
+            value={email}
+          />
+        </View>
+        <View style={styles.input}>
+          <Icon
+            name={'lock'}
+            size={30}
+            containerStyle={styles.icons}
+            color={'gray'}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Password'}
+            secureTextEntry={true}
+            onChangeText={changePass}
+            value={pass}
+          />
+        </View>
+        <View style={styles.input}>
+          <Icon
+            name={'lock-open'}
+            size={30}
+            containerStyle={styles.icons}
+            color={'gray'}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Confirm Password'}
+            secureTextEntry={true}
+            onChangeText={changeConfirmPass}
+            value={confirmPass}
+          />
+        </View>
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={registerPress}>
+          <Text>Register</Text>
         </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        <View style={styles.registration}>
+          <Text>Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={{color: 'blue'}}>Log In</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
