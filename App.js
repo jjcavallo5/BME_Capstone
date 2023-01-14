@@ -6,6 +6,7 @@ import NavBar from './components/navbar';
 import RegistrationScreen from './screens/registration_screen';
 import LoginScreen from './screens/login_screen';
 import UserInfoScreen from './screens/user_info_screen';
+import SettingsScreen from './screens/settings';
 
 import {ThemesContext, themes} from './styles/color_themes';
 
@@ -44,6 +45,11 @@ const App = () => {
           <Stack.Screen
             component={NavBar}
             name="NavBar"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={SettingsScreen}
+            name="Settings"
             options={{headerShown: false}}
           />
         </Stack.Navigator>

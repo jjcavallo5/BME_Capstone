@@ -1,25 +1,22 @@
 import React, {useContext} from 'react';
-import {TouchableOpacity, Text} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import {ThemesContext, themes} from '../styles/color_themes';
+import {ThemesContext} from '../styles/color_themes';
 
-const SetDarkTheme = () => {
+const SetTheme = props => {
   const context = useContext(ThemesContext);
   return (
-    <TouchableOpacity onPress={() => context.toggleTheme(themes.dark)}>
-      <Text style={{color: context.theme.text}}>Set Dark</Text>
+    <TouchableOpacity
+      onPress={() => context.toggleTheme(props.theme)}
+      style={props.style}>
+      <Icon
+        name={props.icon}
+        color={context.theme.iconColor}
+        size={props.iconSize}
+      />
     </TouchableOpacity>
   );
 };
 
-const SetLightTheme = () => {
-  const context = useContext(ThemesContext);
-  return (
-    <TouchableOpacity onPress={() => context.toggleTheme(themes.light)}>
-      <Text style={{color: context.theme.text}}>Set Light</Text>
-    </TouchableOpacity>
-  );
-};
-
-export {SetDarkTheme, SetLightTheme};
+export default SetTheme;

@@ -1,23 +1,28 @@
 import React, {useContext} from 'react';
 
-import {Text, SafeAreaView, TouchableOpacity} from 'react-native';
-import {SetLightTheme, SetDarkTheme} from '../components/themeToggleButton';
+import {Text, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {ThemesContext} from '../styles/color_themes';
+import styles from '../styles/account_styles';
 
 const AccountScreen = ({navigation}) => {
-  const colorTheme = useContext(ThemesContext);
+  const context = useContext(ThemesContext);
+  const theme = context.theme;
   return (
     <SafeAreaView
       style={{
-        backgroundColor: colorTheme.theme.background,
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        ...styles.container,
+        backgroundColor: theme.background,
       }}>
-      <SetLightTheme />
-      <SetDarkTheme />
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Settings')}
+          style={styles.settingsIcon}>
+          <Icon name={'settings-outline'} size={30} color={theme.iconColor} />
+        </TouchableOpacity>
+        <Text style={{color: theme.text, fontSize: 32}}>Account</Text>
+      </View>
     </SafeAreaView>
   );
 };

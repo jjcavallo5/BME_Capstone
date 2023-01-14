@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -13,8 +13,11 @@ import {Icon} from 'react-native-elements';
 
 import styles from '../styles/registration_styles';
 import {storeUserInfo} from '../backend/firestore_functions';
+import {ThemesContext} from '../styles/color_themes';
 
 const UserInfoScreen = ({navigation}) => {
+  const context = useContext(ThemesContext);
+  const theme = context.theme;
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const [chronologicalAge, setChronologicalAge] = useState(-1);
@@ -37,20 +40,30 @@ const UserInfoScreen = ({navigation}) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <SafeAreaView style={styles.container}>
-        <Text style={local_styles.header}>Welcome to [APP NAME]</Text>
-        <Text style={local_styles.subheader}>Tell us more about yourself!</Text>
+      <SafeAreaView
+        style={{...styles.container, backgroundColor: theme.background}}>
+        <Text style={{...local_styles.header, color: theme.text}}>
+          Welcome to [APP NAME]
+        </Text>
+        <Text style={{...local_styles.subheader, color: theme.text}}>
+          Tell us more about yourself!
+        </Text>
 
         <View style={styles.input}>
           <Icon
             name={'account-box'}
             size={30}
             containerStyle={styles.icons}
-            color={'gray'}
+            color={theme.iconColor}
           />
           <TextInput
-            style={styles.textInput}
+            style={{
+              ...styles.textInput,
+              backgroundColor: theme.textInput,
+              color: theme.text,
+            }}
             placeholder={'First Name'}
+            placeholderTextColor={theme.placeholderText}
             onChangeText={setFirst}
             value={first}
           />
@@ -61,11 +74,16 @@ const UserInfoScreen = ({navigation}) => {
             name={'account-box'}
             size={30}
             containerStyle={styles.icons}
-            color={'gray'}
+            color={theme.iconColor}
           />
           <TextInput
-            style={styles.textInput}
+            style={{
+              ...styles.textInput,
+              backgroundColor: theme.textInput,
+              color: theme.text,
+            }}
             placeholder={'Last Name'}
+            placeholderTextColor={theme.placeholderText}
             onChangeText={setLast}
             value={last}
           />
@@ -76,11 +94,16 @@ const UserInfoScreen = ({navigation}) => {
             name={'elderly'}
             size={30}
             containerStyle={styles.icons}
-            color={'gray'}
+            color={theme.iconColor}
           />
           <TextInput
-            style={styles.textInput}
+            style={{
+              ...styles.textInput,
+              backgroundColor: theme.textInput,
+              color: theme.text,
+            }}
             placeholder={'Chronological Age'}
+            placeholderTextColor={theme.placeholderText}
             keyboardType={'numeric'}
             onChangeText={setChronologicalAge}
             value={chronologicalAge}
@@ -92,18 +115,25 @@ const UserInfoScreen = ({navigation}) => {
             name={'psychology'}
             size={30}
             containerStyle={styles.icons}
-            color={'gray'}
+            color={theme.iconColor}
           />
           <TextInput
-            style={styles.textInput}
+            style={{
+              ...styles.textInput,
+              backgroundColor: theme.textInput,
+              color: theme.text,
+            }}
             placeholder={'Cognitive Age'}
+            placeholderTextColor={theme.placeholderText}
             keyboardType={'numeric'}
             onChangeText={setCognitiveAge}
             value={cognitiveAge}
           />
         </View>
         <Text style={styles.errorMessage}>{errorMessage}</Text>
-        <TouchableOpacity style={styles.loginButton} onPress={continuePressed}>
+        <TouchableOpacity
+          style={{...styles.loginButton, backgroundColor: theme.buttonColor}}
+          onPress={continuePressed}>
           <Text>Continue</Text>
         </TouchableOpacity>
       </SafeAreaView>
