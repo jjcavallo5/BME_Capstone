@@ -1,18 +1,27 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-elements';
 
 import HomeScreen from '../screens/homescreen';
 import TTSScreen from '../screens/ttsscreen';
 import AccountScreen from '../screens/account_screen';
+import {themes, ThemesContext} from '../styles/color_themes';
 
 const Tab = createBottomTabNavigator();
 
 const NavBar = () => {
+  const context = useContext(ThemesContext);
+  const theme = context.theme;
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: theme.tabBar,
+          borderTopWidth: 0,
+          elevation: 0,
+        },
         tabBarIcon: ({focused, color, size}) => {
           if (route.name === 'Home') {
             return <Icon name={'home'} size={35} color={color} />;
@@ -22,8 +31,8 @@ const NavBar = () => {
             return <Icon name={'account-circle'} size={35} color={color} />;
           }
         },
-        tabBarActiveTintColor: 'lightblue',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: 'dodgerblue',
+        tabBarInactiveTintColor: theme.iconColor,
       })}>
       <Tab.Screen
         component={HomeScreen}

@@ -1,9 +1,25 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
-import {Text, View} from 'react-native';
+import {Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import {SetLightTheme, SetDarkTheme} from '../components/themeToggleButton';
 
-const AccountScreen = () => {
-  return <Text>Account</Text>;
+import {ThemesContext} from '../styles/color_themes';
+
+const AccountScreen = ({navigation}) => {
+  const colorTheme = useContext(ThemesContext);
+  return (
+    <SafeAreaView
+      style={{
+        backgroundColor: colorTheme.theme.background,
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <SetLightTheme />
+      <SetDarkTheme />
+    </SafeAreaView>
+  );
 };
 
 export default AccountScreen;

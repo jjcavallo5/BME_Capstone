@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   loginButton: {
     height: 50,
     width: 200,
-    backgroundColor: 'lightblue',
     borderTopLeftRadius: 15,
     borderBottomRightRadius: 15,
     display: 'flex',
@@ -53,9 +52,7 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     width: 300,
-    backgroundColor: '#e1e1e1',
     borderRadius: 5,
-    color: 'black',
     paddingLeft: 50,
   },
   errorMessage: {

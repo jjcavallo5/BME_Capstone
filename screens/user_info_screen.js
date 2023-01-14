@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 
-import styles from './registration_styles';
+import styles from '../styles/registration_styles';
 import {storeUserInfo} from '../backend/firestore_functions';
 
 const UserInfoScreen = ({navigation}) => {
