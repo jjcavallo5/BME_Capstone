@@ -2,13 +2,14 @@ import React, {useState} from 'react';
 import {Keyboard, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import {googleSpeech} from '../backend/googleCloudTTS_functions';
+
 const TTSBar = props => {
   const [input, setInput] = useState('');
   const handleSubmit = () => {
-    //TTS Function
     Keyboard.dismiss();
 
-    //Do TTS
+    googleSpeech(input);
 
     setInput('');
   };
