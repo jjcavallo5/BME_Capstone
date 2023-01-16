@@ -2,13 +2,20 @@ import React, {useState} from 'react';
 import {Keyboard, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import Tts from 'react-native-tts';
+import {googleSpeech} from '../backend/googleCloudTTS_functions';
+
 const TTSBar = props => {
   const [input, setInput] = useState('');
+
   const handleSubmit = () => {
-    //TTS Function
     Keyboard.dismiss();
 
-    //Do TTS
+    if (props.voice.category === 'google') {
+      googleSpeech(input, props.voice.data);
+    } else {
+      Tts.speak(input);
+    }
 
     setInput('');
   };
@@ -18,7 +25,12 @@ const TTSBar = props => {
         placeholder="Type here to talk..."
         placeholderTextColor={props.placeholderColor}
         onChangeText={setInput}
-        style={{...props.style, paddingRight: 40, borderRadius: 10}}
+        style={{
+          ...props.style,
+          paddingRight: 40,
+          paddingLeft: 10,
+          borderRadius: 10,
+        }}
         value={input}
         onSubmitEditing={handleSubmit}
       />

@@ -18,27 +18,42 @@ const styles = StyleSheet.create({
   },
   backIcon: {
     position: 'absolute',
-    left: 20,
-    top: 20,
+    left: 5,
+    top: 5,
   },
 
   themeSettings: {
     borderTopWidth: 1,
-    borderBottomWidth: 1,
+    width: '85%',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
+    height: 60,
+    position: 'relative',
   },
   themeButtons: {
     height: 50,
-    width: 50,
+    width: 40,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
-    margin: 5,
-    borderWidth: 2,
+  },
+
+  voiceScrollView: {
+    padding: 10,
+    borderTopWidth: 1,
+  },
+  voiceContainer: {
+    height: 50,
+    width: 300,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+  },
+  sampleIcon: {
+    position: 'absolute',
+    right: 5,
   },
 });
 

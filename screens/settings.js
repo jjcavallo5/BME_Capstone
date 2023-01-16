@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 
-import {Text, SafeAreaView, View} from 'react-native';
+import {Text, SafeAreaView, View, TouchableOpacity} from 'react-native';
 import SetTheme from '../components/themeToggleButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -16,7 +16,7 @@ const SettingsScreen = ({navigation}) => {
       <View style={styles.header}>
         <Icon
           name={'arrow-back'}
-          size={40}
+          size={30}
           color={theme.iconColor}
           onPress={() => navigation.navigate('Account')}
           style={styles.backIcon}
@@ -24,7 +24,7 @@ const SettingsScreen = ({navigation}) => {
         <Text style={{color: theme.text, fontSize: 32}}>Settings</Text>
       </View>
       <View style={{...styles.themeSettings, borderColor: theme.text}}>
-        <Text style={{color: theme.text, fontSize: 16, marginRight: 50}}>
+        <Text style={{color: theme.text, fontSize: 16, marginRight: '35%'}}>
           Theme Selection:
         </Text>
         <SetTheme
@@ -46,6 +46,17 @@ const SettingsScreen = ({navigation}) => {
           }}
         />
       </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('VoiceSelection')}
+        style={{...styles.themeSettings, borderColor: theme.text}}>
+        <Text style={{color: theme.text, fontSize: 16}}>Voice Selection</Text>
+        <Icon
+          name="arrow-forward-ios"
+          size={25}
+          color={theme.iconColor}
+          style={{position: 'absolute', right: 5}}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
