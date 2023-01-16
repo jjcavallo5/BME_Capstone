@@ -31,6 +31,13 @@ export function storeUserInfo(
       lastName: last,
       chronologicalAge: chronologicalAge,
       cognitiveAge: cognitiveAge,
+      voice: {
+        category: 'RNTTS',
+        data: {
+          language: 'en-US',
+          name: 'en-us-x-iol-local',
+        },
+      },
     })
     .then(() => {
       failCallback('');
@@ -51,4 +58,29 @@ export function getUserName(callback) {
     .then(snap => {
       callback(snap.get('firstName'));
     });
+}
+
+export function getVoiceData(callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .get()
+    .then(snap => {
+      callback(snap.get('voice'));
+    });
+}
+
+export function setVoiceData(newVoice, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({
+      voice: newVoice,
+    })
+    .then(() => callback())
+    .catch(err => console.error(err));
 }

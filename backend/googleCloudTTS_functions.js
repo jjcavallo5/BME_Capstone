@@ -1,6 +1,6 @@
 import Config from 'react-native-config';
 import {Platform} from 'react-native';
-import voices from './googleTTS_voices';
+import googleVoices from './googleTTS_voices';
 
 const RNFS = require('react-native-fs');
 const Sound = require('react-native-sound');
@@ -38,10 +38,10 @@ const playMusic = music => {
   });
 };
 
-const googleSpeech = async text => {
+const googleSpeech = async (text, voice) => {
   const key = Platform === 'ios' ? Config.KEY_IOS : Config.KEY_ANDROID;
   const address = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${key}`;
-  const payload = createPayload(voices.USMale, text);
+  const payload = createPayload(voice, text);
   const path = RNFS.DocumentDirectoryPath + '/voice.mp3';
   fetch(address, payload)
     .then(response => response.json())
@@ -58,4 +58,4 @@ const googleSpeech = async text => {
     });
 };
 
-export {voices, googleSpeech};
+export {googleSpeech};

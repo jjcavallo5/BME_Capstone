@@ -14,7 +14,7 @@ const HomeScreen = () => {
   const [name, setName] = useState('');
   useEffect(() => {
     getUserName(setName);
-  });
+  }, []);
 
   return (
     <SafeAreaView

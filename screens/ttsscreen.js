@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 
 import {
   Text,
@@ -6,14 +6,27 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import Tts from 'react-native-tts';
 import {ThemesContext} from '../styles/color_themes';
 import TTSBar from '../components/ttsBar';
+import {getVoiceData} from '../backend/firestore_functions';
 
 import styles from '../styles/tts_styles';
 
 const TTSScreen = () => {
   const context = useContext(ThemesContext);
   const theme = context.theme;
+
+  const [voiceData, setVoiceData] = useState();
+  useEffect(() => {
+    getVoiceData(voice => {
+      setVoiceData(voice);
+      if (voice.category === 'RNTTS') {
+        Tts.setDefaultVoice(voice.data.name);
+      }
+    });
+  }, []);
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView
@@ -26,6 +39,7 @@ const TTSScreen = () => {
           }}
           placeholderColor={theme.placeholderText}
           iconColor={theme.iconColor}
+          voice={voiceData}
         />
       </SafeAreaView>
     </TouchableWithoutFeedback>
