@@ -8,6 +8,7 @@ import LoginScreen from './screens/login_screen';
 import UserInfoScreen from './screens/user_info_screen';
 import SettingsScreen from './screens/settings';
 import VoiceSelectionScreen from './screens/voiceSelection_screen';
+import FolderScreen from './screens/folder_screen';
 
 import {ThemesContext, themes} from './styles/color_themes';
 
@@ -56,6 +57,11 @@ const App = () => {
           <Stack.Screen
             component={VoiceSelectionScreen}
             name="VoiceSelection"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={FolderScreen}
+            name="Folder"
             options={{headerShown: false}}
           />
         </Stack.Navigator>

@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   },
   backIcon: {
     position: 'absolute',
-    left: 20,
-    top: 20,
+    left: 5,
+    top: 5,
   },
 
   themeSettings: {

@@ -16,7 +16,7 @@ const SettingsScreen = ({navigation}) => {
       <View style={styles.header}>
         <Icon
           name={'arrow-back'}
-          size={40}
+          size={30}
           color={theme.iconColor}
           onPress={() => navigation.navigate('Account')}
           style={styles.backIcon}

@@ -25,7 +25,12 @@ const TTSBar = props => {
         placeholder="Type here to talk..."
         placeholderTextColor={props.placeholderColor}
         onChangeText={setInput}
-        style={{...props.style, paddingRight: 40, borderRadius: 10}}
+        style={{
+          ...props.style,
+          paddingRight: 40,
+          paddingLeft: 10,
+          borderRadius: 10,
+        }}
         value={input}
         onSubmitEditing={handleSubmit}
       />

@@ -1,5 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import defaultCommandList from '../components/default_commands';
 
 export function storeUserInfo(
   first,
@@ -38,6 +39,7 @@ export function storeUserInfo(
           name: 'en-us-x-iol-local',
         },
       },
+      commands: defaultCommandList,
     })
     .then(() => {
       failCallback('');
@@ -83,4 +85,16 @@ export function setVoiceData(newVoice, callback) {
     })
     .then(() => callback())
     .catch(err => console.error(err));
+}
+
+export function getCommandList(callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .get()
+    .then(snap => {
+      callback(snap.get('commands'));
+    });
 }
