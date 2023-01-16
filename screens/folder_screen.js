@@ -8,8 +8,7 @@ import styles from '../styles/homescreen_styles';
 const FolderScreen = ({route, navigation}) => {
   const context = useContext(ThemesContext);
   const theme = context.theme;
-  const {category, commands} = route.params;
-  console.log(commands);
+  const {category, commands, voice} = route.params;
 
   return (
     <SafeAreaView
@@ -31,6 +30,7 @@ const FolderScreen = ({route, navigation}) => {
               key={cmd.name}
               style={{color: theme.text, backgroundColor: theme.textInput}}
               iconColor={theme.iconColor}
+              voice={voice}
             />
           );
         })}

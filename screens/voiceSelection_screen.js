@@ -13,6 +13,7 @@ import {getVoiceData, setVoiceData} from '../backend/firestore_functions';
 import googleVoices from '../backend/googleTTS_voices';
 import RNTTSvoices from '../backend/RNTTS_voices';
 import styles from '../styles/settings_styles';
+import Tts from 'react-native-tts';
 
 const VoiceSelectionScreen = ({navigation}) => {
   const [currentVoice, setCurrentVoice] = useState(RNTTSvoices[0]);
@@ -54,6 +55,11 @@ const VoiceSelectionScreen = ({navigation}) => {
                   },
                   () => {},
                 );
+                context.setVoice({
+                  category: 'RNTTS',
+                  data: voice.data,
+                });
+                Tts.setDefaultVoice(voice.data.name);
                 navigation.navigate('Settings');
               }}>
               <Text
@@ -95,6 +101,10 @@ const VoiceSelectionScreen = ({navigation}) => {
                     },
                     () => {},
                   );
+                  context.setVoice({
+                    category: 'google',
+                    data: voice.data,
+                  });
                   navigation.navigate('Settings');
                 }}>
                 <Text

@@ -1,12 +1,21 @@
 import React from 'react';
 
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Tts from 'react-native-tts';
+import {googleSpeech} from '../backend/googleCloudTTS_functions';
 
 const Command = props => {
   return (
-    <TouchableOpacity style={{...styles.container, ...props.style}}>
+    <TouchableOpacity
+      style={{...styles.container, ...props.style}}
+      onPress={() => {
+        if (props.voice.category === 'RNTTS') {
+          Tts.speak(props.name);
+        } else if (props.voice.category === 'google') {
+          googleSpeech(props.name, props.voice.data);
+        }
+      }}>
       <Icon name={props.iconName} size={50} color={props.iconColor} />
       <Text style={{...styles.text, ...props.style}}>{props.name}</Text>
     </TouchableOpacity>

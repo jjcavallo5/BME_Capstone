@@ -11,22 +11,31 @@ import VoiceSelectionScreen from './screens/voiceSelection_screen';
 import FolderScreen from './screens/folder_screen';
 
 import {ThemesContext, themes} from './styles/color_themes';
+import {getVoiceData} from './backend/firestore_functions';
+import RNTTSvoices from './backend/RNTTS_voices';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [colorTheme, setColorTheme] = useState({
+  const [context, setContext] = useState({
     theme: themes.light,
     toggleTheme: newTheme => {
-      setColorTheme({
-        ...colorTheme,
+      setContext({
+        ...context,
         theme: newTheme,
+      });
+    },
+    voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
+    setVoice: newVoice => {
+      setContext({
+        ...context,
+        voice: newVoice,
       });
     },
   });
 
   return (
-    <ThemesContext.Provider value={colorTheme}>
+    <ThemesContext.Provider value={context}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen

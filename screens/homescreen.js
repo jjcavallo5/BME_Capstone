@@ -1,7 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react';
 
+import Tts from 'react-native-tts';
 import {Text, View, SafeAreaView} from 'react-native';
-import {getUserName, getCommandList} from '../backend/firestore_functions';
+import {
+  getUserName,
+  getCommandList,
+  getVoiceData,
+} from '../backend/firestore_functions';
 import Command from '../components/command';
 import Folder from '../components/folder';
 import defaultCommandList from '../components/default_commands';
@@ -12,11 +17,17 @@ import {ThemesContext} from '../styles/color_themes';
 const HomeScreen = ({navigation}) => {
   const context = useContext(ThemesContext);
   const theme = context.theme;
+  const voice = context.voice;
   const [name, setName] = useState('');
   const [commands, setCommands] = useState(defaultCommandList);
   useEffect(() => {
     getUserName(setName);
-    getCommandList(setCommands);
+    getVoiceData(voice => {
+      context.setVoice(voice);
+      if (voice.category === 'RNTTS') {
+        Tts.setDefaultVoice(voice.data.name);
+      }
+    });
   }, []);
 
   return (
@@ -39,6 +50,7 @@ const HomeScreen = ({navigation}) => {
               key={cmd.name}
               style={{color: theme.text, backgroundColor: theme.textInput}}
               iconColor={theme.iconColor}
+              voice={voice}
             />
           );
         })}
@@ -60,6 +72,7 @@ const HomeScreen = ({navigation}) => {
                 navigation.navigate('Folder', {
                   commands: cmdList,
                   category: category.name,
+                  voice: voice,
                 });
               }}
             />

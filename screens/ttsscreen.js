@@ -16,15 +16,12 @@ import styles from '../styles/tts_styles';
 const TTSScreen = () => {
   const context = useContext(ThemesContext);
   const theme = context.theme;
+  const voice = context.voice;
 
-  const [voiceData, setVoiceData] = useState();
   useEffect(() => {
-    getVoiceData(voice => {
-      setVoiceData(voice);
-      if (voice.category === 'RNTTS') {
-        Tts.setDefaultVoice(voice.data.name);
-      }
-    });
+    if (voice.category === 'RNTTS') {
+      Tts.setDefaultVoice(voice.data.name);
+    }
   }, []);
 
   return (
@@ -39,7 +36,7 @@ const TTSScreen = () => {
           }}
           placeholderColor={theme.placeholderText}
           iconColor={theme.iconColor}
-          voice={voiceData}
+          voice={voice}
         />
       </SafeAreaView>
     </TouchableWithoutFeedback>
