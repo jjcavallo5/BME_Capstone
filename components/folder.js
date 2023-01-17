@@ -1,4 +1,4 @@
-import React, {useTheme} from 'react';
+import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 

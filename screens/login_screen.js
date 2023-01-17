@@ -13,10 +13,11 @@ import {Icon} from 'react-native-elements';
 
 import styles from '../styles/registration_styles';
 import {loginUser} from '../backend/auth_functions';
-import {ThemesContext} from '../styles/color_themes';
+import {getUserData} from '../backend/firestore_functions';
+import AppContext from '../components/appContext';
 
 const LoginScreen = ({navigation}) => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
   const [email, changeEmail] = useState('');
   const [pass, changePass] = useState('');
@@ -26,7 +27,19 @@ const LoginScreen = ({navigation}) => {
     loginUser(
       email,
       pass,
-      () => navigation.navigate('NavBar'),
+      () => {
+        getUserData(data => {
+          context.updateContext({
+            ...context,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            commands: data.commands,
+            categories: data.categories,
+            voice: data.voice,
+          });
+        });
+        navigation.navigate('NavBar');
+      },
       setErrorMessage,
     );
   };

@@ -1,30 +1,22 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 
-import {
-  Text,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import {SafeAreaView, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import Tts from 'react-native-tts';
 import {ThemesContext} from '../styles/color_themes';
 import TTSBar from '../components/ttsBar';
-import {getVoiceData} from '../backend/firestore_functions';
 
 import styles from '../styles/tts_styles';
+import AppContext from '../components/appContext';
 
 const TTSScreen = () => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
+  const voice = context.voice;
 
-  const [voiceData, setVoiceData] = useState();
   useEffect(() => {
-    getVoiceData(voice => {
-      setVoiceData(voice);
-      if (voice.category === 'RNTTS') {
-        Tts.setDefaultVoice(voice.data.name);
-      }
-    });
+    if (voice.category === 'RNTTS') {
+      Tts.setDefaultVoice(voice.data.name);
+    }
   }, []);
 
   return (
@@ -39,7 +31,7 @@ const TTSScreen = () => {
           }}
           placeholderColor={theme.placeholderText}
           iconColor={theme.iconColor}
-          voice={voiceData}
+          voice={voice}
         />
       </SafeAreaView>
     </TouchableWithoutFeedback>

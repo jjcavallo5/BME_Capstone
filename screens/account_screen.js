@@ -3,11 +3,11 @@ import React, {useContext} from 'react';
 import {Text, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {ThemesContext} from '../styles/color_themes';
+import AppContext from '../components/appContext';
 import styles from '../styles/account_styles';
 
 const AccountScreen = ({navigation}) => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
   return (
     <SafeAreaView

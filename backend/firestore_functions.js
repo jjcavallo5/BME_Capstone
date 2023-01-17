@@ -1,6 +1,9 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import defaultCommandList from '../components/default_commands';
+import {
+  defaultCategoryList,
+  defaultCommandList,
+} from '../components/default_commands';
 
 export function storeUserInfo(
   first,
@@ -39,6 +42,7 @@ export function storeUserInfo(
           name: 'en-us-x-iol-local',
         },
       },
+      categories: defaultCategoryList,
       commands: defaultCommandList,
     })
     .then(() => {
@@ -50,7 +54,7 @@ export function storeUserInfo(
     });
 }
 
-export function getUserName(callback) {
+export function getUserData(callback) {
   var userDoc = auth().currentUser.email;
 
   firestore()
@@ -58,7 +62,7 @@ export function getUserName(callback) {
     .doc(userDoc)
     .get()
     .then(snap => {
-      callback(snap.get('firstName'));
+      callback(snap.data());
     });
 }
 
@@ -97,4 +101,26 @@ export function getCommandList(callback) {
     .then(snap => {
       callback(snap.get('commands'));
     });
+}
+
+export function updateCommandList(newCommand, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({commands: firestore.FieldValue.arrayUnion(newCommand)})
+    .then(() => callback())
+    .catch(err => console.error(err));
+}
+
+export function updateCategoryList(newCategory, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({categories: firestore.FieldValue.arrayUnion(newCategory)})
+    .then(() => callback())
+    .catch(err => console.error(err));
 }

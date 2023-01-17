@@ -5,12 +5,12 @@ import {Icon} from 'react-native-elements';
 import HomeScreen from '../screens/homescreen';
 import TTSScreen from '../screens/ttsscreen';
 import AccountScreen from '../screens/account_screen';
-import {themes, ThemesContext} from '../styles/color_themes';
+import AppContext from './appContext';
 
 const Tab = createBottomTabNavigator();
 
 const NavBar = () => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
 
   return (
