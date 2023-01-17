@@ -1,20 +1,15 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 
-import {
-  Text,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import {SafeAreaView, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import Tts from 'react-native-tts';
 import {ThemesContext} from '../styles/color_themes';
 import TTSBar from '../components/ttsBar';
-import {getVoiceData} from '../backend/firestore_functions';
 
 import styles from '../styles/tts_styles';
+import AppContext from '../components/appContext';
 
 const TTSScreen = () => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
   const voice = context.voice;
 

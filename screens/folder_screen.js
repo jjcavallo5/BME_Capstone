@@ -2,13 +2,14 @@ import React, {useContext} from 'react';
 import {SafeAreaView, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Command from '../components/command';
-import {ThemesContext} from '../styles/color_themes';
+import AppContext from '../components/appContext';
 import styles from '../styles/homescreen_styles';
 
 const FolderScreen = ({route, navigation}) => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
-  const {category, commands, voice} = route.params;
+  const voice = context.voice;
+  const {category, commands} = route.params;
 
   return (
     <SafeAreaView

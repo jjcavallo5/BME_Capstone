@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {ThemesContext} from '../styles/color_themes';
+import AppContext from '../components/appContext';
 import {getVoiceData, setVoiceData} from '../backend/firestore_functions';
 import googleVoices from '../backend/googleTTS_voices';
 import RNTTSvoices from '../backend/RNTTS_voices';
@@ -16,12 +16,13 @@ import styles from '../styles/settings_styles';
 import Tts from 'react-native-tts';
 
 const VoiceSelectionScreen = ({navigation}) => {
-  const [currentVoice, setCurrentVoice] = useState(RNTTSvoices[0]);
-  const context = useContext(ThemesContext);
+  // const [currentVoice, setCurrentVoice] = useState(RNTTSvoices[0]);
+  const context = useContext(AppContext);
   const theme = context.theme;
-  useEffect(() => {
-    getVoiceData(setCurrentVoice);
-  }, []);
+  const currentVoice = context.voice;
+  // useEffect(() => {
+  //   getVoiceData(setCurrentVoice);
+  // }, []);
   return (
     <SafeAreaView
       style={{
@@ -55,9 +56,12 @@ const VoiceSelectionScreen = ({navigation}) => {
                   },
                   () => {},
                 );
-                context.setVoice({
-                  category: 'RNTTS',
-                  data: voice.data,
+                context.updateContext({
+                  ...context,
+                  voice: {
+                    category: 'RNTTS',
+                    data: voice.data,
+                  },
                 });
                 Tts.setDefaultVoice(voice.data.name);
                 navigation.navigate('Settings');
@@ -101,9 +105,12 @@ const VoiceSelectionScreen = ({navigation}) => {
                     },
                     () => {},
                   );
-                  context.setVoice({
-                    category: 'google',
-                    data: voice.data,
+                  context.updateContext({
+                    ...context,
+                    voice: {
+                      category: 'google',
+                      data: voice.data,
+                    },
                   });
                   navigation.navigate('Settings');
                 }}>

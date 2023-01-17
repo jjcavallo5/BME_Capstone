@@ -13,10 +13,10 @@ import {Icon} from 'react-native-elements';
 
 import styles from '../styles/registration_styles';
 import {registerUser} from '../backend/auth_functions';
-import {ThemesContext} from '../styles/color_themes';
+import AppContext from '../components/appContext';
 
 const LoginScreen = ({navigation}) => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
   const [email, changeEmail] = useState('');
   const [pass, changePass] = useState('');

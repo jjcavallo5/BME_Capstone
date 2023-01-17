@@ -1,5 +1,3 @@
-import {createContext} from 'react';
-
 export const themes = {
   light: {
     background: '#f1f1f1',
@@ -20,8 +18,3 @@ export const themes = {
     tabBar: 'black',
   },
 };
-
-export const ThemesContext = createContext({
-  theme: themes.light,
-  toggleTheme: () => {},
-});

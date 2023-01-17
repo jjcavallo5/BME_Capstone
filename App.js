@@ -9,33 +9,34 @@ import UserInfoScreen from './screens/user_info_screen';
 import SettingsScreen from './screens/settings';
 import VoiceSelectionScreen from './screens/voiceSelection_screen';
 import FolderScreen from './screens/folder_screen';
+import AddCommandScreen from './screens/addCommand_screen';
 
-import {ThemesContext, themes} from './styles/color_themes';
-import {getVoiceData} from './backend/firestore_functions';
+import {themes} from './styles/color_themes';
 import RNTTSvoices from './backend/RNTTS_voices';
+import {
+  defaultCategoryList,
+  defaultCommandList,
+} from './components/default_commands';
+import AppContext from './components/appContext';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [context, setContext] = useState({
-    theme: themes.light,
-    toggleTheme: newTheme => {
-      setContext({
-        ...context,
-        theme: newTheme,
-      });
-    },
+    categories: defaultCategoryList,
+    commands: defaultCommandList,
     voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
-    setVoice: newVoice => {
-      setContext({
-        ...context,
-        voice: newVoice,
-      });
-    },
+    theme: themes.light,
+    firstName: '',
+    lastName: '',
+    chronologicalAge: 0,
+    cognitiveAge: 0,
+
+    updateContext: newContext => setContext(newContext),
   });
 
   return (
-    <ThemesContext.Provider value={context}>
+    <AppContext.Provider value={context}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -73,9 +74,14 @@ const App = () => {
             name="Folder"
             options={{headerShown: false}}
           />
+          <Stack.Screen
+            component={AddCommandScreen}
+            name="AddCommand"
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
-    </ThemesContext.Provider>
+    </AppContext.Provider>
   );
 };
 

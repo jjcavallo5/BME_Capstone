@@ -1,34 +1,20 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useContext} from 'react';
 
-import Tts from 'react-native-tts';
-import {Text, View, SafeAreaView} from 'react-native';
-import {
-  getUserName,
-  getCommandList,
-  getVoiceData,
-} from '../backend/firestore_functions';
+import {Text, View, SafeAreaView, TouchableOpacity} from 'react-native';
+
 import Command from '../components/command';
 import Folder from '../components/folder';
-import defaultCommandList from '../components/default_commands';
 import styles from '../styles/homescreen_styles';
 
-import {ThemesContext} from '../styles/color_themes';
+import AppContext from '../components/appContext';
 
 const HomeScreen = ({navigation}) => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
   const voice = context.voice;
-  const [name, setName] = useState('');
-  const [commands, setCommands] = useState(defaultCommandList);
-  useEffect(() => {
-    getUserName(setName);
-    getVoiceData(voice => {
-      context.setVoice(voice);
-      if (voice.category === 'RNTTS') {
-        Tts.setDefaultVoice(voice.data.name);
-      }
-    });
-  }, []);
+  const commands = context.commands;
+  const categories = context.categories;
+  const name = context.firstName;
 
   return (
     <SafeAreaView
@@ -42,7 +28,7 @@ const HomeScreen = ({navigation}) => {
         </Text>
       </View>
       <View style={styles.commandContainer}>
-        {commands.commands.map(cmd => {
+        {commands.map(cmd => {
           return (
             <Command
               name={cmd.name}
@@ -57,7 +43,7 @@ const HomeScreen = ({navigation}) => {
       </View>
 
       <View style={styles.commandContainer}>
-        {commands.categories.map(category => {
+        {categories.map(category => {
           return (
             <Folder
               name={category.name}
@@ -66,18 +52,25 @@ const HomeScreen = ({navigation}) => {
               style={{color: theme.text, backgroundColor: theme.textInput}}
               iconColor={theme.iconColor}
               onPress={() => {
-                var cmdList = commands.commands.filter(cmd => {
+                var cmdList = commands.filter(cmd => {
                   return cmd.category === category.name;
                 });
                 navigation.navigate('Folder', {
                   commands: cmdList,
                   category: category.name,
-                  voice: voice,
                 });
               }}
             />
           );
         })}
+      </View>
+      <View>
+        <TouchableOpacity onPress={() => navigation.navigate('AddCommand')}>
+          <Text>Add Command</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>Add Folder</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

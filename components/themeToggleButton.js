@@ -1,14 +1,13 @@
 import React, {useContext} from 'react';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import {ThemesContext} from '../styles/color_themes';
+import AppContext from './appContext';
 
 const SetTheme = props => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   return (
     <TouchableOpacity
-      onPress={() => context.toggleTheme(props.theme)}
+      onPress={() => context.updateContext({...context, theme: props.theme})}
       style={props.style}>
       <Icon
         name={props.icon}

@@ -4,11 +4,12 @@ import {Text, SafeAreaView, View, TouchableOpacity} from 'react-native';
 import SetTheme from '../components/themeToggleButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {themes, ThemesContext} from '../styles/color_themes';
+import {themes} from '../styles/color_themes';
+import AppContext from '../components/appContext';
 import styles from '../styles/settings_styles';
 
 const SettingsScreen = ({navigation}) => {
-  const context = useContext(ThemesContext);
+  const context = useContext(AppContext);
   const theme = context.theme;
   return (
     <SafeAreaView
