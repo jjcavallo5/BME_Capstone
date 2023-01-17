@@ -1,6 +1,13 @@
 import React, {useContext} from 'react';
 
-import {Text, View, SafeAreaView, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Command from '../components/command';
 import Folder from '../components/folder';
@@ -23,11 +30,9 @@ const HomeScreen = ({navigation}) => {
         <Text style={{...styles.headerText, color: theme.text}}>
           Welcome, {name}
         </Text>
-        <Text style={{...styles.subHeaderText, color: theme.text}}>
-          Get started with some basic commands:
-        </Text>
       </View>
-      <View style={styles.commandContainer}>
+      <Text style={{color: theme.text}}>Commands</Text>
+      <ScrollView contentContainerStyle={styles.commandContainer} horizontal>
         {commands.map(cmd => {
           return (
             <Command
@@ -40,9 +45,12 @@ const HomeScreen = ({navigation}) => {
             />
           );
         })}
-      </View>
-
-      <View style={styles.commandContainer}>
+      </ScrollView>
+      <Text style={{color: theme.text}}>Folders</Text>
+      <ScrollView
+        horizontal
+        contentContainerStyle={styles.commandContainer}
+        showsHorizontalScrollIndicator={false}>
         {categories.map(category => {
           return (
             <Folder
@@ -63,13 +71,19 @@ const HomeScreen = ({navigation}) => {
             />
           );
         })}
-      </View>
-      <View>
+      </ScrollView>
+      <View style={styles.footer}>
         <TouchableOpacity onPress={() => navigation.navigate('AddCommand')}>
-          <Text>Add Command</Text>
+          <Icon name={'plus'} size={35} color={theme.iconColor} />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Add Folder</Text>
+        <TouchableOpacity
+          style={styles.addButtons}
+          onPress={() => navigation.navigate('AddFolder')}>
+          <Icon
+            name={'folder-plus-outline'}
+            size={35}
+            color={theme.iconColor}
+          />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

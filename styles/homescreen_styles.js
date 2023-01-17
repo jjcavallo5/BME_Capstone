@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
-    height: 150,
+    height: 110,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -21,9 +21,21 @@ const styles = StyleSheet.create({
   },
   commandContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    height: 250,
+    marginBottom: 10,
+  },
+  footer: {
+    height: 30,
+    width: '100%',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  addButtons: {
+    position: 'absolute',
+    right: 0,
   },
 });
 

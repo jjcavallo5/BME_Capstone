@@ -113,3 +113,14 @@ export function updateCommandList(newCommand, callback) {
     .then(() => callback())
     .catch(err => console.error(err));
 }
+
+export function updateCategoryList(newCategory, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({categories: firestore.FieldValue.arrayUnion(newCategory)})
+    .then(() => callback())
+    .catch(err => console.error(err));
+}
