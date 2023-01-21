@@ -114,6 +114,17 @@ export function updateCommandList(newCommand, callback) {
     .catch(err => console.error(err));
 }
 
+export function setCommandList(newCommandList, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({commands: newCommandList})
+    .then(() => callback())
+    .catch(err => console.error(err));
+}
+
 export function updateCategoryList(newCategory, callback) {
   var userDoc = auth().currentUser.email;
 

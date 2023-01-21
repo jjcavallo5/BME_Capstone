@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 
 import {
   Text,
@@ -14,6 +14,9 @@ import Folder from '../components/folder';
 import styles from '../styles/homescreen_styles';
 
 import AppContext from '../components/appContext';
+import DeleteCommandModal from '../components/deleteCommandModal';
+
+import {setCommandList} from '../backend/firestore_functions';
 
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
@@ -23,6 +26,21 @@ const HomeScreen = ({navigation}) => {
   const categories = context.categories;
   const name = context.firstName;
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [cmdToDelete, setCmdToDelete] = useState('');
+
+  const deleteCommand = () => {
+    const newCmdList = context.commands.filter(cmd => {
+      return cmd.name !== cmdToDelete;
+    });
+    context.updateContext({
+      ...context,
+      commands: newCmdList,
+    });
+
+    setCommandList(newCmdList, () => {});
+  };
+
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: theme.background}}>
@@ -31,6 +49,11 @@ const HomeScreen = ({navigation}) => {
           Welcome, {name}
         </Text>
       </View>
+      <DeleteCommandModal
+        modalVisible={modalVisible}
+        minimizeModal={() => setModalVisible(false)}
+        deleteCallback={deleteCommand}
+      />
       <Text style={{color: theme.text}}>Commands</Text>
       <ScrollView contentContainerStyle={styles.commandContainer} horizontal>
         {commands.map(cmd => {
@@ -42,6 +65,10 @@ const HomeScreen = ({navigation}) => {
               style={{color: theme.text, backgroundColor: theme.textInput}}
               iconColor={theme.iconColor}
               voice={voice}
+              onLongPress={() => {
+                setModalVisible(true);
+                setCmdToDelete(cmd.name);
+              }}
             />
           );
         })}
