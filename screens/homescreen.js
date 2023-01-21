@@ -16,7 +16,8 @@ import styles from '../styles/homescreen_styles';
 import AppContext from '../components/appContext';
 import DeleteCommandModal from '../components/deleteCommandModal';
 
-import {setCommandList} from '../backend/firestore_functions';
+import {setCommandList, setCategoryList} from '../backend/firestore_functions';
+import DeleteFolderModal from '../components/deleteFolderModal';
 
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
@@ -27,7 +28,9 @@ const HomeScreen = ({navigation}) => {
   const name = context.firstName;
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [folderModalVisible, setFolderModalVisible] = useState(false);
   const [cmdToDelete, setCmdToDelete] = useState('');
+  const [folderToDelete, setFolderToDelete] = useState('');
 
   const deleteCommand = () => {
     const newCmdList = context.commands.filter(cmd => {
@@ -39,6 +42,18 @@ const HomeScreen = ({navigation}) => {
     });
 
     setCommandList(newCmdList, () => {});
+  };
+
+  const deleteFolder = () => {
+    const newCatList = context.categories.filter(cat => {
+      return cat.name !== folderToDelete;
+    });
+    context.updateContext({
+      ...context,
+      categories: newCatList,
+    });
+
+    setCategoryList(newCatList, () => {});
   };
 
   return (
@@ -53,6 +68,11 @@ const HomeScreen = ({navigation}) => {
         modalVisible={modalVisible}
         minimizeModal={() => setModalVisible(false)}
         deleteCallback={deleteCommand}
+      />
+      <DeleteFolderModal
+        modalVisible={folderModalVisible}
+        minimizeModal={() => setFolderModalVisible(false)}
+        deleteCallback={deleteFolder}
       />
       <Text style={{color: theme.text}}>Commands</Text>
       <ScrollView contentContainerStyle={styles.commandContainer} horizontal>
@@ -94,6 +114,10 @@ const HomeScreen = ({navigation}) => {
                   commands: cmdList,
                   category: category.name,
                 });
+              }}
+              onLongPress={() => {
+                setFolderModalVisible(true);
+                setFolderToDelete(category.name);
               }}
             />
           );

@@ -135,3 +135,14 @@ export function updateCategoryList(newCategory, callback) {
     .then(() => callback())
     .catch(err => console.error(err));
 }
+
+export function setCategoryList(newCatList, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({categories: newCatList})
+    .then(() => callback())
+    .catch(err => console.error(err));
+}

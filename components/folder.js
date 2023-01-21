@@ -6,7 +6,8 @@ const Folder = props => {
   return (
     <TouchableOpacity
       style={{...styles.container, ...props.style}}
-      onPress={() => props.onPress()}>
+      onPress={() => props.onPress()}
+      onLongPress={() => props.onLongPress()}>
       <Icon name={props.iconName} size={50} color={props.iconColor} />
       <Text style={{...styles.text, ...props.style}}>{props.name}</Text>
     </TouchableOpacity>

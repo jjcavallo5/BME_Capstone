@@ -9,7 +9,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../styles/modalStyles';
 
-const DeleteCommandModal = props => {
+const DeleteFolderModal = props => {
   return (
     <Modal
       visible={props.modalVisible}
@@ -24,7 +24,7 @@ const DeleteCommandModal = props => {
               <Icon name="close" size={30} />
             </TouchableOpacity>
             <View style={styles.header}>
-              <Text style={styles.text}>Delete Command?</Text>
+              <Text style={styles.text}>Delete Folder?</Text>
             </View>
             <View>
               <TouchableOpacity
@@ -43,4 +43,4 @@ const DeleteCommandModal = props => {
   );
 };
 
-export default DeleteCommandModal;
+export default DeleteFolderModal;
