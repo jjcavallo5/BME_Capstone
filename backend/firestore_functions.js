@@ -114,6 +114,17 @@ export function updateCommandList(newCommand, callback) {
     .catch(err => console.error(err));
 }
 
+export function setCommandList(newCommandList, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({commands: newCommandList})
+    .then(() => callback())
+    .catch(err => console.error(err));
+}
+
 export function updateCategoryList(newCategory, callback) {
   var userDoc = auth().currentUser.email;
 
@@ -121,6 +132,17 @@ export function updateCategoryList(newCategory, callback) {
     .collection('users')
     .doc(userDoc)
     .update({categories: firestore.FieldValue.arrayUnion(newCategory)})
+    .then(() => callback())
+    .catch(err => console.error(err));
+}
+
+export function setCategoryList(newCatList, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({categories: newCatList})
     .then(() => callback())
     .catch(err => console.error(err));
 }

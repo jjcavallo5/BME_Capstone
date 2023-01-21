@@ -15,7 +15,8 @@ const Command = props => {
         } else if (props.voice.category === 'google') {
           googleSpeech(props.name, props.voice.data);
         }
-      }}>
+      }}
+      onLongPress={props.onLongPress}>
       <Icon name={props.iconName} size={50} color={props.iconColor} />
       <Text style={{...styles.text, ...props.style}}>{props.name}</Text>
     </TouchableOpacity>
