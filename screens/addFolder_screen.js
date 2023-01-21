@@ -58,7 +58,7 @@ const AddFolderScreen = ({navigation}) => {
             }
             const newCat = {
               name: newCategory,
-              iconName: 'folder-outline',
+              iconName: 'folder-open',
             };
             updateCategoryList(newCat, () => {});
             context.updateContext({

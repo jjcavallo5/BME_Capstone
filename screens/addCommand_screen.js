@@ -12,10 +12,11 @@ import {updateCommandList} from '../backend/firestore_functions';
 import AppContext from '../components/appContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const AddCommandScreen = ({navigation}) => {
+const AddCommandScreen = ({route, navigation}) => {
   const context = useContext(AppContext);
   const theme = context.theme;
   const categories = context.categories;
+  const icon = route.params ? route.params.icon : 'star';
 
   const [errorMessage, setErrorMessage] = useState('');
   const [open, setOpen] = useState(false);
@@ -57,6 +58,17 @@ const AddCommandScreen = ({navigation}) => {
           }}
         />
       </View>
+      <View style={styles.iconSelectContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('SelectIcon')}
+          style={styles.iconSelectContainer}>
+          <Text>Icon:</Text>
+          <View
+            style={{...styles.iconContainer, backgroundColor: theme.textInput}}>
+            <Icon name={icon} size={50} color={theme.iconColor} />
+          </View>
+        </TouchableOpacity>
+      </View>
       <View>
         <DropDownPicker
           open={open}
@@ -89,7 +101,7 @@ const AddCommandScreen = ({navigation}) => {
             const newCmd = {
               category: category,
               name: command,
-              iconName: 'star',
+              iconName: icon,
             };
             updateCommandList(newCmd, () => {});
             context.updateContext({
