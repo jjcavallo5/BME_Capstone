@@ -10,6 +10,7 @@ export default styles = StyleSheet.create({
   },
   header: {
     height: 60,
+    width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
