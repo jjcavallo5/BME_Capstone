@@ -11,6 +11,7 @@ import VoiceSelectionScreen from './screens/voiceSelection_screen';
 import FolderScreen from './screens/folder_screen';
 import AddCommandScreen from './screens/addCommand_screen';
 import AddFolderScreen from './screens/addFolder_screen';
+import SelectIconScreen from './screens/selectIcon_screen';
 
 import {themes} from './styles/color_themes';
 import RNTTSvoices from './backend/RNTTS_voices';
@@ -83,6 +84,11 @@ const App = () => {
           <Stack.Screen
             component={AddFolderScreen}
             name="AddFolder"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={SelectIconScreen}
+            name="SelectIcon"
             options={{headerShown: false}}
           />
         </Stack.Navigator>

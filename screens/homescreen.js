@@ -82,7 +82,10 @@ const HomeScreen = ({navigation}) => {
               name={cmd.name}
               iconName={cmd.iconName}
               key={cmd.name}
-              style={{color: theme.text, backgroundColor: theme.textInput}}
+              style={{
+                color: theme.text,
+                backgroundColor: cmd.color ? cmd.color : theme.textInput,
+              }}
               iconColor={theme.iconColor}
               voice={voice}
               onLongPress={() => {
