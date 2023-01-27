@@ -6,15 +6,17 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {ColorPicker, fromHsv} from 'react-native-color-picker';
-import {SliderComponent} from '@react-native-community/slider';
+import Slider from '@react-native-community/slider';
 import styles from '../styles/add_styles';
 import {updateCommandList} from '../backend/firestore_functions';
 import AppContext from '../components/appContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Keyboard} from 'react-native';
+import Command from '../components/command';
+import ColorPickerModal from '../components/colorPicker';
 
 const AddCommandScreen = ({route, navigation}) => {
   const context = useContext(AppContext);
@@ -26,8 +28,12 @@ const AddCommandScreen = ({route, navigation}) => {
   const [open, setOpen] = useState(false);
   const [command, setCommand] = useState('');
   const [category, setCategory] = useState('None');
-  const [color, setColor] = useState('red');
-  const [colorDisplay, setColorDisplay] = useState('none');
+  const [backgroundColor, setBackgroundColor] = useState(theme.textInput);
+  const [textColor, setTextColor] = useState(theme.text);
+  const [iconColor, setIconColor] = useState(theme.iconColor);
+  const [backgroundColorDisplay, setBackgroundColorDisplay] = useState('none');
+  const [textColorDisplay, setTextColorDisplay] = useState('none');
+  const [iconColorDisplay, setIconColorDisplay] = useState('none');
   const [items, setItems] = useState([
     {label: 'None', value: 'None'},
     ...categories.map(category => {
@@ -38,7 +44,9 @@ const AddCommandScreen = ({route, navigation}) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        setColorDisplay('none');
+        setBackgroundColorDisplay('none');
+        setTextColorDisplay('none');
+        setIconColorDisplay('none');
         Keyboard.dismiss();
       }}>
       <SafeAreaView
@@ -51,33 +59,23 @@ const AddCommandScreen = ({route, navigation}) => {
           </TouchableOpacity>
           <Text style={{color: theme.text, fontSize: 32}}>Add Command</Text>
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            padding: 20,
-            top: 200,
-            display: colorDisplay,
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 2,
-            backgroundColor: 'white',
-            borderRadius: 20,
-          }}>
-          <ColorPicker
-            onColorChange={clr => setColor(fromHsv(clr))}
-            sliderComponent={SliderComponent}
-            style={{height: 300, width: 300}}
-            hideSliders={true}
-          />
-          <TouchableOpacity
-            style={{
-              ...styles.colorSubmitButton,
-              backgroundColor: theme.buttonColor,
-            }}
-            onPress={() => setColorDisplay('none')}>
-            <Text style={{color: 'black'}}>Confirm</Text>
-          </TouchableOpacity>
-        </View>
+
+        <ColorPickerModal
+          callback={setBackgroundColor}
+          hideModal={setBackgroundColorDisplay}
+          display={backgroundColorDisplay}
+        />
+        <ColorPickerModal
+          callback={setTextColor}
+          hideModal={setTextColorDisplay}
+          display={textColorDisplay}
+        />
+        <ColorPickerModal
+          callback={setIconColor}
+          hideModal={setIconColorDisplay}
+          display={iconColorDisplay}
+        />
+
         <View style={styles.textContainer}>
           <Icon
             name={'plus'}
@@ -96,6 +94,7 @@ const AddCommandScreen = ({route, navigation}) => {
             }}
           />
         </View>
+
         <View style={styles.iconSelectContainer}>
           <Text style={{color: theme.text, fontSize: 16}}>Icon:</Text>
           <TouchableOpacity
@@ -112,7 +111,7 @@ const AddCommandScreen = ({route, navigation}) => {
           <Text style={{color: theme.text, fontSize: 16}}>Color:</Text>
           <TouchableOpacity
             style={styles.iconSelectContainer}
-            onPress={() => setColorDisplay('flex')}>
+            onPress={() => setBackgroundColorDisplay('flex')}>
             <View
               style={{
                 ...styles.iconContainer,
@@ -123,12 +122,47 @@ const AddCommandScreen = ({route, navigation}) => {
                   ...styles.iconContainer,
                   height: 35,
                   width: 35,
-                  backgroundColor: color,
+                  backgroundColor: backgroundColor,
                 }}
               />
             </View>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.iconSelectContainer}>
+          <Text style={{color: theme.text, fontSize: 16}}>Icon Color:</Text>
+          <TouchableOpacity
+            onPress={() => setIconColorDisplay('flex')}
+            style={styles.iconSelectContainer}>
+            <View
+              style={{
+                ...styles.iconContainer,
+                backgroundColor: theme.textInput,
+              }}>
+              <Icon name={icon} size={50} color={iconColor} />
+            </View>
+          </TouchableOpacity>
+          <Text style={{color: theme.text, fontSize: 16}}>Text Color:</Text>
+          <TouchableOpacity
+            style={styles.iconSelectContainer}
+            onPress={() => setTextColorDisplay('flex')}>
+            <View
+              style={{
+                ...styles.iconContainer,
+                backgroundColor: theme.textInput,
+              }}>
+              <View
+                style={{
+                  ...styles.iconContainer,
+                  height: 35,
+                  width: 35,
+                  backgroundColor: backgroundColor,
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+
         <View>
           <DropDownPicker
             open={open}
@@ -149,6 +183,16 @@ const AddCommandScreen = ({route, navigation}) => {
             labelStyle={{backgroundColor: theme.textInput, color: theme.text}}
           />
         </View>
+        <View style={styles.preview}>
+          <View
+            style={{
+              ...styles.commandContainer,
+              backgroundColor: backgroundColor,
+            }}>
+            <Icon name={icon} size={50} color={iconColor} />
+            <Text style={{color: textColor}}>{command}</Text>
+          </View>
+        </View>
         <View style={styles.footer}>
           <Text style={{color: 'red'}}>{errorMessage}</Text>
           <TouchableOpacity
@@ -162,7 +206,9 @@ const AddCommandScreen = ({route, navigation}) => {
                 category: category,
                 name: command,
                 iconName: icon,
-                color: color,
+                backgroundColor: backgroundColor,
+                textColor: textColor,
+                iconColor: iconColor,
               };
               updateCommandList(newCmd, () => {});
               context.updateContext({

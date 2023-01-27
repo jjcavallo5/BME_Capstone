@@ -48,16 +48,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
   },
-  colorSubmitButton: {
-    height: 40,
-    width: 150,
-    borderTopLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-  },
   dropdown: {
     width: 300,
     height: 40,
@@ -68,11 +58,21 @@ const styles = StyleSheet.create({
     zIndex: 1,
     borderWidth: 0,
   },
+  preview: {
+    padding: 20,
+  },
+  commandContainer: {
+    height: 100,
+    width: 100,
+    borderRadius: 10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   footer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
   },
   button: {
     height: 50,
@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
   },
 });
 
