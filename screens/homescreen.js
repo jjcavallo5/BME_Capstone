@@ -83,10 +83,12 @@ const HomeScreen = ({navigation}) => {
               iconName={cmd.iconName}
               key={cmd.name}
               style={{
-                color: theme.text,
-                backgroundColor: cmd.color ? cmd.color : theme.textInput,
+                color: cmd.textColor ? cmd.textColor : theme.text,
+                backgroundColor: cmd.backgroundColor
+                  ? cmd.backgroundColor
+                  : theme.textInput,
               }}
-              iconColor={theme.iconColor}
+              iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
               voice={voice}
               onLongPress={() => {
                 setModalVisible(true);

@@ -29,8 +29,13 @@ const FolderScreen = ({route, navigation}) => {
               name={cmd.name}
               iconName={cmd.iconName}
               key={cmd.name}
-              style={{color: theme.text, backgroundColor: theme.textInput}}
-              iconColor={theme.iconColor}
+              style={{
+                color: cmd.textColor ? cmd.textColor : theme.text,
+                backgroundColor: cmd.backgroundColor
+                  ? cmd.backgroundColor
+                  : theme.textInput,
+              }}
+              iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
               voice={voice}
             />
           );
