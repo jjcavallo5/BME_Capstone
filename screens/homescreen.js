@@ -18,6 +18,7 @@ import DeleteCommandModal from '../components/deleteCommandModal';
 
 import {setCommandList, setCategoryList} from '../backend/firestore_functions';
 import DeleteFolderModal from '../components/deleteFolderModal';
+import PremiumAd from '../components/premiumAd';
 
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
@@ -31,6 +32,7 @@ const HomeScreen = ({navigation}) => {
   const [folderModalVisible, setFolderModalVisible] = useState(false);
   const [cmdToDelete, setCmdToDelete] = useState('');
   const [folderToDelete, setFolderToDelete] = useState('');
+  const [premiumAdVisible, setPremiumAdVisible] = useState(false);
 
   const deleteCommand = () => {
     const newCmdList = context.commands.filter(cmd => {
@@ -74,6 +76,10 @@ const HomeScreen = ({navigation}) => {
         minimizeModal={() => setFolderModalVisible(false)}
         deleteCallback={deleteFolder}
       />
+      <PremiumAd
+        modalVisible={premiumAdVisible}
+        minimizeModal={() => setPremiumAdVisible(false)}
+      />
       <Text style={{color: theme.text}}>Commands</Text>
       <ScrollView contentContainerStyle={styles.commandContainer} horizontal>
         {commands.map(cmd => {
@@ -91,6 +97,10 @@ const HomeScreen = ({navigation}) => {
               iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
               voice={voice}
               onLongPress={() => {
+                if (!context.isPremiumUser) {
+                  setPremiumAdVisible(true);
+                  return;
+                }
                 setModalVisible(true);
                 setCmdToDelete(cmd.name);
               }}
@@ -121,6 +131,10 @@ const HomeScreen = ({navigation}) => {
                 });
               }}
               onLongPress={() => {
+                if (!context.isPremiumUser) {
+                  setPremiumAdVisible(true);
+                  return;
+                }
                 setFolderModalVisible(true);
                 setFolderToDelete(category.name);
               }}
@@ -129,12 +143,19 @@ const HomeScreen = ({navigation}) => {
         })}
       </ScrollView>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate('AddCommand')}>
+        <TouchableOpacity
+          onPress={() => {
+            if (context.isPremiumUser) navigation.navigate('AddCommand');
+            else setPremiumAdVisible(true);
+          }}>
           <Icon name={'plus'} size={35} color={theme.iconColor} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.addButtons}
-          onPress={() => navigation.navigate('AddFolder')}>
+          onPress={() => {
+            if (context.isPremiumUser) navigation.navigate('AddFolder');
+            else setPremiumAdVisible(true);
+          }}>
           <Icon
             name={'folder-plus-outline'}
             size={35}
