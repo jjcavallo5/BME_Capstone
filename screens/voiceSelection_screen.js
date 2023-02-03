@@ -9,20 +9,35 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import AppContext from '../components/appContext';
-import {getVoiceData, setVoiceData} from '../backend/firestore_functions';
+import {setVoiceData} from '../backend/firestore_functions';
 import googleVoices from '../backend/googleTTS_voices';
 import RNTTSvoices from '../backend/RNTTS_voices';
 import styles from '../styles/settings_styles';
 import Tts from 'react-native-tts';
 
+var Sound = require('react-native-sound');
+Sound.setCategory('Playback');
+
 const VoiceSelectionScreen = ({navigation}) => {
-  // const [currentVoice, setCurrentVoice] = useState(RNTTSvoices[0]);
   const context = useContext(AppContext);
   const theme = context.theme;
   const currentVoice = context.voice;
-  // useEffect(() => {
-  //   getVoiceData(setCurrentVoice);
-  // }, []);
+
+  const playSample = name => {
+    var path = name.replaceAll('-', '_').toLowerCase() + '.mp3';
+    console.log(path);
+    var sample = new Sound(path, Sound.MAIN_BUNDLE, error => {
+      if (error) console.error(error);
+      else {
+        sample.play(success => {
+          if (!success) {
+            console.warn('playback failed due to audio decoding errors');
+          }
+        });
+      }
+    });
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -76,9 +91,6 @@ const VoiceSelectionScreen = ({navigation}) => {
                 }}>
                 {voice.displayName}
               </Text>
-              <TouchableOpacity style={styles.sampleIcon}>
-                <Icon name={'volume-up'} size={30} color={theme.iconColor} />
-              </TouchableOpacity>
             </TouchableOpacity>
           );
         })}
@@ -124,7 +136,11 @@ const VoiceSelectionScreen = ({navigation}) => {
                   }}>
                   {voice.displayName}
                 </Text>
-                <TouchableOpacity style={styles.sampleIcon}>
+                <TouchableOpacity
+                  style={styles.sampleIcon}
+                  onPress={() => {
+                    playSample(voice.data.name);
+                  }}>
                   <Icon name={'volume-up'} size={30} color={theme.iconColor} />
                 </TouchableOpacity>
               </TouchableOpacity>

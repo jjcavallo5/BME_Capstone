@@ -21,7 +21,7 @@ const createPayload = (voice, text) => ({
   method: 'POST',
 });
 
-const playMusic = music => {
+const playSound = music => {
   const speech = new Sound(music, '', error => {
     if (error) {
       console.warn('failed to load the sound', error);
@@ -47,7 +47,7 @@ const googleSpeech = async (text, voice) => {
     .then(response => response.json())
     .then(result => {
       RNFS.writeFile(path, result.audioContent, 'base64')
-        .then(() => playMusic(path))
+        .then(() => playSound(path))
         .catch(err => {
           console.error('Create failure');
           console.error(err);
@@ -58,4 +58,4 @@ const googleSpeech = async (text, voice) => {
     });
 };
 
-export {googleSpeech};
+export {googleSpeech, playSound};
