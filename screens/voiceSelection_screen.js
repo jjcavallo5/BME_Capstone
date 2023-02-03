@@ -13,6 +13,7 @@ import {setVoiceData} from '../backend/firestore_functions';
 import googleVoices from '../backend/googleTTS_voices';
 import RNTTSvoices from '../backend/RNTTS_voices';
 import styles from '../styles/settings_styles';
+import PremiumAd from '../components/premiumAd';
 import Tts from 'react-native-tts';
 
 var Sound = require('react-native-sound');
@@ -22,6 +23,8 @@ const VoiceSelectionScreen = ({navigation}) => {
   const context = useContext(AppContext);
   const theme = context.theme;
   const currentVoice = context.voice;
+
+  const [premiumAdVisible, setPremiumAdVisible] = useState(false);
 
   const playSample = name => {
     var path = name.replaceAll('-', '_').toLowerCase() + '.mp3';
@@ -53,6 +56,10 @@ const VoiceSelectionScreen = ({navigation}) => {
           style={styles.backIcon}
         />
         <Text style={{color: theme.text, fontSize: 32}}>Select Voice</Text>
+        <PremiumAd
+          modalVisible={premiumAdVisible}
+          minimizeModal={() => setPremiumAdVisible(false)}
+        />
       </View>
       <ScrollView style={styles.voiceScrollView}>
         {RNTTSvoices.map(voice => {
@@ -110,6 +117,10 @@ const VoiceSelectionScreen = ({navigation}) => {
                   backgroundColor: theme.background,
                 }}
                 onPress={() => {
+                  if (!context.isPremiumUser) {
+                    setPremiumAdVisible(true);
+                    return;
+                  }
                   setVoiceData(
                     {
                       category: 'google',
@@ -126,6 +137,15 @@ const VoiceSelectionScreen = ({navigation}) => {
                   });
                   navigation.navigate('Settings');
                 }}>
+                <Icon
+                  name={'lock'}
+                  size={20}
+                  color={theme.iconColor}
+                  style={{
+                    display: context.isPremiumUser ? 'none' : 'flex',
+                    marginRight: 10,
+                  }}
+                />
                 <Text
                   style={{
                     color:

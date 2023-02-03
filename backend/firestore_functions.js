@@ -44,6 +44,7 @@ export function storeUserInfo(
       },
       categories: defaultCategoryList,
       commands: defaultCommandList,
+      isPremiumUser: false,
     })
     .then(() => {
       failCallback('');

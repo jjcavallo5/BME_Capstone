@@ -36,6 +36,7 @@ const LoginScreen = ({navigation}) => {
             commands: data.commands,
             categories: data.categories,
             voice: data.voice,
+            isPremiumUser: data.isPremiumUser,
           });
         });
         navigation.navigate('NavBar');

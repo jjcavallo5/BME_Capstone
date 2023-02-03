@@ -12,6 +12,7 @@ const AppContext = createContext({
   lastName: '',
   cognitiveAge: 0,
   chronologicalAge: 0,
+  isPremiumUser: false,
 
   updateContext: () => {},
 });
