@@ -97,6 +97,10 @@ const HomeScreen = ({navigation}) => {
               iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
               voice={voice}
               onLongPress={() => {
+                if (!context.isPremiumUser) {
+                  setPremiumAdVisible(true);
+                  return;
+                }
                 setModalVisible(true);
                 setCmdToDelete(cmd.name);
               }}
@@ -127,6 +131,10 @@ const HomeScreen = ({navigation}) => {
                 });
               }}
               onLongPress={() => {
+                if (!context.isPremiumUser) {
+                  setPremiumAdVisible(true);
+                  return;
+                }
                 setFolderModalVisible(true);
                 setFolderToDelete(category.name);
               }}
