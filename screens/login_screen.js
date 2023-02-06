@@ -51,7 +51,7 @@ const LoginScreen = ({navigation}) => {
         style={{...styles.container, backgroundColor: theme.background}}>
         <View style={styles.header}>
           <Text style={{...styles.headerText, color: theme.text}}>
-            App Name
+            SpeakUp!
           </Text>
         </View>
         <View style={styles.input}>

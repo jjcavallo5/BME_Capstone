@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SplashScreen from 'react-native-splash-screen';
 
 import NavBar from './components/navbar';
 import RegistrationScreen from './screens/registration_screen';
@@ -36,6 +37,10 @@ const App = () => {
 
     updateContext: newContext => setContext(newContext),
   });
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <AppContext.Provider value={context}>
