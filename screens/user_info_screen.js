@@ -43,7 +43,7 @@ const UserInfoScreen = ({navigation}) => {
       <SafeAreaView
         style={{...styles.container, backgroundColor: theme.background}}>
         <Text style={{...local_styles.header, color: theme.text}}>
-          Welcome to [APP NAME]
+          Welcome to SpeakUp!
         </Text>
         <Text style={{...local_styles.subheader, color: theme.text}}>
           Tell us more about yourself!
