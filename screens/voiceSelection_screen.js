@@ -9,7 +9,6 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import AppContext from '../components/appContext';
-import {setVoiceData} from '../backend/firestore_functions';
 import googleVoices from '../backend/googleTTS_voices';
 import RNTTSvoices from '../backend/RNTTS_voices';
 import styles from '../styles/settings_styles';
@@ -71,20 +70,13 @@ const VoiceSelectionScreen = ({navigation}) => {
                 backgroundColor: theme.background,
               }}
               onPress={() => {
-                setVoiceData(
-                  {
-                    category: 'RNTTS',
-                    data: voice.data,
-                  },
-                  () => {},
-                );
-                context.updateContext({
-                  ...context,
+                context.updateContext(context, {
                   voice: {
                     category: 'RNTTS',
                     data: voice.data,
                   },
                 });
+                console.log('hi');
                 Tts.setDefaultVoice(voice.data.name);
                 navigation.navigate('Settings');
               }}>
@@ -121,15 +113,7 @@ const VoiceSelectionScreen = ({navigation}) => {
                     setPremiumAdVisible(true);
                     return;
                   }
-                  setVoiceData(
-                    {
-                      category: 'google',
-                      data: voice.data,
-                    },
-                    () => {},
-                  );
-                  context.updateContext({
-                    ...context,
+                  context.updateContext(context, {
                     voice: {
                       category: 'google',
                       data: voice.data,

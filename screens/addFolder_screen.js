@@ -56,13 +56,18 @@ const AddFolderScreen = ({navigation}) => {
               setErrorMessage('Please enter folder name');
               return;
             }
+            for (var i = 0; i < context.categories.length; i++) {
+              if (context.categories[i].name === newCategory) {
+                setErrorMessage('Folder already exists');
+                return;
+              }
+            }
             const newCat = {
               name: newCategory,
               iconName: 'folder-open',
             };
-            updateCategoryList(newCat, () => {});
-            context.updateContext({
-              ...context,
+            // updateCategoryList(newCat, () => {});
+            context.updateContext(context, {
               categories: [...context.categories, newCat],
             });
             navigation.navigate('Home');

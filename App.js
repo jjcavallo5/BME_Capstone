@@ -21,6 +21,7 @@ import {
   defaultCommandList,
 } from './components/default_commands';
 import AppContext from './components/appContext';
+import {updateDatabase} from './backend/firestore_functions';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +36,13 @@ const App = () => {
     chronologicalAge: 0,
     cognitiveAge: 0,
 
-    updateContext: newContext => setContext(newContext),
+    setNewContext: newContext => {
+      setContext(newContext);
+    },
+    updateContext: (oldContext, update) => {
+      setContext({...oldContext, ...update});
+      updateDatabase(update, () => {});
+    },
   });
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 
 import {
   Text,
@@ -38,24 +38,22 @@ const HomeScreen = ({navigation}) => {
     const newCmdList = context.commands.filter(cmd => {
       return cmd.name !== cmdToDelete;
     });
-    context.updateContext({
-      ...context,
+    context.updateContext(context, {
       commands: newCmdList,
     });
 
-    setCommandList(newCmdList, () => {});
+    // setCommandList(newCmdList, () => {});
   };
 
   const deleteFolder = () => {
     const newCatList = context.categories.filter(cat => {
       return cat.name !== folderToDelete;
     });
-    context.updateContext({
-      ...context,
+    context.updateContext(context, {
       categories: newCatList,
     });
 
-    setCategoryList(newCatList, () => {});
+    // setCategoryList(newCatList, () => {});
   };
 
   return (

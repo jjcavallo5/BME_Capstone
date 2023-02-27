@@ -156,7 +156,7 @@ const AddCommandScreen = ({route, navigation}) => {
                   ...styles.iconContainer,
                   height: 35,
                   width: 35,
-                  backgroundColor: backgroundColor,
+                  backgroundColor: textColor,
                 }}
               />
             </View>
@@ -202,6 +202,12 @@ const AddCommandScreen = ({route, navigation}) => {
                 setErrorMessage('Please enter command');
                 return;
               }
+              for (var i = 0; i < context.commands.length; i++) {
+                if (context.commands[i].name === command) {
+                  setErrorMessage('Command already exists');
+                  return;
+                }
+              }
               const newCmd = {
                 category: category,
                 name: command,
@@ -210,9 +216,8 @@ const AddCommandScreen = ({route, navigation}) => {
                 textColor: textColor,
                 iconColor: iconColor,
               };
-              updateCommandList(newCmd, () => {});
-              context.updateContext({
-                ...context,
+              // updateCommandList(newCmd, () => {});
+              context.updateContext(context, {
                 commands: [...context.commands, newCmd],
               });
               navigation.navigate('Home');
