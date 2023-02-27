@@ -63,9 +63,6 @@ const HomeScreen = ({navigation}) => {
         <Text style={{...styles.headerText, color: theme.text}}>
           Welcome, {name}
         </Text>
-        <TouchableOpacity onPress={() => console.log('hs-button', context)}>
-          <Text>Show Context</Text>
-        </TouchableOpacity>
       </View>
       <DeleteCommandModal
         modalVisible={modalVisible}

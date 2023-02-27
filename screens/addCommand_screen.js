@@ -202,6 +202,12 @@ const AddCommandScreen = ({route, navigation}) => {
                 setErrorMessage('Please enter command');
                 return;
               }
+              for (var i = 0; i < context.commands.length; i++) {
+                if (context.commands[i].name === command) {
+                  setErrorMessage('Command already exists');
+                  return;
+                }
+              }
               const newCmd = {
                 category: category,
                 name: command,

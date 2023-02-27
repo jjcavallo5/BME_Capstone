@@ -40,10 +40,8 @@ const App = () => {
       setContext(newContext);
     },
     updateContext: (oldContext, update) => {
-      console.log('update', update);
       setContext({...oldContext, ...update});
       updateDatabase(update, () => {});
-      console.log('update-context', {...oldContext, ...update});
     },
   });
 
