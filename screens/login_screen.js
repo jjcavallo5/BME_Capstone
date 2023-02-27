@@ -29,17 +29,9 @@ const LoginScreen = ({navigation}) => {
       pass,
       () => {
         getUserData(data => {
-          context.updateContext({
-            ...context,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            commands: data.commands,
-            categories: data.categories,
-            voice: data.voice,
-            isPremiumUser: data.isPremiumUser,
-          });
+          context.setNewContext({...context, ...data});
+          navigation.navigate('NavBar');
         });
-        navigation.navigate('NavBar');
       },
       setErrorMessage,
     );

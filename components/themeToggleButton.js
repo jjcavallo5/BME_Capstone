@@ -7,7 +7,7 @@ const SetTheme = props => {
   const context = useContext(AppContext);
   return (
     <TouchableOpacity
-      onPress={() => context.updateContext({...context, theme: props.theme})}
+      onPress={() => context.updateContext(context, {theme: props.theme})}
       style={props.style}>
       <Icon
         name={props.icon}

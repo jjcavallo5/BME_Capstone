@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Modal,
   View,
@@ -9,8 +9,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../styles/premiumAdStyles';
+import AppContext from './appContext';
 
 const PremiumAd = props => {
+  const context = useContext(AppContext);
+
   return (
     <Modal
       visible={props.modalVisible}
@@ -53,13 +56,14 @@ const PremiumAd = props => {
               onPress={() => {
                 //Open webpage
                 const url = 'https://www.google.com/';
-                Linking.canOpenURL(url)
-                  .then(() => {
-                    Linking.openURL(url);
-                  })
-                  .catch(err => {
-                    console.error(err);
-                  });
+                // Linking.canOpenURL(url)
+                //   .then(() => {
+                //     Linking.openURL(url);
+                //   })
+                //   .catch(err => {
+                //     console.error(err);
+                //   });
+                context.updateContext(context, {isPremiumUser: true});
               }}>
               <Text style={{fontSize: 24, color: 'black'}}>Lets Go!</Text>
             </TouchableOpacity>

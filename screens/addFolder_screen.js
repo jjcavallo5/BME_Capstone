@@ -60,9 +60,8 @@ const AddFolderScreen = ({navigation}) => {
               name: newCategory,
               iconName: 'folder-open',
             };
-            updateCategoryList(newCat, () => {});
-            context.updateContext({
-              ...context,
+            // updateCategoryList(newCat, () => {});
+            context.updateContext(context, {
               categories: [...context.categories, newCat],
             });
             navigation.navigate('Home');

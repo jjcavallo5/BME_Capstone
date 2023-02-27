@@ -14,6 +14,7 @@ const AppContext = createContext({
   chronologicalAge: 0,
   isPremiumUser: false,
 
+  setNewContext: () => {},
   updateContext: () => {},
 });
 
