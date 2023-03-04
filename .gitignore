@@ -63,6 +63,9 @@ buck-out/
 /ios/Pods/
 /vendor/bundle/
 
-#Firebase
+# Firebase
 android/app/google-services.json
 *.env
+
+# AAC Dataset
+images/AACData

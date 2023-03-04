@@ -18,17 +18,20 @@ const NavBar = () => {
       screenOptions={({route}) => ({
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: theme.tabBar,
+          backgroundColor: theme.background,
           borderTopWidth: 0,
           elevation: 0,
+          height: 55,
+          borderTopColor: theme.iconColor,
+          borderTopWidth: 1,
         },
         tabBarIcon: ({focused, color, size}) => {
           if (route.name === 'Home') {
-            return <Icon name={'home'} size={35} color={color} />;
+            return <Icon name={'home'} size={40} color={color} />;
           } else if (route.name === 'TTS') {
-            return <Icon name={'search'} size={45} color={color} />;
+            return <Icon name={'search'} size={50} color={color} />;
           } else if (route.name === 'Account') {
-            return <Icon name={'account-circle'} size={35} color={color} />;
+            return <Icon name={'account-circle'} size={40} color={color} />;
           }
         },
         tabBarActiveTintColor: 'dodgerblue',

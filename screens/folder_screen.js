@@ -28,6 +28,7 @@ const FolderScreen = ({route, navigation}) => {
             <Command
               name={cmd.name}
               iconName={cmd.iconName}
+              iconURL={cmd.iconURL}
               key={cmd.name}
               style={{
                 color: cmd.textColor ? cmd.textColor : theme.text,

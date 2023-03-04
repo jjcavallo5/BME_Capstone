@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Image,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {ColorPicker, fromHsv} from 'react-native-color-picker';
@@ -17,12 +18,14 @@ import AppContext from '../components/appContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Command from '../components/command';
 import ColorPickerModal from '../components/colorPicker';
+import CommandIcon from '../components/CommandIcon';
 
 const AddCommandScreen = ({route, navigation}) => {
   const context = useContext(AppContext);
   const theme = context.theme;
   const categories = context.categories;
   const icon = route.params ? route.params.icon : 'star';
+  const iconURL = route.params?.iconURL;
 
   const [errorMessage, setErrorMessage] = useState('');
   const [open, setOpen] = useState(false);
@@ -98,14 +101,27 @@ const AddCommandScreen = ({route, navigation}) => {
         <View style={styles.iconSelectContainer}>
           <Text style={{color: theme.text, fontSize: 16}}>Icon:</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('SelectIcon')}
+            onPress={() => navigation.navigate('SelectIconAAC')}
             style={styles.iconSelectContainer}>
             <View
               style={{
                 ...styles.iconContainer,
                 backgroundColor: theme.textInput,
               }}>
-              <Icon name={icon} size={50} color={theme.iconColor} />
+              {/* {iconURL ? (
+                <Image
+                  source={{uri: iconURL}}
+                  style={{height: 50, width: 50}}
+                />
+              ) : (
+                <Icon name={icon} size={50} color={theme.iconColor} />
+              )} */}
+              <CommandIcon
+                command={{iconURL: iconURL, iconName: icon}}
+                size={50}
+                style={{height: 50, width: 50}}
+                color={theme.iconColor}
+              />
             </View>
           </TouchableOpacity>
           <Text style={{color: theme.text, fontSize: 16}}>Color:</Text>
@@ -189,7 +205,12 @@ const AddCommandScreen = ({route, navigation}) => {
               ...styles.commandContainer,
               backgroundColor: backgroundColor,
             }}>
-            <Icon name={icon} size={50} color={iconColor} />
+            <CommandIcon
+              command={{iconURL: iconURL, iconName: icon}}
+              style={{height: 50, width: 50}}
+              size={50}
+              color={iconColor}
+            />
             <Text style={{color: textColor}}>{command}</Text>
           </View>
         </View>
@@ -211,7 +232,8 @@ const AddCommandScreen = ({route, navigation}) => {
               const newCmd = {
                 category: category,
                 name: command,
-                iconName: icon,
+                iconName: icon ? icon : '',
+                iconURL: iconURL ? iconURL : '',
                 backgroundColor: backgroundColor,
                 textColor: textColor,
                 iconColor: iconColor,

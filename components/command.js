@@ -4,6 +4,7 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Tts from 'react-native-tts';
 import {googleSpeech} from '../backend/googleCloudTTS_functions';
+import CommandIcon from './CommandIcon';
 
 const Command = props => {
   return (
@@ -17,7 +18,12 @@ const Command = props => {
         }
       }}
       onLongPress={props.onLongPress}>
-      <Icon name={props.iconName} size={50} color={props.iconColor} />
+      <CommandIcon
+        command={{iconURL: props.iconURL, iconName: props.iconName}}
+        size={50}
+        color={props.iconColor}
+        style={{height: 50, width: 50}}
+      />
       <Text style={{...styles.text, ...props.style}}>{props.name}</Text>
     </TouchableOpacity>
   );
