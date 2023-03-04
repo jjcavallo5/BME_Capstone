@@ -34,10 +34,16 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
   },
   iconSelectContainer: {
-    height: 100,
+    height: 50,
+    position: 'relative',
+    width: '80%',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: 10,
   },
   iconContainer: {
     borderRadius: 5,
@@ -57,9 +63,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 1,
     borderWidth: 0,
+    marginTop: 10,
   },
   preview: {
     padding: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   commandContainer: {
     height: 100,
@@ -68,6 +78,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  colorSelectionPanel: {
+    disply: 'flex',
+    flexDirection: 'column',
   },
   footer: {
     display: 'flex',
