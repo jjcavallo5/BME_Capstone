@@ -24,14 +24,14 @@ const SettingsScreen = ({navigation}) => {
         />
         <Text style={{color: theme.text, fontSize: 32}}>Settings</Text>
       </View>
-      <View style={{...styles.themeSettings, borderColor: theme.text}}>
+      <View style={{...styles.themeSettings, borderColor: theme.iconColor}}>
         <Text style={{color: theme.text, fontSize: 16, marginRight: '35%'}}>
           Theme Selection:
         </Text>
         <SetTheme
           theme={themes.light}
           icon={'sunny-outline'}
-          iconSize={40}
+          iconSize={30}
           style={{
             ...styles.themeButtons,
             borderColor: theme.iconColor,
@@ -40,7 +40,7 @@ const SettingsScreen = ({navigation}) => {
         <SetTheme
           theme={themes.dark}
           icon={'moon-outline'}
-          iconSize={35}
+          iconSize={25}
           style={{
             ...styles.themeButtons,
             borderColor: theme.iconColor,
@@ -49,11 +49,11 @@ const SettingsScreen = ({navigation}) => {
       </View>
       <TouchableOpacity
         onPress={() => navigation.navigate('VoiceSelection')}
-        style={{...styles.themeSettings, borderColor: theme.text}}>
+        style={{...styles.themeSettings, borderColor: theme.iconColor}}>
         <Text style={{color: theme.text, fontSize: 16}}>Voice Selection</Text>
         <Icon
           name="arrow-forward-ios"
-          size={25}
+          size={20}
           color={theme.iconColor}
           style={{position: 'absolute', right: 5}}
         />

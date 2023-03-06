@@ -23,12 +23,12 @@ const styles = StyleSheet.create({
   },
 
   themeSettings: {
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
     width: '85%',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 60,
+    height: 50,
     position: 'relative',
   },
   themeButtons: {
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 
   voiceScrollView: {
     padding: 10,
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
   },
   voiceContainer: {
     height: 50,

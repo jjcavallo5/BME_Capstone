@@ -67,16 +67,19 @@ const AddCommandScreen = ({route, navigation}) => {
           callback={setBackgroundColor}
           hideModal={setBackgroundColorDisplay}
           display={backgroundColorDisplay}
+          caption={'Change Background'}
         />
         <ColorPickerModal
           callback={setTextColor}
           hideModal={setTextColorDisplay}
           display={textColorDisplay}
+          caption={'Change Text Color'}
         />
         <ColorPickerModal
           callback={setIconColor}
           hideModal={setIconColorDisplay}
           display={iconColorDisplay}
+          caption={'Change Background'}
         />
 
         <View style={styles.textContainer}>

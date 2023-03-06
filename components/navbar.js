@@ -23,7 +23,7 @@ const NavBar = () => {
           elevation: 0,
           height: 55,
           borderTopColor: theme.iconColor,
-          borderTopWidth: 1,
+          borderTopWidth: 0.5,
         },
         tabBarIcon: ({focused, color, size}) => {
           if (route.name === 'Home') {
