@@ -6,6 +6,7 @@ import {themes} from '../styles/color_themes';
 const AppContext = createContext({
   categories: defaultCategoryList,
   commands: defaultCommandList,
+  recentSearches: [],
   voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
   theme: themes.light,
   firstName: '',

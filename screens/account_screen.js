@@ -50,7 +50,8 @@ const AccountScreen = ({navigation}) => {
                 ...styles.accountInfoText,
                 width: 160,
                 color: theme.iconColor,
-              }}>
+              }}
+              numberOfLines={1}>
               {auth().currentUser.email}
             </Text>
             <TouchableOpacity

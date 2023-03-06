@@ -30,6 +30,7 @@ const App = () => {
   const [context, setContext] = useState({
     categories: defaultCategoryList,
     commands: defaultCommandList,
+    recentSearches: [],
     voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
     theme: themes.light,
     firstName: '',
