@@ -61,19 +61,13 @@ const TTSScreen = () => {
           callback={PushRecentSearch}
         />
 
-        <View style={styles.recentSearchesHeader}>
-          <Text style={{fontSize: 16, marginLeft: 0, color: theme.iconColor}}>
-            Recent searches
-          </Text>
-        </View>
-
         <View style={styles.scrollViewContainer}>
           <ScrollView
             contentContainerStyle={styles.scrollView}
             style={{
               width: '90%',
               borderTopWidth: 0.5,
-              borderColor: theme.iconColor,
+              borderColor: theme.text,
             }}>
             {context.recentSearches.map((search, idx) => {
               return (

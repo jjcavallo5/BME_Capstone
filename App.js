@@ -45,6 +45,20 @@ const App = () => {
       setContext({...oldContext, ...update});
       updateDatabase(update, () => {});
     },
+    clearContext: () => {
+      setContext({
+        ...context,
+        categories: defaultCategoryList,
+        commands: defaultCommandList,
+        recentSearches: [],
+        voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
+        theme: themes.light,
+        firstName: '',
+        lastName: '',
+        chronologicalAge: 0,
+        cognitiveAge: 0,
+      });
+    },
   });
 
   useEffect(() => {

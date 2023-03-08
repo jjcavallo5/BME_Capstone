@@ -76,9 +76,12 @@ const VoiceSelectionScreen = ({navigation}) => {
                     data: voice.data,
                   },
                 });
-                console.log('hi');
-                Tts.setDefaultVoice(voice.data.name);
-                navigation.pop();
+
+                Tts.setDefaultVoice(voice.data.name)
+                  .then(() => navigation.pop())
+                  .catch(err => {
+                    console.error(err);
+                  });
               }}>
               <Text
                 style={{

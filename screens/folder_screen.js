@@ -1,5 +1,11 @@
 import React, {useContext} from 'react';
-import {SafeAreaView, View, Text, TouchableOpacity} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Command from '../components/command';
 import AppContext from '../components/appContext';
@@ -17,12 +23,13 @@ const FolderScreen = ({route, navigation}) => {
       <View style={styles.header}>
         <TouchableOpacity
           style={{position: 'absolute', top: 5, left: 5}}
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => navigation.pop()}>
           <Icon name={'arrow-back'} size={30} color={theme.iconColor} />
         </TouchableOpacity>
         <Text style={{fontSize: 32, color: theme.text}}>{category}</Text>
       </View>
-      <View style={styles.commandContainer}>
+
+      <ScrollView contentContainerStyle={styles.commandContainer}>
         {commands.map(cmd => {
           return (
             <Command
@@ -41,7 +48,7 @@ const FolderScreen = ({route, navigation}) => {
             />
           );
         })}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

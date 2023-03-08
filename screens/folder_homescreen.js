@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Command from '../components/command';
 import Folder from '../components/folder';
-import styles from '../styles/homescreen_styles';
+import styles from '../styles/folderHomescreenStyles';
 
 import AppContext from '../components/appContext';
 import DeleteCommandModal from '../components/deleteCommandModal';
@@ -19,9 +19,8 @@ import DeleteCommandModal from '../components/deleteCommandModal';
 import {setCommandList, setCategoryList} from '../backend/firestore_functions';
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
-import RadialGradient from 'react-native-radial-gradient';
 
-const HomeScreen = ({navigation}) => {
+const FolderHomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
   const theme = context.theme;
   const voice = context.voice;
@@ -42,6 +41,8 @@ const HomeScreen = ({navigation}) => {
     context.updateContext(context, {
       commands: newCmdList,
     });
+
+    // setCommandList(newCmdList, () => {});
   };
 
   const deleteFolder = () => {
@@ -51,6 +52,8 @@ const HomeScreen = ({navigation}) => {
     context.updateContext(context, {
       categories: newCatList,
     });
+
+    // setCategoryList(newCatList, () => {});
   };
 
   return (
@@ -75,54 +78,39 @@ const HomeScreen = ({navigation}) => {
         modalVisible={premiumAdVisible}
         minimizeModal={() => setPremiumAdVisible(false)}
       />
-      <Text style={{color: theme.text}}>Commands</Text>
+      <Text style={{color: theme.text}}>Folders</Text>
       <ScrollView contentContainerStyle={styles.commandContainer}>
-        {commands.map(cmd => {
+        {categories.map(category => {
           return (
-            <Command
-              name={cmd.name}
-              iconName={cmd.iconName}
-              iconURL={cmd.iconURL}
-              key={cmd.name}
-              style={{
-                color: cmd.textColor ? cmd.textColor : theme.text,
-                backgroundColor: cmd.backgroundColor
-                  ? cmd.backgroundColor
-                  : theme.textInput,
+            <Folder
+              name={category.name}
+              iconName={category.iconName}
+              key={category.name}
+              style={{color: theme.text, backgroundColor: theme.textInput}}
+              iconColor={theme.iconColor}
+              onPress={() => {
+                var cmdList = commands.filter(cmd => {
+                  return cmd.category === category.name;
+                });
+                navigation.navigate('Folder', {
+                  commands: cmdList,
+                  category: category.name,
+                });
               }}
-              iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
-              voice={voice}
               onLongPress={() => {
                 if (!context.isPremiumUser) {
                   setPremiumAdVisible(true);
                   return;
                 }
-                setModalVisible(true);
-                setCmdToDelete(cmd.name);
+                setFolderModalVisible(true);
+                setFolderToDelete(category.name);
               }}
             />
           );
         })}
       </ScrollView>
-
-      {/* <View style={styles.footer}> */}
-      <RadialGradient
-        colors={[theme.background + 'ee', '#ffffff00']}
-        radius={100}
-        style={styles.footer}
-        center={[0, 100]}
-        stops={[0.7, 1]}>
+      <View style={styles.footer}>
         <TouchableOpacity
-          onPress={() => {
-            if (context.isPremiumUser) navigation.navigate('AddCommand');
-            else setPremiumAdVisible(true);
-          }}
-          style={{marginLeft: 10, marginBottom: 10}}>
-          <Icon name={'plus'} size={35} color={theme.iconColor} />
-        </TouchableOpacity>
-      </RadialGradient>
-      {/* <TouchableOpacity
-          style={styles.addButtons}
           onPress={() => {
             if (context.isPremiumUser) navigation.navigate('AddFolder');
             else setPremiumAdVisible(true);
@@ -132,10 +120,10 @@ const HomeScreen = ({navigation}) => {
             size={35}
             color={theme.iconColor}
           />
-        </TouchableOpacity> */}
-      {/* </View> */}
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default FolderHomeScreen;

@@ -169,7 +169,9 @@ const SelectIconAACScreen = ({navigation}) => {
         </View>
 
         {search === '' ? (
-          <Text>Search for a symbol</Text>
+          <Text style={{color: theme.placeholderText}}>
+            Search for a symbol
+          </Text>
         ) : isAACIcon ? (
           <FlatList
             numColumns={3}

@@ -120,6 +120,7 @@ const AccountScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() => {
             auth().signOut();
+            context.clearContext();
             navigation.navigate('Login');
           }}>
           <Text style={{color: theme.iconColor}}>Sign Out</Text>

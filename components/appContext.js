@@ -17,6 +17,7 @@ const AppContext = createContext({
 
   setNewContext: () => {},
   updateContext: () => {},
+  clearContext: () => {},
 });
 
 export default AppContext;
