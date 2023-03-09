@@ -16,6 +16,7 @@ const Command = props => {
         } else if (props.voice.category === 'google') {
           googleSpeech(props.name, props.voice.data);
         }
+        props.updateTimestamp();
       }}
       onLongPress={props.onLongPress}>
       <CommandIcon

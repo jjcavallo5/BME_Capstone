@@ -199,6 +199,7 @@ const AddCommandScreen = ({route, navigation}) => {
                 backgroundColor: backgroundColor,
                 textColor: textColor,
                 iconColor: iconColor,
+                timeStamp: Date.now(),
               };
               // updateCommandList(newCmd, () => {});
               context.updateContext(context, {
