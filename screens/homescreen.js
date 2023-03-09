@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 
 import {
   Text,
@@ -13,16 +13,13 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Command from '../components/command';
-import Folder from '../components/folder';
 import styles from '../styles/homescreen_styles';
 
 import AppContext from '../components/appContext';
 import DeleteCommandModal from '../components/deleteCommandModal';
 
-import {setCommandList, setCategoryList} from '../backend/firestore_functions';
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
-import RadialGradient from 'react-native-radial-gradient';
 
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);

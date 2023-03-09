@@ -67,3 +67,7 @@ export function loginUser(email, pass, successCallback, failCallback) {
       }
     });
 }
+
+export function sendPassResetEmail(email) {
+  auth().sendPasswordResetEmail(email);
+}

@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import NavBar from './components/navbar';
 import RegistrationScreen from './screens/registration_screen';
 import LoginScreen from './screens/login_screen';
+import PasswordResetScreen from './screens/passwordReset_screen';
 import UserInfoScreen from './screens/user_info_screen';
 import SettingsScreen from './screens/settings';
 import VoiceSelectionScreen from './screens/voiceSelection_screen';
@@ -72,6 +73,11 @@ const App = () => {
           <Stack.Screen
             component={LoginScreen}
             name="Login"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={PasswordResetScreen}
+            name="PasswordReset"
             options={{headerShown: false}}
           />
           <Stack.Screen
