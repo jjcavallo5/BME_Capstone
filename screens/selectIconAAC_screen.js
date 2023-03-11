@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
   View,
   TouchableOpacity,
@@ -30,6 +30,7 @@ const SelectIconAACScreen = ({navigation}) => {
   const [search, setSearch] = useState('');
   const [responseURLs, setResponseURLs] = useState([]);
   const [isAACIcon, setIsAACIcon] = useState(true);
+  const [authToken, setAuthToken] = useState('');
 
   const renderAAC = ({item}) => {
     const extension = item.slice(-3);
@@ -71,26 +72,48 @@ const SelectIconAACScreen = ({navigation}) => {
     );
   };
 
+  const GetNewToken = () => {
+    let url = `https://www.opensymbols.org/api/v2/token?secret=${Config.KEY_OPENAAC}`;
+
+    fetch(url, {
+      method: 'POST',
+    })
+      .then(response => response.json())
+      .then(json => {
+        setAuthToken(json.access_token);
+      })
+      .catch(err => console.error(err));
+  };
+
+  useEffect(() => {
+    GetNewToken();
+  }, []);
+
   const MakeRequest = () => {
     let url = `https://symbotalkapiv1.azurewebsites.net/search/?name=${search}&lang=en&repo=all`;
     url = `https://www.opensymbols.org/api/v2/symbols?q=${search}`;
+    console.log(authToken);
 
     fetch(url, {
       method: 'GET',
       headers: {
-        Authorization: Config.KEY_OPENAAC,
+        Authorization: authToken,
       },
     })
       .then(response => response.json())
       .then(json => {
+        if (json.token_expired) {
+          GetNewToken();
+          return;
+        }
+
         let urls = [];
         json.forEach(resp => {
           urls.push(resp.image_url);
         });
 
         setResponseURLs(urls);
-      })
-      .catch(err => console.error(err));
+      });
   };
 
   return (
@@ -111,7 +134,9 @@ const SelectIconAACScreen = ({navigation}) => {
           <TextInput
             value={search}
             onChangeText={setSearch}
-            onSubmitEditing={MakeRequest}
+            onSubmitEditing={() => {
+              if (isAACIcon) MakeRequest(authToken);
+            }}
             style={{
               ...styles.searchBar,
               backgroundColor: theme.textInput,
