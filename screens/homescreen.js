@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 
 import {
   Text,
@@ -6,17 +6,18 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Command from '../components/command';
-import Folder from '../components/folder';
 import styles from '../styles/homescreen_styles';
 
 import AppContext from '../components/appContext';
 import DeleteCommandModal from '../components/deleteCommandModal';
 
-import {setCommandList, setCategoryList} from '../backend/firestore_functions';
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
 
@@ -33,6 +34,9 @@ const HomeScreen = ({navigation}) => {
   const [cmdToDelete, setCmdToDelete] = useState('');
   const [folderToDelete, setFolderToDelete] = useState('');
   const [premiumAdVisible, setPremiumAdVisible] = useState(false);
+  const [isAlphaSort, setIsAlphaSort] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
+  const [search, setSearch] = useState('');
 
   const deleteCommand = () => {
     const newCmdList = context.commands.filter(cmd => {
@@ -41,8 +45,6 @@ const HomeScreen = ({navigation}) => {
     context.updateContext(context, {
       commands: newCmdList,
     });
-
-    // setCommandList(newCmdList, () => {});
   };
 
   const deleteFolder = () => {
@@ -52,116 +54,145 @@ const HomeScreen = ({navigation}) => {
     context.updateContext(context, {
       categories: newCatList,
     });
-
-    // setCategoryList(newCatList, () => {});
   };
 
   return (
-    <SafeAreaView
-      style={{...styles.container, backgroundColor: theme.background}}>
-      <View style={styles.header}>
-        <Text style={{...styles.headerText, color: theme.text}}>
-          Welcome, {name}
-        </Text>
-      </View>
-      <DeleteCommandModal
-        modalVisible={modalVisible}
-        minimizeModal={() => setModalVisible(false)}
-        deleteCallback={deleteCommand}
-      />
-      <DeleteFolderModal
-        modalVisible={folderModalVisible}
-        minimizeModal={() => setFolderModalVisible(false)}
-        deleteCallback={deleteFolder}
-      />
-      <PremiumAd
-        modalVisible={premiumAdVisible}
-        minimizeModal={() => setPremiumAdVisible(false)}
-      />
-      <Text style={{color: theme.text}}>Commands</Text>
-      <ScrollView contentContainerStyle={styles.commandContainer} horizontal>
-        {commands.map(cmd => {
-          return (
-            <Command
-              name={cmd.name}
-              iconName={cmd.iconName}
-              key={cmd.name}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView
+        style={{...styles.container, backgroundColor: theme.background}}>
+        <View style={styles.header}>
+          <Text style={{...styles.headerText, color: theme.text}}>
+            Welcome, {name}
+          </Text>
+        </View>
+        <DeleteCommandModal
+          modalVisible={modalVisible}
+          minimizeModal={() => setModalVisible(false)}
+          deleteCallback={deleteCommand}
+        />
+        <DeleteFolderModal
+          modalVisible={folderModalVisible}
+          minimizeModal={() => setFolderModalVisible(false)}
+          deleteCallback={deleteFolder}
+        />
+        <PremiumAd
+          modalVisible={premiumAdVisible}
+          minimizeModal={() => setPremiumAdVisible(false)}
+        />
+        <View style={styles.subheader}>
+          {isSearching ? (
+            <TextInput
+              style={{...styles.searchBar, backgroundColor: theme.textInput}}
+              placeholder="Search commands"
+              placeholderTextColor={theme.placeholderText}
+              onChangeText={setSearch}
+            />
+          ) : (
+            <Text
               style={{
-                color: cmd.textColor ? cmd.textColor : theme.text,
-                backgroundColor: cmd.backgroundColor
-                  ? cmd.backgroundColor
-                  : theme.textInput,
-              }}
-              iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
-              voice={voice}
-              onLongPress={() => {
-                if (!context.isPremiumUser) {
-                  setPremiumAdVisible(true);
-                  return;
-                }
-                setModalVisible(true);
-                setCmdToDelete(cmd.name);
-              }}
-            />
-          );
-        })}
-      </ScrollView>
-      <Text style={{color: theme.text}}>Folders</Text>
-      <ScrollView
-        horizontal
-        contentContainerStyle={styles.commandContainer}
-        showsHorizontalScrollIndicator={false}>
-        {categories.map(category => {
-          return (
-            <Folder
-              name={category.name}
-              iconName={category.iconName}
-              key={category.name}
-              style={{color: theme.text, backgroundColor: theme.textInput}}
-              iconColor={theme.iconColor}
+                fontSize: 20,
+                color: theme.iconColor,
+                width: '60%',
+              }}>
+              Your Commands
+            </Text>
+          )}
+          <TouchableOpacity
+            onPress={() => {
+              if (isSearching) Keyboard.dismiss();
+              else setIsSearching(true);
+            }}>
+            <Icon name="magnify" size={35} color={theme.iconColor} />
+          </TouchableOpacity>
+
+          {!isSearching ? (
+            <TouchableOpacity onPress={() => setIsAlphaSort(!isAlphaSort)}>
+              {isAlphaSort ? (
+                <Icon
+                  name={'clock-time-four-outline'}
+                  size={30}
+                  color={theme.iconColor}
+                />
+              ) : (
+                <Icon
+                  name="alphabetical-variant"
+                  size={35}
+                  color={theme.iconColor}
+                />
+              )}
+            </TouchableOpacity>
+          ) : null}
+
+          {!isSearching ? (
+            <TouchableOpacity
               onPress={() => {
-                var cmdList = commands.filter(cmd => {
-                  return cmd.category === category.name;
-                });
-                navigation.navigate('Folder', {
-                  commands: cmdList,
-                  category: category.name,
-                });
+                if (context.isPremiumUser) navigation.navigate('AddCommand');
+                else setPremiumAdVisible(true);
+              }}>
+              <Icon name={'plus'} size={35} color={theme.iconColor} />
+            </TouchableOpacity>
+          ) : null}
+
+          {isSearching ? (
+            <TouchableOpacity
+              onPress={() => {
+                setIsSearching(false);
+                setSearch('');
+                Keyboard.dismiss();
               }}
-              onLongPress={() => {
-                if (!context.isPremiumUser) {
-                  setPremiumAdVisible(true);
-                  return;
-                }
-                setFolderModalVisible(true);
-                setFolderToDelete(category.name);
-              }}
-            />
-          );
-        })}
-      </ScrollView>
-      <View style={styles.footer}>
-        <TouchableOpacity
-          onPress={() => {
-            if (context.isPremiumUser) navigation.navigate('AddCommand');
-            else setPremiumAdVisible(true);
-          }}>
-          <Icon name={'plus'} size={35} color={theme.iconColor} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.addButtons}
-          onPress={() => {
-            if (context.isPremiumUser) navigation.navigate('AddFolder');
-            else setPremiumAdVisible(true);
-          }}>
-          <Icon
-            name={'folder-plus-outline'}
-            size={35}
-            color={theme.iconColor}
-          />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+              style={{marginRight: 20}}>
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
+
+        <ScrollView contentContainerStyle={styles.commandContainer}>
+          {commands
+            .sort((a, b) => {
+              if (isAlphaSort) {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+              } else {
+                if (a.timestamp > b.timestamp) return -1;
+                if (a.timestamp < b.timestamp) return 1;
+              }
+            })
+            .filter(cmd => {
+              return cmd.name.toLowerCase().includes(search.toLowerCase());
+            })
+            .map(cmd => {
+              return (
+                <Command
+                  name={cmd.name}
+                  iconName={cmd.iconName}
+                  iconURL={cmd.iconURL}
+                  key={cmd.name}
+                  updateTimestamp={() => {
+                    cmd.timestamp = Date.now();
+                    context.updateContext(context, {commands: commands});
+                  }}
+                  style={{
+                    color: cmd.textColor ? cmd.textColor : theme.text,
+                    backgroundColor: cmd.backgroundColor
+                      ? cmd.backgroundColor
+                      : theme.textInput,
+                  }}
+                  iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
+                  voice={voice}
+                  onLongPress={() => {
+                    if (!context.isPremiumUser) {
+                      setPremiumAdVisible(true);
+                      return;
+                    }
+                    setModalVisible(true);
+                    setCmdToDelete(cmd.name);
+                  }}
+                />
+              );
+            })}
+        </ScrollView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

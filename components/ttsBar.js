@@ -4,6 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Tts from 'react-native-tts';
 import {googleSpeech} from '../backend/googleCloudTTS_functions';
+import {useCallback} from 'react';
+import AppContext from './appContext';
 
 const TTSBar = props => {
   const [input, setInput] = useState('');
@@ -17,6 +19,7 @@ const TTSBar = props => {
       Tts.speak(input);
     }
 
+    props.callback(input);
     setInput('');
   };
   return (

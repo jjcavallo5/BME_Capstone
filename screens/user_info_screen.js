@@ -30,7 +30,16 @@ const UserInfoScreen = ({navigation}) => {
       last,
       chronologicalAge,
       cognitiveAge,
-      () => navigation.navigate('NavBar'),
+      () => {
+        var update = {
+          firstName: first,
+          lastName: last,
+          chronologicalAge: chronologicalAge,
+          cognitiveAge: cognitiveAge,
+        };
+        context.setNewContext({...context, ...update});
+        navigation.navigate('NavBar');
+      },
       setErrorMessage,
     );
   };

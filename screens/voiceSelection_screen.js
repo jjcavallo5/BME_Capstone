@@ -51,7 +51,7 @@ const VoiceSelectionScreen = ({navigation}) => {
           name={'arrow-back'}
           size={30}
           color={theme.iconColor}
-          onPress={() => navigation.navigate('Settings')}
+          onPress={() => navigation.pop()}
           style={styles.backIcon}
         />
         <Text style={{color: theme.text, fontSize: 32}}>Select Voice</Text>
@@ -76,9 +76,12 @@ const VoiceSelectionScreen = ({navigation}) => {
                     data: voice.data,
                   },
                 });
-                console.log('hi');
-                Tts.setDefaultVoice(voice.data.name);
-                navigation.navigate('Settings');
+
+                Tts.setDefaultVoice(voice.data.name)
+                  .then(() => navigation.pop())
+                  .catch(err => {
+                    console.error(err);
+                  });
               }}>
               <Text
                 style={{
@@ -119,7 +122,7 @@ const VoiceSelectionScreen = ({navigation}) => {
                       data: voice.data,
                     },
                   });
-                  navigation.navigate('Settings');
+                  navigation.pop();
                 }}>
                 <Icon
                   name={'lock'}

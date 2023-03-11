@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import NavBar from './components/navbar';
 import RegistrationScreen from './screens/registration_screen';
 import LoginScreen from './screens/login_screen';
+import PasswordResetScreen from './screens/passwordReset_screen';
 import UserInfoScreen from './screens/user_info_screen';
 import SettingsScreen from './screens/settings';
 import VoiceSelectionScreen from './screens/voiceSelection_screen';
@@ -13,6 +14,7 @@ import FolderScreen from './screens/folder_screen';
 import AddCommandScreen from './screens/addCommand_screen';
 import AddFolderScreen from './screens/addFolder_screen';
 import SelectIconScreen from './screens/selectIcon_screen';
+import SelectIconAACScreen from './screens/selectIconAAC_screen';
 
 import {themes} from './styles/color_themes';
 import RNTTSvoices from './backend/RNTTS_voices';
@@ -29,6 +31,7 @@ const App = () => {
   const [context, setContext] = useState({
     categories: defaultCategoryList,
     commands: defaultCommandList,
+    recentSearches: [],
     voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
     theme: themes.light,
     firstName: '',
@@ -43,6 +46,20 @@ const App = () => {
       setContext({...oldContext, ...update});
       updateDatabase(update, () => {});
     },
+    clearContext: () => {
+      setContext({
+        ...context,
+        categories: defaultCategoryList,
+        commands: defaultCommandList,
+        recentSearches: [],
+        voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
+        theme: themes.light,
+        firstName: '',
+        lastName: '',
+        chronologicalAge: 0,
+        cognitiveAge: 0,
+      });
+    },
   });
 
   useEffect(() => {
@@ -56,6 +73,11 @@ const App = () => {
           <Stack.Screen
             component={LoginScreen}
             name="Login"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={PasswordResetScreen}
+            name="PasswordReset"
             options={{headerShown: false}}
           />
           <Stack.Screen
@@ -101,6 +123,11 @@ const App = () => {
           <Stack.Screen
             component={SelectIconScreen}
             name="SelectIcon"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={SelectIconAACScreen}
+            name="SelectIconAAC"
             options={{headerShown: false}}
           />
         </Stack.Navigator>

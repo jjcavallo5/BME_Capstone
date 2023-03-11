@@ -12,7 +12,7 @@ import {
 import {Icon} from 'react-native-elements';
 
 import styles from '../styles/registration_styles';
-import {loginUser} from '../backend/auth_functions';
+import {loginUser, sendPassResetEmail} from '../backend/auth_functions';
 import {getUserData} from '../backend/firestore_functions';
 import AppContext from '../components/appContext';
 
@@ -97,10 +97,12 @@ const LoginScreen = ({navigation}) => {
             <Text style={{color: 'dodgerblue'}}>Sign Up</Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity onPress={() => navigation.navigate('UserInfo')}>
-          <Text>To User Info</Text>
-        </TouchableOpacity>
+        <View style={styles.registration}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PasswordReset')}>
+            <Text style={{color: 'dodgerblue'}}>Forgot password?</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

@@ -13,7 +13,7 @@ const ColorPickerModal = props => {
       style={{
         position: 'absolute',
         padding: 20,
-        top: 200,
+        top: 120,
         display: props.display,
         justifyContent: 'center',
         alignItems: 'center',
@@ -21,6 +21,7 @@ const ColorPickerModal = props => {
         backgroundColor: 'white',
         borderRadius: 20,
       }}>
+      <Text style={{fontSize: 20}}>{props.caption}</Text>
       <ColorPicker
         onColorChange={clr => props.callback(fromHsv(clr))}
         sliderComponent={Slider}
