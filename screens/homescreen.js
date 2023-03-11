@@ -88,7 +88,12 @@ const HomeScreen = ({navigation}) => {
               onChangeText={setSearch}
             />
           ) : (
-            <Text style={{fontSize: 16, color: theme.text, width: '60%'}}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: theme.iconColor,
+                width: '60%',
+              }}>
               Your Commands
             </Text>
           )}

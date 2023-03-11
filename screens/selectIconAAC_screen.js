@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {SvgUri} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Config from 'react-native-config';
 import AppContext from '../components/appContext';
 import styles from '../styles/selectIcon_styles';
 
@@ -28,7 +29,7 @@ const SelectIconAACScreen = ({navigation}) => {
   const iconNames = Object.keys(Icon.getRawGlyphMap());
   const [search, setSearch] = useState('');
   const [responseURLs, setResponseURLs] = useState([]);
-  const [isAACIcon, setIsAACIcon] = useState(false);
+  const [isAACIcon, setIsAACIcon] = useState(true);
 
   const renderAAC = ({item}) => {
     const extension = item.slice(-3);
@@ -72,11 +73,12 @@ const SelectIconAACScreen = ({navigation}) => {
 
   const MakeRequest = () => {
     let url = `https://symbotalkapiv1.azurewebsites.net/search/?name=${search}&lang=en&repo=all`;
+    url = `https://www.opensymbols.org/api/v2/symbols?q=${search}`;
 
     fetch(url, {
       method: 'GET',
       headers: {
-        'Cache-Control': 'no-cache',
+        Authorization: Config.KEY_OPENAAC,
       },
     })
       .then(response => response.json())
@@ -139,22 +141,6 @@ const SelectIconAACScreen = ({navigation}) => {
             style={{
               marginRight: 10,
               borderBottomColor: theme.text,
-              borderBottomWidth: isAACIcon ? 0 : 1,
-            }}
-            onPress={() => setIsAACIcon(false)}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: theme.text,
-                color: isAACIcon ? theme.text : 'dodgerblue',
-              }}>
-              Standard
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              marginLeft: 10,
-              borderBottomColor: theme.text,
               borderBottomWidth: isAACIcon ? 1 : 0,
             }}
             onPress={() => setIsAACIcon(true)}>
@@ -164,6 +150,22 @@ const SelectIconAACScreen = ({navigation}) => {
                 color: isAACIcon ? 'dodgerblue' : theme.text,
               }}>
               AAC
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginLeft: 10,
+              borderBottomColor: theme.text,
+              borderBottomWidth: isAACIcon ? 0 : 1,
+            }}
+            onPress={() => setIsAACIcon(false)}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: theme.text,
+                color: isAACIcon ? theme.text : 'dodgerblue',
+              }}>
+              Symbol
             </Text>
           </TouchableOpacity>
         </View>
