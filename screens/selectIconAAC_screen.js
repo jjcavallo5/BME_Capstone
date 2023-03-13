@@ -49,7 +49,7 @@ const SelectIconAACScreen = ({navigation}) => {
         {extension != 'svg' ? (
           <Image source={{uri: item}} style={{height: 60, width: 60}} />
         ) : (
-          <SvgUri uri={item} width={60} height={60} />
+          <SvgUri uri={item} width={60} height={60} overflow={'visible'} />
         )}
       </TouchableOpacity>
     );
