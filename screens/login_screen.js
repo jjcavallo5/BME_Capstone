@@ -78,7 +78,9 @@ const LoginScreen = ({navigation}) => {
               backgroundColor: theme.textInput,
               color: theme.text,
             }}
-            placeholder={'********'}
+            placeholder={
+              '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022'
+            }
             placeholderTextColor={theme.placeholderText}
             secureTextEntry={true}
             onChangeText={changePass}

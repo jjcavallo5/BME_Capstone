@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
 
   voiceScrollView: {
     padding: 10,
-    borderTopWidth: 0.5,
   },
   voiceContainer: {
     height: 50,

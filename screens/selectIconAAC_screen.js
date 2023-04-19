@@ -13,6 +13,7 @@ import {
 import {SvgUri} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Config from 'react-native-config';
+import Papa from 'papaparse';
 import AppContext from '../components/appContext';
 import styles from '../styles/selectIcon_styles';
 
@@ -30,7 +31,8 @@ const SelectIconAACScreen = ({navigation}) => {
   const [search, setSearch] = useState('');
   const [responseURLs, setResponseURLs] = useState([]);
   const [isAACIcon, setIsAACIcon] = useState(true);
-  const [authToken, setAuthToken] = useState('');
+  // const [authToken, setAuthToken] = useState('');
+  const [parsedCSV, setParsedCSV] = useState([]);
 
   const renderAAC = ({item}) => {
     const extension = item.slice(-3);
@@ -49,7 +51,7 @@ const SelectIconAACScreen = ({navigation}) => {
         {extension != 'svg' ? (
           <Image source={{uri: item}} style={{height: 60, width: 60}} />
         ) : (
-          <SvgUri uri={item} width={60} height={60} />
+          <SvgUri uri={item} width={60} height={60} overflow={'visible'} />
         )}
       </TouchableOpacity>
     );
@@ -72,49 +74,82 @@ const SelectIconAACScreen = ({navigation}) => {
     );
   };
 
-  const GetNewToken = () => {
-    let url = `https://www.opensymbols.org/api/v2/token?secret=${Config.KEY_OPENAAC}`;
+  // const GetNewToken = () => {
+  //   let url = `https://www.opensymbols.org/api/v2/token?secret=${Config.KEY_OPENAAC}`;
 
-    fetch(url, {
-      method: 'POST',
-    })
-      .then(response => response.json())
-      .then(json => {
-        setAuthToken(json.access_token);
-      })
-      .catch(err => console.error(err));
+  //   fetch(url, {
+  //     method: 'POST',
+  //   })
+  //     .then(response => response.json())
+  //     .then(json => {
+  //       setAuthToken(json.access_token);
+  //     })
+  //     .catch(err => console.error(err));
+  // };
+
+  // useEffect(() => {
+  //   GetNewToken();
+  // }, []);
+
+  // const MakeRequest = () => {
+  //   // let url = `https://symbotalkapiv1.azurewebsites.net/search/?name=${search}&lang=en&repo=all`;
+  //   url = `https://www.opensymbols.org/api/v2/symbols?q=${search}`;
+  //   let auth = Config.KEY_OPENAAC;
+
+  //   fetch(url, {
+  //     method: 'GET',
+  //     headers: {
+  //       Authorization: auth,
+  //     },
+  //   })
+  //     .then(response => response.json())
+  //     .then(json => {
+  //       if (json.token_expired) {
+  //         GetNewToken();
+  //         return;
+  //       }
+
+  //       let urls = [];
+  //       json.forEach(resp => {
+  //         urls.push(resp.image_url);
+  //       });
+
+  //       setResponseURLs(urls);
+  //     });
+  // };
+
+  const GetMulberry = () => {
+    Papa.parse(
+      'https://mulberrydataset.s3.us-east-2.amazonaws.com/symbol-info.csv',
+      {
+        download: true,
+        header: true,
+        complete: results => {
+          setParsedCSV(results.data);
+        },
+      },
+    );
+  };
+
+  const SearchMulberry = () => {
+    var relatedSymbolURLs = [];
+    parsedCSV.forEach(symbol => {
+      if (symbol['symbol-en'].toLowerCase().includes(search.toLowerCase())) {
+        relatedSymbolURLs.push(
+          `https://mulberrydataset.s3.us-east-2.amazonaws.com/${symbol['symbol-en']}.svg`,
+        );
+      } else if (symbol['tags'].toLowerCase().includes(search.toLowerCase())) {
+        relatedSymbolURLs.push(
+          `https://mulberrydataset.s3.us-east-2.amazonaws.com/${symbol['symbol-en']}.svg`,
+        );
+      }
+    });
+    setResponseURLs(relatedSymbolURLs);
   };
 
   useEffect(() => {
-    GetNewToken();
+    GetMulberry();
   }, []);
-
-  const MakeRequest = () => {
-    let url = `https://symbotalkapiv1.azurewebsites.net/search/?name=${search}&lang=en&repo=all`;
-    url = `https://www.opensymbols.org/api/v2/symbols?q=${search}`;
-    console.log(authToken);
-
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        Authorization: authToken,
-      },
-    })
-      .then(response => response.json())
-      .then(json => {
-        if (json.token_expired) {
-          GetNewToken();
-          return;
-        }
-
-        let urls = [];
-        json.forEach(resp => {
-          urls.push(resp.image_url);
-        });
-
-        setResponseURLs(urls);
-      });
-  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -135,7 +170,8 @@ const SelectIconAACScreen = ({navigation}) => {
             value={search}
             onChangeText={setSearch}
             onSubmitEditing={() => {
-              if (isAACIcon) MakeRequest(authToken);
+              // if (isAACIcon) MakeRequest(authToken);
+              if (isAACIcon) SearchMulberry();
             }}
             style={{
               ...styles.searchBar,

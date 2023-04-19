@@ -17,11 +17,11 @@ const AccountScreen = ({navigation}) => {
         backgroundColor: theme.background,
       }}>
       <View style={styles.header}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('Settings')}
           style={styles.settingsIcon}>
           <Icon name={'settings-outline'} size={30} color={theme.iconColor} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text style={{color: theme.text, fontSize: 32}}>Account</Text>
       </View>
 

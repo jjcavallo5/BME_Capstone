@@ -34,8 +34,8 @@ export default Command;
 
 const styles = StyleSheet.create({
   container: {
-    height: 100,
-    width: 100,
+    width: '30%',
+    aspectRatio: 1,
     borderRadius: 10,
     display: 'flex',
     justifyContent: 'center',

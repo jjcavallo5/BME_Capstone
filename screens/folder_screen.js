@@ -37,6 +37,9 @@ const FolderScreen = ({route, navigation}) => {
               iconName={cmd.iconName}
               iconURL={cmd.iconURL}
               key={cmd.name}
+              updateTimestamp={() => {
+                cmd.timestamp = Date.now();
+              }}
               style={{
                 color: cmd.textColor ? cmd.textColor : theme.text,
                 backgroundColor: cmd.backgroundColor

@@ -141,7 +141,7 @@ const HomeScreen = ({navigation}) => {
                 Keyboard.dismiss();
               }}
               style={{marginRight: 20}}>
-              <Text>Cancel</Text>
+              <Text style={{color: theme.text}}>Cancel</Text>
             </TouchableOpacity>
           ) : null}
         </View>
@@ -153,6 +153,10 @@ const HomeScreen = ({navigation}) => {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                 if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
               } else {
+                if (a.timestamp == b.timestamp) {
+                  if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                  if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                }
                 if (a.timestamp > b.timestamp) return -1;
                 if (a.timestamp < b.timestamp) return 1;
               }
