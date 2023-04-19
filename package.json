@@ -17,6 +17,7 @@
     "@react-navigation/bottom-tabs": "^6.5.3",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.7",
+    "papaparse": "^5.4.1",
     "react": "18.1.0",
     "react-native": "0.70.6",
     "react-native-color-picker": "^0.6.0",

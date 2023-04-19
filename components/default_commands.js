@@ -5,6 +5,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/I.png.varianted-skin.png',
     category: 'People',
+    timestamp: 0,
   },
   {
     name: 'No',
@@ -12,6 +13,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/no.png.varianted-skin.png',
     category: 'Manners',
+    timestamp: 0,
   },
   {
     name: 'Yes',
@@ -19,6 +21,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/Yes!.png.varianted-skin.png',
     category: 'Manners',
+    timestamp: 0,
   },
   {
     name: 'My',
@@ -26,6 +29,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/sclera/my torso.png',
     category: 'People',
+    timestamp: 0,
   },
   {
     name: 'The',
@@ -33,6 +37,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/the same.png',
     category: 'Basic',
+    timestamp: 0,
   },
   {
     name: 'Want',
@@ -40,6 +45,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/to want.png.varianted-skin.png',
     category: 'Questions',
+    timestamp: 0,
   },
   {
     name: 'Is',
@@ -47,6 +53,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/is.png.varianted-skin.png',
     category: 'Basic',
+    timestamp: 0,
   },
   {
     name: 'It',
@@ -54,6 +61,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/point.png.varianted-skin.png',
     category: 'Basic',
+    timestamp: 0,
   },
   {
     name: 'That',
@@ -61,6 +69,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/that one.png',
     category: 'Basic',
+    timestamp: 0,
   },
   {
     name: 'A',
@@ -68,6 +77,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/a pinch.png.varianted-skin.png',
     category: 'Basic',
+    timestamp: 0,
   },
   {
     name: 'Go',
@@ -75,6 +85,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/to go.png.varianted-skin.png',
     category: 'Basic',
+    timestamp: 0,
   },
   {
     name: 'Mine',
@@ -82,6 +93,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/mine_1.png',
     category: 'People',
+    timestamp: 0,
   },
   {
     name: 'You',
@@ -89,6 +101,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/you.png.varianted-skin.png',
     category: 'People',
+    timestamp: 0,
   },
   {
     name: 'What',
@@ -96,6 +109,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/noun-project/what_245_g.svg',
     category: 'Questions',
+    timestamp: 0,
   },
   {
     name: 'On',
@@ -103,12 +117,14 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/above-on.png',
     category: 'Location',
+    timestamp: 0,
   },
   {
     name: 'In',
     iconName: '',
     iconURL: 'https://d18vdu4p71yql0.cloudfront.net/libraries/mulberry/in.svg',
     category: 'Location',
+    timestamp: 0,
   },
   {
     name: 'Here',
@@ -116,6 +132,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/here_1.png',
     category: 'Location',
+    timestamp: 0,
   },
   {
     name: 'More',
@@ -123,6 +140,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/more_1.png',
     category: 'Questions',
+    timestamp: 0,
   },
   {
     name: 'Out',
@@ -130,6 +148,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/outside.png',
     category: 'Location',
+    timestamp: 0,
   },
   {
     name: 'Off',
@@ -137,6 +156,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/turn off the light_1.png.varianted-skin.png',
     category: 'Location',
+    timestamp: 0,
   },
   {
     name: 'Some',
@@ -144,6 +164,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/mulberry/some.svg',
     category: 'Other',
+    timestamp: 0,
   },
   {
     name: 'Help',
@@ -151,6 +172,7 @@ const defaultCommandList = [
     iconURL:
       'https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/help_4.png.varianted-skin.png',
     category: 'Questions',
+    timestamp: 0,
   },
   {
     name: 'All done',
@@ -158,6 +180,7 @@ const defaultCommandList = [
     iconURL:
       "https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/i'm fine!.png",
     category: 'Other',
+    timestamp: 0,
   },
 ];
 
