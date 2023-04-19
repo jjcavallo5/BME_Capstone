@@ -126,7 +126,6 @@ const SelectIconAACScreen = ({navigation}) => {
         header: true,
         complete: results => {
           setParsedCSV(results.data);
-          console.log(results.data);
         },
       },
     );
