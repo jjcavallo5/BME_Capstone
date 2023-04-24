@@ -78,6 +78,10 @@ const HomeScreen = ({navigation}) => {
         <PremiumAd
           modalVisible={premiumAdVisible}
           minimizeModal={() => setPremiumAdVisible(false)}
+          navigate={() => {
+            setPremiumAdVisible(false);
+            navigation.navigate('PurchaseScreen');
+          }}
         />
         <View style={styles.subheader}>
           {isSearching ? (

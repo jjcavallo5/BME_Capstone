@@ -77,6 +77,10 @@ const FolderHomeScreen = ({navigation}) => {
       <PremiumAd
         modalVisible={premiumAdVisible}
         minimizeModal={() => setPremiumAdVisible(false)}
+        navigate={() => {
+          setPremiumAdVisible(false);
+          navigation.navigate('PurchaseScreen');
+        }}
       />
       <Text style={{color: theme.text}}>Folders</Text>
       <ScrollView contentContainerStyle={styles.commandContainer}>
