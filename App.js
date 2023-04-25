@@ -18,6 +18,7 @@ import SelectIconScreen from './screens/selectIcon_screen';
 import SelectIconAACScreen from './screens/selectIconAAC_screen';
 import PurchaseScreen from './screens/purchase_screen';
 import PremiumPurchased from './screens/premium_purchased_screen';
+import ManageSubscriptionScreen from './screens/manage_subscriptions_screen';
 
 import {themes} from './styles/color_themes';
 import RNTTSvoices from './backend/RNTTS_voices';
@@ -139,8 +140,13 @@ const App = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen
-            component={PurchaseScreen}
+            component={PremiumPurchased}
             name="PremiumPurchased"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={ManageSubscriptionScreen}
+            name="ManageSubscriptions"
             options={{headerShown: false}}
           />
         </Stack.Navigator>

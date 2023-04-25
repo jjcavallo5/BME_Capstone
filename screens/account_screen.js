@@ -119,7 +119,10 @@ const AccountScreen = ({navigation}) => {
         </Text>
 
         {context.isPremiumUser ? (
-          <Text style={{color: 'dodgerblue'}}>Premium Account</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ManageSubscriptions')}>
+            <Text style={{color: 'dodgerblue'}}>Premium Account</Text>
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity
             style={{display: 'flex', flexDirection: 'row'}}

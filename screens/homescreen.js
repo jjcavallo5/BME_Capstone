@@ -11,6 +11,7 @@ import {
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useIAP} from 'react-native-iap';
 
 import Command from '../components/command';
 import styles from '../styles/homescreen_styles';
@@ -38,6 +39,14 @@ const HomeScreen = ({navigation}) => {
   const [isSearching, setIsSearching] = useState(false);
   const [search, setSearch] = useState('');
 
+  const {
+    connected,
+    subscriptions,
+    getSubscriptions,
+    currentPurchase,
+    finishTransaction,
+  } = useIAP();
+
   const deleteCommand = () => {
     const newCmdList = context.commands.filter(cmd => {
       return cmd.name !== cmdToDelete;
@@ -55,6 +64,8 @@ const HomeScreen = ({navigation}) => {
       categories: newCatList,
     });
   };
+
+  useEffect(() => {}, []);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
