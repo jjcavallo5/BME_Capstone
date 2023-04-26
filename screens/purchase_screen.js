@@ -51,18 +51,6 @@ const PurchaseScreen = ({navigation}) => {
       console.error(error.message);
       setErrorMessage(error.message);
     }
-    // getSubscriptions({
-    //   skus: ['premium_subscription'],
-    // })
-    //   .then(subs => {
-    //     console.log(subs, subs[0]['subscriptionOfferDetails']);
-    //   })
-    //   .catch(err => setErrorMessage(err.message));
-
-    // const subscriptions = await getSubscriptions({
-    //   skus: ['test.sub1'],
-    // });
-    // console.log(subscriptions);
   };
 
   useEffect(() => {
@@ -74,22 +62,19 @@ const PurchaseScreen = ({navigation}) => {
   useEffect(() => {
     const checkCurrentPurchase = async () => {
       try {
-        console.log(currentPurchase);
         if (currentPurchase?.productId) {
-          let response = await finishTransaction({
+          await finishTransaction({
             purchase: currentPurchase,
             isConsumable: false,
           });
 
-          console.log(
-            'Transaction Complete',
-            JSON.parse(currentPurchase.dataAndroid).purchaseToken,
-          );
           context.updateContext(context, {
             isPremiumUser: true,
             purchaseToken: JSON.parse(currentPurchase.dataAndroid)
               .purchaseToken,
           });
+          setErrorMessage('Transaction Complete');
+
           navigation.navigate('PremiumPurchased');
         }
       } catch (error) {

@@ -25,7 +25,7 @@ const LoginScreen = ({navigation}) => {
 
   const loginPressed = () => {
     loginUser(
-      email,
+      email.trim(),
       pass,
       () => {
         getUserData(data => {
@@ -63,6 +63,7 @@ const LoginScreen = ({navigation}) => {
             placeholderTextColor={theme.placeholderText}
             onChangeText={changeEmail}
             value={email}
+            autoCapitalize="none"
           />
         </View>
         <View style={styles.input}>
@@ -85,6 +86,7 @@ const LoginScreen = ({navigation}) => {
             secureTextEntry={true}
             onChangeText={changePass}
             value={pass}
+            autoCapitalize="none"
           />
         </View>
         <Text style={styles.errorMessage}>{errorMessage}</Text>
