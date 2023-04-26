@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 
 import {
   Text,
@@ -21,6 +21,7 @@ import DeleteCommandModal from '../components/deleteCommandModal';
 
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
+import {validateReceipt} from '../backend/iap_receipt_validation';
 
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
@@ -65,7 +66,12 @@ const HomeScreen = ({navigation}) => {
     });
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    validateReceipt(context.purchaseToken).then(resp => {
+      if (resp == 'INACTIVE')
+        context.updateContext(context, {isPremiumUser: false});
+    });
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

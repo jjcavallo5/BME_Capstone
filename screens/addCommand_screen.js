@@ -128,6 +128,7 @@ const AddCommandScreen = ({route, navigation}) => {
               borderWidth: 0,
             }}
             labelStyle={{backgroundColor: theme.textInput, color: theme.text}}
+            maxHeight={400}
           />
         </View>
 

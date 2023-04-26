@@ -45,6 +45,7 @@ export function storeUserInfo(
       categories: defaultCategoryList,
       commands: defaultCommandList,
       isPremiumUser: false,
+      purchaseToken: null,
     })
     .then(() => {
       failCallback('');

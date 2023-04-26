@@ -70,7 +70,7 @@ const AddFolderScreen = ({navigation}) => {
             context.updateContext(context, {
               categories: [...context.categories, newCat],
             });
-            navigation.navigate('Home');
+            navigation.pop();
           }}>
           <Text style={{color: 'black'}}>Add Folder</Text>
         </TouchableOpacity>

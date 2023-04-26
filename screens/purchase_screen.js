@@ -76,14 +76,20 @@ const PurchaseScreen = ({navigation}) => {
       try {
         console.log(currentPurchase);
         if (currentPurchase?.productId) {
-          console.log('Called');
-          await finishTransaction({
+          let response = await finishTransaction({
             purchase: currentPurchase,
             isConsumable: false,
           });
 
-          console.log('Transaction Complete');
-          context.updateContext(context, {isPremiumUser: true});
+          console.log(
+            'Transaction Complete',
+            JSON.parse(currentPurchase.dataAndroid).purchaseToken,
+          );
+          context.updateContext(context, {
+            isPremiumUser: true,
+            purchaseToken: JSON.parse(currentPurchase.dataAndroid)
+              .purchaseToken,
+          });
           navigation.navigate('PremiumPurchased');
         }
       } catch (error) {
