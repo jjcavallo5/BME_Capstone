@@ -12,8 +12,7 @@ import {
 import {Icon} from 'react-native-elements';
 
 import styles from '../styles/registration_styles';
-import {loginUser, sendPassResetEmail} from '../backend/auth_functions';
-import {getUserData} from '../backend/firestore_functions';
+import {sendPassResetEmail} from '../backend/auth_functions';
 import AppContext from '../components/appContext';
 
 const PasswordResetScreen = ({navigation}) => {

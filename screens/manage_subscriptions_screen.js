@@ -12,7 +12,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {validatePremiumSubscription} from '../backend/firestore_functions';
 
 import AppContext from '../components/appContext';
-import styles from '../styles/account_styles';
 
 const ManageSubscriptionScreen = ({navigation}) => {
   const context = useContext(AppContext);

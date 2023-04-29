@@ -4,7 +4,6 @@ import {Text, SafeAreaView, TouchableOpacity, View, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import AppContext from '../components/appContext';
-import styles from '../styles/account_styles';
 
 const PremiumPurchased = ({navigation}) => {
   const context = useContext(AppContext);

@@ -10,13 +10,9 @@ import {
   Image,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {ColorPicker, fromHsv} from 'react-native-color-picker';
-import Slider from '@react-native-community/slider';
 import styles from '../styles/add_styles';
-import {updateCommandList} from '../backend/firestore_functions';
 import AppContext from '../components/appContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Command from '../components/command';
 import ColorPickerModal from '../components/colorPicker';
 import CommandIcon from '../components/CommandIcon';
 

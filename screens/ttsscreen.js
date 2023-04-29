@@ -49,6 +49,9 @@ const TTSScreen = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView
         style={{...styles.container, backgroundColor: theme.background}}>
+        <View style={styles.header}>
+          <Text style={{color: theme.text, fontSize: 32}}>Text to Speech</Text>
+        </View>
         <TTSBar
           style={{
             ...styles.ttsBar,

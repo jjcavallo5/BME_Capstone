@@ -11,7 +11,6 @@ import {
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useIAP} from 'react-native-iap';
 
 import Command from '../components/command';
 import styles from '../styles/homescreen_styles';
@@ -21,7 +20,6 @@ import DeleteCommandModal from '../components/deleteCommandModal';
 
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
-import {validateReceipt} from '../backend/iap_receipt_validation';
 import {validatePremiumSubscription} from '../backend/firestore_functions';
 
 const HomeScreen = ({navigation}) => {
@@ -29,7 +27,6 @@ const HomeScreen = ({navigation}) => {
   const theme = context.theme;
   const voice = context.voice;
   const commands = context.commands;
-  const categories = context.categories;
   const name = context.firstName;
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,14 +37,6 @@ const HomeScreen = ({navigation}) => {
   const [isAlphaSort, setIsAlphaSort] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
   const [search, setSearch] = useState('');
-
-  const {
-    connected,
-    subscriptions,
-    getSubscriptions,
-    currentPurchase,
-    finishTransaction,
-  } = useIAP();
 
   const deleteCommand = () => {
     const newCmdList = context.commands.filter(cmd => {
@@ -77,11 +66,6 @@ const HomeScreen = ({navigation}) => {
         context.updateContext(context, {isPremiumUser: false});
       },
     );
-    // validateReceipt(context.purchaseToken).then(resp => {
-    //   console.log(resp[0]);
-    //   if (resp[0] == 'INACTIVE')
-    //     context.updateContext(context, {isPremiumUser: false});
-    // });
   }, []);
 
   return (

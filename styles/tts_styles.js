@@ -6,6 +6,14 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
+    padding: 20,
+  },
+  header: {
+    paddingTop: 20,
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 40,
   },
   ttsBar: {
     width: 300,

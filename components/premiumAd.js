@@ -8,11 +8,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../styles/premiumAdStyles';
-import AppContext from './appContext';
 
 const PremiumAd = props => {
-  const context = useContext(AppContext);
-
   return (
     <Modal
       visible={props.modalVisible}
@@ -43,7 +40,7 @@ const PremiumAd = props => {
                 style={{
                   fontSize: 24,
                   textAlign: 'center',
-                  marginTop: 20,
+                  margin: 20,
                   color: 'black',
                 }}>
                 Only $9.99/month!

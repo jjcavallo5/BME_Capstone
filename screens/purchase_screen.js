@@ -1,4 +1,3 @@
-import auth from '@react-native-firebase/auth';
 import React, {useContext, useState, useEffect} from 'react';
 
 import {Text, SafeAreaView, TouchableOpacity, View, Image} from 'react-native';
@@ -8,8 +7,6 @@ import {requestSubscription, useIAP} from 'react-native-iap';
 import Lottie from 'lottie-react-native';
 
 import AppContext from '../components/appContext';
-import styles from '../styles/account_styles';
-import {validateReceipt} from '../backend/iap_receipt_validation';
 import {validatePremiumSubscription} from '../backend/firestore_functions';
 
 const PurchaseScreen = ({navigation}) => {
@@ -23,8 +20,6 @@ const PurchaseScreen = ({navigation}) => {
     connected,
     subscriptions,
     getSubscriptions,
-    products,
-    getProducts,
     currentPurchase,
     finishTransaction,
   } = useIAP();

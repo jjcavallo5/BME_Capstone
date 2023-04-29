@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 
 import {
   Text,
@@ -9,21 +9,18 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Command from '../components/command';
 import Folder from '../components/folder';
 import styles from '../styles/folderHomescreenStyles';
 
 import AppContext from '../components/appContext';
 import DeleteCommandModal from '../components/deleteCommandModal';
 
-import {setCommandList, setCategoryList} from '../backend/firestore_functions';
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
 
 const FolderHomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
   const theme = context.theme;
-  const voice = context.voice;
   const commands = context.commands;
   const categories = context.categories;
   const name = context.firstName;
