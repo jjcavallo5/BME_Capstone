@@ -22,6 +22,7 @@ import DeleteCommandModal from '../components/deleteCommandModal';
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
 import {validateReceipt} from '../backend/iap_receipt_validation';
+import {validatePremiumSubscription} from '../backend/firestore_functions';
 
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
@@ -67,10 +68,20 @@ const HomeScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    validateReceipt(context.purchaseToken).then(resp => {
-      if (resp == 'INACTIVE')
+    validatePremiumSubscription(
+      context.purchaseToken,
+      () => {
+        console.log('Valid');
+      },
+      () => {
         context.updateContext(context, {isPremiumUser: false});
-    });
+      },
+    );
+    // validateReceipt(context.purchaseToken).then(resp => {
+    //   console.log(resp[0]);
+    //   if (resp[0] == 'INACTIVE')
+    //     context.updateContext(context, {isPremiumUser: false});
+    // });
   }, []);
 
   return (

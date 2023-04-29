@@ -9,6 +9,7 @@ import {
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {validatePremiumSubscription} from '../backend/firestore_functions';
 
 import AppContext from '../components/appContext';
 import styles from '../styles/account_styles';
@@ -34,7 +35,16 @@ const ManageSubscriptionScreen = ({navigation}) => {
         }}>
         <TouchableOpacity
           style={{position: 'absolute', top: 20, left: 20}}
-          onPress={() => navigation.navigate('NavBar')}>
+          onPress={() => {
+            validatePremiumSubscription(
+              context.purchaseToken,
+              () => {},
+              () => {
+                context.updateContext(context, {isPremiumUser: false});
+              },
+            );
+            navigation.navigate('NavBar');
+          }}>
           <Icon size={30} name={'close'} color={'white'} />
         </TouchableOpacity>
         <Image
@@ -77,11 +87,11 @@ const ManageSubscriptionScreen = ({navigation}) => {
             marginTop: 20,
             marginBottom: 20,
           }}
-          onPress={() =>
+          onPress={() => {
             Linking.openURL(
               'https://play.google.com/store/account/subscriptions?package=com.bme_capstone&sku=premium_subscription',
-            )
-          }>
+            );
+          }}>
           <Text style={{color: 'white', fontSize: 16}}>
             Cancel Subscription
           </Text>

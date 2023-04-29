@@ -5,26 +5,50 @@ import {Text, SafeAreaView, TouchableOpacity, View, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CheckBox from '@react-native-community/checkbox';
 import {requestSubscription, useIAP} from 'react-native-iap';
+import Lottie from 'lottie-react-native';
 
 import AppContext from '../components/appContext';
 import styles from '../styles/account_styles';
+import {validateReceipt} from '../backend/iap_receipt_validation';
+import {validatePremiumSubscription} from '../backend/firestore_functions';
 
 const PurchaseScreen = ({navigation}) => {
   const context = useContext(AppContext);
   const theme = context.theme;
   const [autoRenew, setAutoRenew] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     connected,
     subscriptions,
     getSubscriptions,
+    products,
+    getProducts,
     currentPurchase,
     finishTransaction,
   } = useIAP();
 
   const handleSubscriptionPurchase = () => {
     subscribe('premium_subscription', null);
+  };
+
+  const getOfferToken = () => {
+    if (autoRenew) {
+      let offerToken = subscriptions[0]['subscriptionOfferDetails'].find(
+        obj => {
+          return obj.basePlanId == 'premium-subscription-autorenew';
+        },
+      );
+      return offerToken['offerToken'];
+    } else {
+      let offerToken = subscriptions[0]['subscriptionOfferDetails'].find(
+        obj => {
+          return obj.basePlanId == 'premium-subscription-nonautorenew';
+        },
+      );
+      return offerToken['offerToken'];
+    }
   };
 
   const subscribe = async (sku, offerToken) => {
@@ -34,8 +58,7 @@ const PurchaseScreen = ({navigation}) => {
         subscriptionOffers: [
           {
             sku: 'premium_subscription',
-            offerToken:
-              subscriptions[0]['subscriptionOfferDetails'][0]['offerToken'],
+            offerToken: getOfferToken(),
           },
         ],
       });
@@ -63,21 +86,30 @@ const PurchaseScreen = ({navigation}) => {
     const checkCurrentPurchase = async () => {
       try {
         if (currentPurchase?.productId) {
+          setIsLoading(true);
           await finishTransaction({
             purchase: currentPurchase,
             isConsumable: false,
           });
 
-          context.updateContext(context, {
-            isPremiumUser: true,
-            purchaseToken: JSON.parse(currentPurchase.dataAndroid)
-              .purchaseToken,
-          });
-          setErrorMessage('Transaction Complete');
+          validatePremiumSubscription(
+            JSON.parse(currentPurchase.dataAndroid).purchaseToken,
+            () => {
+              context.updateContext(context, {
+                isPremiumUser: true,
+                purchaseToken: JSON.parse(currentPurchase.dataAndroid)
+                  .purchaseToken,
+              });
 
-          navigation.navigate('PremiumPurchased');
+              setIsLoading(false);
+
+              navigation.navigate('PremiumPurchased');
+            },
+            () => setErrorMessage('Unable to Validate Receipt'),
+          );
         }
       } catch (error) {
+        setIsLoading(false);
         setErrorMessage(`[${error.code}]: ${error.message}`);
       }
     };
@@ -93,6 +125,25 @@ const PurchaseScreen = ({navigation}) => {
         display: 'flex',
         backgroundColor: '#000044',
       }}>
+      <View
+        style={{
+          position: 'absolute',
+          height: '100%',
+          width: '100%',
+          top: 0,
+          left: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 2,
+          display: isLoading ? 'flex' : 'none',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Lottie
+          source={require('../animations/loading_animation_2.json')}
+          autoPlay
+          loop
+        />
+      </View>
       <View
         style={{
           display: 'flex',
