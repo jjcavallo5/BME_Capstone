@@ -12,7 +12,7 @@ import {
 import {Icon} from 'react-native-elements';
 
 import styles from '../styles/registration_styles';
-import {loginUser, sendPassResetEmail} from '../backend/auth_functions';
+import {loginUser} from '../backend/auth_functions';
 import {getUserData} from '../backend/firestore_functions';
 import AppContext from '../components/appContext';
 
@@ -25,7 +25,7 @@ const LoginScreen = ({navigation}) => {
 
   const loginPressed = () => {
     loginUser(
-      email,
+      email.trim(),
       pass,
       () => {
         getUserData(data => {
@@ -63,6 +63,7 @@ const LoginScreen = ({navigation}) => {
             placeholderTextColor={theme.placeholderText}
             onChangeText={changeEmail}
             value={email}
+            autoCapitalize="none"
           />
         </View>
         <View style={styles.input}>
@@ -85,6 +86,7 @@ const LoginScreen = ({navigation}) => {
             secureTextEntry={true}
             onChangeText={changePass}
             value={pass}
+            autoCapitalize="none"
           />
         </View>
         <Text style={styles.errorMessage}>{errorMessage}</Text>

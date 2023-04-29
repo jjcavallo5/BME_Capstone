@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import styles from '../styles/add_styles';
-import {updateCategoryList} from '../backend/firestore_functions';
 import AppContext from '../components/appContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -70,7 +69,7 @@ const AddFolderScreen = ({navigation}) => {
             context.updateContext(context, {
               categories: [...context.categories, newCat],
             });
-            navigation.navigate('Home');
+            navigation.pop();
           }}>
           <Text style={{color: 'black'}}>Add Folder</Text>
         </TouchableOpacity>

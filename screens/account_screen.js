@@ -117,6 +117,23 @@ const AccountScreen = ({navigation}) => {
           }}>
           Account Options
         </Text>
+
+        {context.isPremiumUser ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ManageSubscriptions')}>
+            <Text style={{color: 'dodgerblue'}}>Premium Account</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={{display: 'flex', flexDirection: 'row'}}
+            onPress={() => navigation.navigate('PurchaseScreen')}>
+            <Text style={{color: theme.iconColor, marginRight: 10}}>
+              Standard Account
+            </Text>
+            <Text style={{color: 'dodgerblue'}}>Upgrade</Text>
+          </TouchableOpacity>
+        )}
+
         <TouchableOpacity
           onPress={() => {
             auth().signOut();

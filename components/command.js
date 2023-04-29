@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Tts from 'react-native-tts';
 import {googleSpeech} from '../backend/googleCloudTTS_functions';
 import CommandIcon from './CommandIcon';

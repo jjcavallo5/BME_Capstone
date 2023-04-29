@@ -80,6 +80,10 @@ const VoiceSelectionScreen = ({navigation}) => {
         <PremiumAd
           modalVisible={premiumAdVisible}
           minimizeModal={() => setPremiumAdVisible(false)}
+          navigate={() => {
+            setPremiumAdVisible(false);
+            navigation.navigate('PurchaseScreen');
+          }}
         />
       </View>
 

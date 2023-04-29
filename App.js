@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
+import {withIAPContext} from 'react-native-iap';
 
 import NavBar from './components/navbar';
 import RegistrationScreen from './screens/registration_screen';
@@ -15,6 +16,9 @@ import AddCommandScreen from './screens/addCommand_screen';
 import AddFolderScreen from './screens/addFolder_screen';
 import SelectIconScreen from './screens/selectIcon_screen';
 import SelectIconAACScreen from './screens/selectIconAAC_screen';
+import PurchaseScreen from './screens/purchase_screen';
+import PremiumPurchased from './screens/premium_purchased_screen';
+import ManageSubscriptionScreen from './screens/manage_subscriptions_screen';
 
 import {themes} from './styles/color_themes';
 import RNTTSvoices from './backend/RNTTS_voices';
@@ -130,10 +134,25 @@ const App = () => {
             name="SelectIconAAC"
             options={{headerShown: false}}
           />
+          <Stack.Screen
+            component={PurchaseScreen}
+            name="PurchaseScreen"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={PremiumPurchased}
+            name="PremiumPurchased"
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            component={ManageSubscriptionScreen}
+            name="ManageSubscriptions"
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </AppContext.Provider>
   );
 };
 
-export default App;
+export default withIAPContext(App);

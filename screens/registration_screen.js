@@ -62,6 +62,7 @@ const LoginScreen = ({navigation}) => {
             placeholderTextColor={theme.placeholderText}
             onChangeText={changeEmail}
             value={email}
+            autoCapitalize="none"
           />
         </View>
         <View style={styles.input}>
@@ -82,6 +83,7 @@ const LoginScreen = ({navigation}) => {
             secureTextEntry={true}
             onChangeText={changePass}
             value={pass}
+            autoCapitalize="none"
           />
         </View>
         <View style={styles.input}>
@@ -102,6 +104,7 @@ const LoginScreen = ({navigation}) => {
             secureTextEntry={true}
             onChangeText={changeConfirmPass}
             value={confirmPass}
+            autoCapitalize="none"
           />
         </View>
         <Text style={styles.errorMessage}>{errorMessage}</Text>

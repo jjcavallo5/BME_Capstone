@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   body: {
-    height: 300,
+    height: 250,
     padding: 20,
     marginBottom: 20,
   },

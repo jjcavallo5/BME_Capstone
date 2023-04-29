@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 
 import {
   Text,
@@ -20,13 +20,13 @@ import DeleteCommandModal from '../components/deleteCommandModal';
 
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
+import {validatePremiumSubscription} from '../backend/firestore_functions';
 
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
   const theme = context.theme;
   const voice = context.voice;
   const commands = context.commands;
-  const categories = context.categories;
   const name = context.firstName;
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -56,6 +56,18 @@ const HomeScreen = ({navigation}) => {
     });
   };
 
+  useEffect(() => {
+    validatePremiumSubscription(
+      context.purchaseToken,
+      () => {
+        console.log('Valid');
+      },
+      () => {
+        context.updateContext(context, {isPremiumUser: false});
+      },
+    );
+  }, []);
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView
@@ -78,6 +90,10 @@ const HomeScreen = ({navigation}) => {
         <PremiumAd
           modalVisible={premiumAdVisible}
           minimizeModal={() => setPremiumAdVisible(false)}
+          navigate={() => {
+            setPremiumAdVisible(false);
+            navigation.navigate('PurchaseScreen');
+          }}
         />
         <View style={styles.subheader}>
           {isSearching ? (

@@ -45,6 +45,7 @@ export function storeUserInfo(
       categories: defaultCategoryList,
       commands: defaultCommandList,
       isPremiumUser: false,
+      purchaseToken: null,
     })
     .then(() => {
       failCallback('');
@@ -157,4 +158,21 @@ export function updateDatabase(update, callback) {
     .update({...update})
     .then(() => callback())
     .catch(err => console.error(err));
+}
+
+export function validatePremiumSubscription(
+  purchaseToken,
+  validCallback,
+  invalidCallback,
+) {
+  firestore()
+    .collection('subscriptions')
+    .doc(purchaseToken)
+    .get()
+    .then(resp => {
+      console.log(resp.get('subscriptionState'));
+      if (resp.get('subscriptionState') === 'SUBSCRIPTION_STATE_ACTIVE')
+        validCallback();
+      else invalidCallback();
+    });
 }
