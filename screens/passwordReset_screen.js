@@ -67,7 +67,7 @@ const PasswordResetScreen = ({navigation}) => {
             margin: 20,
           }}
           onPress={resetPressed}>
-          <Text>Send Reset Email</Text>
+          <Text>Send Password Reset Link</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{marginBottom: 20}}
