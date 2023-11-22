@@ -151,7 +151,7 @@ const VoiceSelectionScreen = ({navigation}) => {
                 });
 
                 Tts.setDefaultVoice(voice.data.name)
-                  .then(() => navigation.pop())
+                  .then(() => navigation.navigate('UserInfo'))
                   .catch(err => {
                     console.log('error');
                     console.error(err);
@@ -213,7 +213,7 @@ const VoiceSelectionScreen = ({navigation}) => {
                       data: voice.data,
                     },
                   });
-                  navigation.pop();
+                  navigation.navigate('UserInfo');
                 }}>
                 <Icon
                   name={'lock'}

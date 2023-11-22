@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     paddingBottom: 0,
-    height: '100%',
+    height: '80%',
     width: '100%',
   },
   header: {
@@ -16,6 +16,28 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 36,
     textAlign: 'left',
+  },
+  commandPromptBar: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 20,
+    position: 'relative',
+  },
+  promptBarScrollView: {
+    display: 'flex',
+    flexDirection: 'row',
+    transform: [{scaleX: -1}],
+    width: '85%',
+    height: 110,
+  },
+  promptBarOptions: {
+    position: 'absolute',
+    right: 10,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   subHeaderText: {
     marginTop: 25,
@@ -40,6 +62,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 10,
     zIndex: -1,
+  },
+  scrollViewContainer: {
+    height: '90%',
   },
   commandContainer: {
     display: 'flex',

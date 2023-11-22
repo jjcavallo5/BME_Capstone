@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  Touchable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -37,6 +38,8 @@ const HomeScreen = ({navigation}) => {
   const [isAlphaSort, setIsAlphaSort] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
   const [search, setSearch] = useState('');
+
+  const [commandsInPromptBar, setCommandsInPromptBar] = useState([]);
 
   const deleteCommand = () => {
     const newCmdList = context.commands.filter(cmd => {
@@ -73,9 +76,60 @@ const HomeScreen = ({navigation}) => {
       <SafeAreaView
         style={{...styles.container, backgroundColor: theme.background}}>
         <View style={styles.header}>
-          <Text style={{...styles.headerText, color: theme.text}}>
-            Welcome, {name}
-          </Text>
+          <View
+            style={{
+              ...styles.commandPromptBar,
+              backgroundColor: theme.textInput,
+            }}>
+            <ScrollView style={styles.promptBarScrollView} horizontal={true}>
+              {commandsInPromptBar.map(cmd => {
+                return (
+                  <Command
+                    name={cmd.name}
+                    iconName={cmd.iconName}
+                    iconURL={cmd.iconURL}
+                    key={cmd.name}
+                    updateTimestamp={() => {
+                      cmd.timestamp = Date.now();
+                      context.updateContext(context, {commands: commands});
+                    }}
+                    style={{
+                      color: cmd.textColor ? cmd.textColor : theme.text,
+                      backgroundColor: cmd.backgroundColor
+                        ? cmd.backgroundColor
+                        : theme.textInput,
+                    }}
+                    horizontalFlip={true}
+                    iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
+                    voice={voice}
+                    onLongPress={() => {
+                      if (!context.isPremiumUser) {
+                        setPremiumAdVisible(true);
+                        return;
+                      }
+                      setModalVisible(true);
+                      setCmdToDelete(cmd.name);
+                    }}
+                  />
+                );
+              })}
+            </ScrollView>
+            <View style={styles.promptBarOptions}>
+              <TouchableOpacity
+                onPress={() => {
+                  setCommandsInPromptBar([]);
+                }}>
+                <Icon name={'close'} color={theme.iconColor} size={30} />
+              </TouchableOpacity>
+              <TouchableOpacity style={{marginTop: '40%'}}>
+                <Icon
+                  name={'arrow-right-bottom-bold'}
+                  color={theme.iconColor}
+                  size={40}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
         <DeleteCommandModal
           modalVisible={modalVisible}
@@ -162,55 +216,61 @@ const HomeScreen = ({navigation}) => {
           ) : null}
         </View>
 
-        <ScrollView contentContainerStyle={styles.commandContainer}>
-          {commands
-            .sort((a, b) => {
-              if (isAlphaSort) {
-                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-              } else {
-                if (a.timestamp == b.timestamp) {
+        <View style={styles.scrollViewContainer}>
+          <ScrollView contentContainerStyle={styles.commandContainer}>
+            {commands
+              .sort((a, b) => {
+                if (isAlphaSort) {
                   if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                   if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                } else {
+                  if (a.timestamp == b.timestamp) {
+                    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                  }
+                  if (a.timestamp > b.timestamp) return -1;
+                  if (a.timestamp < b.timestamp) return 1;
                 }
-                if (a.timestamp > b.timestamp) return -1;
-                if (a.timestamp < b.timestamp) return 1;
-              }
-            })
-            .filter(cmd => {
-              return cmd.name.toLowerCase().includes(search.toLowerCase());
-            })
-            .map(cmd => {
-              return (
-                <Command
-                  name={cmd.name}
-                  iconName={cmd.iconName}
-                  iconURL={cmd.iconURL}
-                  key={cmd.name}
-                  updateTimestamp={() => {
-                    cmd.timestamp = Date.now();
-                    context.updateContext(context, {commands: commands});
-                  }}
-                  style={{
-                    color: cmd.textColor ? cmd.textColor : theme.text,
-                    backgroundColor: cmd.backgroundColor
-                      ? cmd.backgroundColor
-                      : theme.textInput,
-                  }}
-                  iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
-                  voice={voice}
-                  onLongPress={() => {
-                    if (!context.isPremiumUser) {
-                      setPremiumAdVisible(true);
-                      return;
-                    }
-                    setModalVisible(true);
-                    setCmdToDelete(cmd.name);
-                  }}
-                />
-              );
-            })}
-        </ScrollView>
+              })
+              .filter(cmd => {
+                return cmd.name.toLowerCase().includes(search.toLowerCase());
+              })
+              .map(cmd => {
+                return (
+                  <Command
+                    name={cmd.name}
+                    iconName={cmd.iconName}
+                    iconURL={cmd.iconURL}
+                    key={cmd.name}
+                    updateTimestamp={() => {
+                      cmd.timestamp = Date.now();
+                      context.updateContext(context, {commands: commands});
+                    }}
+                    style={{
+                      color: cmd.textColor ? cmd.textColor : theme.text,
+                      backgroundColor: cmd.backgroundColor
+                        ? cmd.backgroundColor
+                        : theme.textInput,
+                    }}
+                    iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
+                    voice={voice}
+                    onPress={() => {
+                      console.log(cmd);
+                      setCommandsInPromptBar([cmd, ...commandsInPromptBar]);
+                    }}
+                    onLongPress={() => {
+                      if (!context.isPremiumUser) {
+                        setPremiumAdVisible(true);
+                        return;
+                      }
+                      setModalVisible(true);
+                      setCmdToDelete(cmd.name);
+                    }}
+                  />
+                );
+              })}
+          </ScrollView>
+        </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

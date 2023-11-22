@@ -98,6 +98,7 @@ const SelectIconAACScreen = ({navigation}) => {
         );
       }
     });
+    console.log(relatedSymbolURLs);
     setResponseURLs(relatedSymbolURLs);
   };
 

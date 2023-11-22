@@ -8,15 +8,20 @@ import CommandIcon from './CommandIcon';
 const Command = props => {
   return (
     <TouchableOpacity
-      style={{...styles.container, ...props.style}}
-      onPress={() => {
-        if (props.voice.category === 'RNTTS') {
-          Tts.speak(props.name);
-        } else if (props.voice.category === 'google') {
-          googleSpeech(props.name, props.voice.data);
-        }
-        props.updateTimestamp();
-      }}
+      style={
+        props.horizontalFlip
+          ? {...styles.container, ...props.style, transform: [{scaleX: -1}]}
+          : {...styles.container, ...props.style}
+      }
+      onPress={props.onPress}
+      // onPress={() => {
+      //   if (props.voice.category === 'RNTTS') {
+      //     Tts.speak(props.name);
+      //   } else if (props.voice.category === 'google') {
+      //     googleSpeech(props.name, props.voice.data);
+      //   }
+      //   props.updateTimestamp();
+      // }}
       onLongPress={props.onLongPress}>
       <CommandIcon
         command={{iconURL: props.iconURL, iconName: props.iconName}}
@@ -33,7 +38,7 @@ export default Command;
 
 const styles = StyleSheet.create({
   container: {
-    width: '30%',
+    width: 100,
     aspectRatio: 1,
     borderRadius: 10,
     display: 'flex',
