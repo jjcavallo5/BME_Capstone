@@ -11,7 +11,9 @@ import {
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Tts from 'react-native-tts';
 
+import {googleSpeech} from '../backend/googleCloudTTS_functions';
 import Command from '../components/command';
 import styles from '../styles/homescreen_styles';
 
@@ -56,6 +58,24 @@ const HomeScreen = ({navigation}) => {
     context.updateContext(context, {
       categories: newCatList,
     });
+  };
+
+  const speakSentence = () => {
+    let sentence = '';
+    for (let i = commandsInPromptBar.length - 1; i >= 0; i--) {
+      sentence += commandsInPromptBar[i].name;
+      if (i !== 0) sentence += ' ';
+      else sentence += '.';
+    }
+
+    if (voice.category === 'RNTTS') {
+      Tts.speak(sentence);
+      setCommandsInPromptBar([]);
+    } else if (voice.category === 'google') {
+      googleSpeech(sentence, voice.data).then(() => {
+        setCommandsInPromptBar([]);
+      });
+    }
   };
 
   useEffect(() => {
@@ -123,7 +143,9 @@ const HomeScreen = ({navigation}) => {
                 }}>
                 <Icon name={'close'} color={theme.iconColor} size={30} />
               </TouchableOpacity>
-              <TouchableOpacity style={{marginTop: '40%'}}>
+              <TouchableOpacity
+                style={{marginTop: '40%'}}
+                onPress={() => speakSentence()}>
                 <Icon
                   name={'arrow-right-bottom-bold'}
                   color={theme.iconColor}
