@@ -9,7 +9,6 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  Touchable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -81,6 +80,9 @@ const HomeScreen = ({navigation}) => {
               ...styles.commandPromptBar,
               backgroundColor: theme.textInput,
             }}>
+            {commandsInPromptBar.length == 0 && (
+              <Text style={styles.tempPromptBarText}>Select commands</Text>
+            )}
             <ScrollView style={styles.promptBarScrollView} horizontal={true}>
               {commandsInPromptBar.map(cmd => {
                 return (

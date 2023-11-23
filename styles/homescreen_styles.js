@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     paddingBottom: 0,
-    height: '80%',
+    height: '100%',
     width: '100%',
   },
   header: {
@@ -22,6 +22,12 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 20,
     position: 'relative',
+  },
+  tempPromptBarText: {
+    position: 'absolute',
+    top: 46,
+    fontSize: 20,
+    left: 20,
   },
   promptBarScrollView: {
     display: 'flex',
@@ -52,7 +58,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     position: 'relative',
-    marginBottom: 20,
+    marginBottom: 15,
+    marginTop: 15,
   },
   searchBar: {
     height: 40,
