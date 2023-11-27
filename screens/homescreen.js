@@ -44,6 +44,7 @@ const HomeScreen = ({navigation}) => {
   const [isSearching, setIsSearching] = useState(false);
   const [search, setSearch] = useState('');
   const [isFolderView, setIsFolderView] = useState(false);
+  const [activeFolder, setActiveFolder] = useState('');
 
   const [commandsInPromptBar, setCommandsInPromptBar] = useState([]);
 
@@ -230,6 +231,7 @@ const HomeScreen = ({navigation}) => {
                 // if (context.isPremiumUser) navigation.navigate('AddCommand');
                 // else setPremiumAdVisible(true);
 
+                if (isFolderView) setActiveFolder('');
                 setIsFolderView(!isFolderView);
               }}>
               <Icon
@@ -256,6 +258,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.scrollViewContainer}>
           <ScrollView contentContainerStyle={styles.commandContainer}>
             {isFolderView &&
+              !activeFolder &&
               categories
                 .sort((a, b) => {
                   if (isAlphaSort) {
@@ -286,13 +289,7 @@ const HomeScreen = ({navigation}) => {
                       }}
                       iconColor={theme.iconColor}
                       onPress={() => {
-                        var cmdList = commands.filter(cmd => {
-                          return cmd.category === category.name;
-                        });
-                        navigation.navigate('Folder', {
-                          commands: cmdList,
-                          category: category.name,
-                        });
+                        setActiveFolder(category.name);
                       }}
                       onLongPress={() => {
                         if (!context.isPremiumUser) {
@@ -301,6 +298,83 @@ const HomeScreen = ({navigation}) => {
                         }
                         setFolderModalVisible(true);
                         setFolderToDelete(category.name);
+                      }}
+                    />
+                  );
+                })}
+
+            {activeFolder !== '' && (
+              <Command
+                name={activeFolder}
+                iconName={'folder-open'}
+                key={'back'}
+                style={{
+                  color: theme.text,
+                  backgroundColor: theme.textInput,
+                }}
+                iconColor={'dodgerblue'}
+                onPress={() => {
+                  setActiveFolder('');
+                }}
+              />
+            )}
+
+            {activeFolder !== '' &&
+              commands
+                .sort((a, b) => {
+                  if (isAlphaSort) {
+                    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                  } else {
+                    if (a.timestamp == b.timestamp) {
+                      if (a.name.toLowerCase() < b.name.toLowerCase())
+                        return -1;
+                      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                    }
+                    if (a.timestamp > b.timestamp) return -1;
+                    if (a.timestamp < b.timestamp) return 1;
+                  }
+                })
+                .filter(cmd => {
+                  return cmd.category === activeFolder;
+                })
+                .filter(cmd => {
+                  return cmd.name.toLowerCase().includes(search.toLowerCase());
+                })
+                .map(cmd => {
+                  return (
+                    <Command
+                      name={cmd.name}
+                      iconName={cmd.iconName}
+                      iconURL={cmd.iconURL}
+                      key={cmd.name}
+                      updateTimestamp={() => {
+                        cmd.timestamp = Date.now();
+                        boardContext.updateContext(boardContext, {
+                          commands: commands,
+                        });
+                      }}
+                      style={{
+                        color: cmd.textColor ? cmd.textColor : theme.text,
+                        backgroundColor: cmd.backgroundColor
+                          ? cmd.backgroundColor
+                          : theme.textInput,
+                      }}
+                      iconColor={
+                        cmd.iconColor ? cmd.iconColor : theme.iconColor
+                      }
+                      voice={voice}
+                      onPress={() => {
+                        console.log(cmd);
+                        setCommandsInPromptBar([cmd, ...commandsInPromptBar]);
+                      }}
+                      onLongPress={() => {
+                        if (!context.isPremiumUser) {
+                          setPremiumAdVisible(true);
+                          return;
+                        }
+                        setModalVisible(true);
+                        setCmdToDelete(cmd.name);
                       }}
                     />
                   );

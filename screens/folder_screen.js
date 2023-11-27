@@ -15,7 +15,7 @@ const FolderScreen = ({route, navigation}) => {
   const context = useContext(AppContext);
   const theme = context.theme;
   const voice = context.voice;
-  const {category, commands} = route.params;
+  const {category, commands, callback} = route.params;
 
   return (
     <SafeAreaView
@@ -37,6 +37,10 @@ const FolderScreen = ({route, navigation}) => {
               iconName={cmd.iconName}
               iconURL={cmd.iconURL}
               key={cmd.name}
+              onPress={() => {
+                console.log(cmd);
+                callback(cmd);
+              }}
               updateTimestamp={() => {
                 cmd.timestamp = Date.now();
               }}
