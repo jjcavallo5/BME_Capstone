@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
   },
   scrollViewContainer: {},
   commandContainer: {
-    display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',

@@ -6,12 +6,27 @@ import {googleSpeech} from '../backend/googleCloudTTS_functions';
 import CommandIcon from './CommandIcon';
 
 const Command = props => {
+  const containerWidth = String(100 / props.gridSize - 5) + '%';
+  const iconSize = props.gridSize >= 4 ? 30 : props.gridSize < 3 ? 70 : 50;
+  const textSize = props.gridSize >= 4 ? 14 : props.gridSize < 3 ? 18 : 16;
   return (
     <TouchableOpacity
       style={
         props.horizontalFlip
-          ? {...styles.container, ...props.style, transform: [{scaleX: -1}]}
-          : {...styles.container, ...props.style}
+          ? {
+              ...styles.container,
+              ...props.style,
+              width: containerWidth,
+              transform: [{scaleX: -1}],
+              width: containerWidth,
+              height: containerWidth,
+            }
+          : {
+              ...styles.container,
+              ...props.style,
+              width: containerWidth,
+              height: containerWidth,
+            }
       }
       onPress={props.onPress}
       // onPress={() => {
@@ -25,11 +40,13 @@ const Command = props => {
       onLongPress={props.onLongPress}>
       <CommandIcon
         command={{iconURL: props.iconURL, iconName: props.iconName}}
-        size={50}
+        size={iconSize}
         color={props.iconColor}
-        style={{height: 50, width: 50}}
+        style={{height: iconSize, width: iconSize}}
       />
-      <Text style={{...styles.text, ...props.style}}>{props.name}</Text>
+      <Text style={{...styles.text, ...props.style, fontSize: textSize}}>
+        {props.name}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -38,7 +55,6 @@ export default Command;
 
 const styles = StyleSheet.create({
   container: {
-    width: 100,
     aspectRatio: 1,
     borderRadius: 10,
     display: 'flex',
@@ -47,7 +63,6 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   text: {
-    fontSize: 16,
     textAlign: 'center',
   },
 });

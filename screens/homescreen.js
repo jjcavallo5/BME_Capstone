@@ -36,6 +36,9 @@ const HomeScreen = ({navigation}) => {
   const categories = boardContext.categories;
   const name = context.firstName;
 
+  const gridSize = 3;
+  const scrollViewTotalHeight = 1000;
+
   const windowHeight = Dimensions.get('window').height;
   const bodyHeight = windowHeight - 175 - 90;
 
@@ -124,12 +127,7 @@ const HomeScreen = ({navigation}) => {
                     iconName={cmd.iconName}
                     iconURL={cmd.iconURL}
                     key={cmd.name}
-                    updateTimestamp={() => {
-                      cmd.timestamp = Date.now();
-                      boardContext.updateContext(boardContext, {
-                        commands: commands,
-                      });
-                    }}
+                    gridSize={3}
                     style={{
                       color: cmd.textColor ? cmd.textColor : theme.text,
                       backgroundColor: cmd.backgroundColor
@@ -272,8 +270,11 @@ const HomeScreen = ({navigation}) => {
         {/*
          *** MAIN SCROLLVIEW BODY ***
          */}
-        <View style={{...styles.scrollViewContainer, height: bodyHeight}}>
-          <ScrollView contentContainerStyle={styles.commandContainer}>
+        <View style={{height: bodyHeight}}>
+          <ScrollView
+            contentContainerStyle={{
+              ...styles.commandContainer,
+            }}>
             {/*
              *** RENDERS IN FOLDER VIEW ***
              */}
@@ -303,6 +304,7 @@ const HomeScreen = ({navigation}) => {
                       name={category.name}
                       iconName={category.iconName}
                       key={category.name}
+                      gridSize={gridSize}
                       style={{
                         color: theme.text,
                         backgroundColor: theme.textInput,
@@ -331,6 +333,7 @@ const HomeScreen = ({navigation}) => {
                 name={activeFolder}
                 iconName={'folder-open'}
                 key={'back'}
+                gridSize={gridSize}
                 style={{
                   color: theme.text,
                   backgroundColor: theme.textInput,
@@ -371,12 +374,7 @@ const HomeScreen = ({navigation}) => {
                       iconName={cmd.iconName}
                       iconURL={cmd.iconURL}
                       key={cmd.name}
-                      updateTimestamp={() => {
-                        cmd.timestamp = Date.now();
-                        boardContext.updateContext(boardContext, {
-                          commands: commands,
-                        });
-                      }}
+                      gridSize={gridSize}
                       style={{
                         color: cmd.textColor ? cmd.textColor : theme.text,
                         backgroundColor: cmd.backgroundColor
@@ -389,6 +387,7 @@ const HomeScreen = ({navigation}) => {
                       voice={voice}
                       onPress={() => {
                         console.log(cmd);
+                        cmd.timestamp = Date.now();
                         setCommandsInPromptBar([cmd, ...commandsInPromptBar]);
                       }}
                       onLongPress={() => {
@@ -432,12 +431,7 @@ const HomeScreen = ({navigation}) => {
                       iconName={cmd.iconName}
                       iconURL={cmd.iconURL}
                       key={cmd.name}
-                      updateTimestamp={() => {
-                        cmd.timestamp = Date.now();
-                        boardContext.updateContext(boardContext, {
-                          commands: commands,
-                        });
-                      }}
+                      gridSize={gridSize}
                       style={{
                         color: cmd.textColor ? cmd.textColor : theme.text,
                         backgroundColor: cmd.backgroundColor
@@ -450,6 +444,7 @@ const HomeScreen = ({navigation}) => {
                       voice={voice}
                       onPress={() => {
                         console.log(cmd);
+                        cmd.timestamp = Date.now();
                         setCommandsInPromptBar([cmd, ...commandsInPromptBar]);
                       }}
                       onLongPress={() => {
