@@ -74,6 +74,16 @@ export function getUserData(callback) {
     });
 }
 
+export function getActiveBoard(boardID, callback) {
+  firestore()
+    .collection('boards')
+    .doc(boardID)
+    .get()
+    .then(snap => {
+      callback(snap.data());
+    });
+}
+
 export function getVoiceData(callback) {
   var userDoc = auth().currentUser.email;
 

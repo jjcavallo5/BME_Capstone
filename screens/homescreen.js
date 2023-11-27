@@ -23,12 +23,16 @@ import DeleteCommandModal from '../components/deleteCommandModal';
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
 import {validatePremiumSubscription} from '../backend/firestore_functions';
+import BoardContext from '../components/boardContext';
+
+import {storeDefaultData} from '../backend/firestore_functions';
 
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
+  const boardContext = useContext(BoardContext);
   const theme = context.theme;
   const voice = context.voice;
-  const commands = context.commands;
+  const commands = boardContext.commands;
   const name = context.firstName;
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,19 +47,19 @@ const HomeScreen = ({navigation}) => {
   const [commandsInPromptBar, setCommandsInPromptBar] = useState([]);
 
   const deleteCommand = () => {
-    const newCmdList = context.commands.filter(cmd => {
+    const newCmdList = boardContext.commands.filter(cmd => {
       return cmd.name !== cmdToDelete;
     });
-    context.updateContext(context, {
+    boardContext.updateContext(boardContext, {
       commands: newCmdList,
     });
   };
 
   const deleteFolder = () => {
-    const newCatList = context.categories.filter(cat => {
+    const newCatList = boardContext.categories.filter(cat => {
       return cat.name !== folderToDelete;
     });
-    context.updateContext(context, {
+    boardContext.updateContext(boardContext, {
       categories: newCatList,
     });
   };
@@ -113,7 +117,9 @@ const HomeScreen = ({navigation}) => {
                     key={cmd.name}
                     updateTimestamp={() => {
                       cmd.timestamp = Date.now();
-                      context.updateContext(context, {commands: commands});
+                      boardContext.updateContext(boardContext, {
+                        commands: commands,
+                      });
                     }}
                     style={{
                       color: cmd.textColor ? cmd.textColor : theme.text,
@@ -268,7 +274,9 @@ const HomeScreen = ({navigation}) => {
                     key={cmd.name}
                     updateTimestamp={() => {
                       cmd.timestamp = Date.now();
-                      context.updateContext(context, {commands: commands});
+                      boardContext.updateContext(boardContext, {
+                        commands: commands,
+                      });
                     }}
                     style={{
                       color: cmd.textColor ? cmd.textColor : theme.text,
