@@ -16,10 +16,9 @@ const Command = props => {
           ? {
               ...styles.container,
               ...props.style,
-              width: containerWidth,
+              width: 70,
               transform: [{scaleX: -1}],
-              width: containerWidth,
-              height: containerWidth,
+              height: 100,
             }
           : {
               ...styles.container,

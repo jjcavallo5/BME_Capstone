@@ -37,7 +37,6 @@ const HomeScreen = ({navigation}) => {
   const name = context.firstName;
 
   const gridSize = 3;
-  const scrollViewTotalHeight = 1000;
 
   const windowHeight = Dimensions.get('window').height;
   const bodyHeight = windowHeight - 175 - 90;
@@ -119,14 +118,17 @@ const HomeScreen = ({navigation}) => {
             {commandsInPromptBar.length == 0 && (
               <Text style={styles.tempPromptBarText}>Select commands</Text>
             )}
-            <ScrollView style={styles.promptBarScrollView} horizontal={true}>
-              {commandsInPromptBar.map(cmd => {
+            <ScrollView
+              style={styles.promptBarScrollView}
+              contentContainerStyle={{alignItems: 'center'}}
+              horizontal={true}>
+              {commandsInPromptBar.map((cmd, idx) => {
                 return (
                   <Command
                     name={cmd.name}
                     iconName={cmd.iconName}
                     iconURL={cmd.iconURL}
-                    key={cmd.name}
+                    key={cmd.name + String(idx)}
                     gridSize={3}
                     style={{
                       color: cmd.textColor ? cmd.textColor : theme.text,
@@ -386,9 +388,8 @@ const HomeScreen = ({navigation}) => {
                       }
                       voice={voice}
                       onPress={() => {
-                        console.log(cmd);
-                        cmd.timestamp = Date.now();
                         setCommandsInPromptBar([cmd, ...commandsInPromptBar]);
+                        cmd.timestamp = Date.now();
                       }}
                       onLongPress={() => {
                         if (!context.isPremiumUser) {
@@ -443,9 +444,8 @@ const HomeScreen = ({navigation}) => {
                       }
                       voice={voice}
                       onPress={() => {
-                        console.log(cmd);
-                        cmd.timestamp = Date.now();
                         setCommandsInPromptBar([cmd, ...commandsInPromptBar]);
+                        cmd.timestamp = Date.now();
                       }}
                       onLongPress={() => {
                         if (!context.isPremiumUser) {
