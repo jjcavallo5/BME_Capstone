@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Tts from 'react-native-tts';
@@ -34,6 +35,9 @@ const HomeScreen = ({navigation}) => {
   const commands = boardContext.commands;
   const categories = boardContext.categories;
   const name = context.firstName;
+
+  const windowHeight = Dimensions.get('window').height;
+  const bodyHeight = windowHeight - 175 - 90;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [folderModalVisible, setFolderModalVisible] = useState(false);
@@ -101,6 +105,9 @@ const HomeScreen = ({navigation}) => {
       <SafeAreaView
         style={{...styles.container, backgroundColor: theme.background}}>
         <View style={styles.header}>
+          {/*
+           *** PROMPT BAR ***
+           */}
           <View
             style={{
               ...styles.commandPromptBar,
@@ -163,6 +170,10 @@ const HomeScreen = ({navigation}) => {
             </View>
           </View>
         </View>
+
+        {/*
+         *** MODALS ***
+         */}
         <DeleteCommandModal
           modalVisible={modalVisible}
           minimizeModal={() => setModalVisible(false)}
@@ -181,6 +192,9 @@ const HomeScreen = ({navigation}) => {
             navigation.navigate('PurchaseScreen');
           }}
         />
+        {/*
+         *** SEARCH BAR ***
+         */}
         <View style={styles.subheader}>
           {isSearching ? (
             <TextInput
@@ -255,8 +269,14 @@ const HomeScreen = ({navigation}) => {
           ) : null}
         </View>
 
-        <View style={styles.scrollViewContainer}>
+        {/*
+         *** MAIN SCROLLVIEW BODY ***
+         */}
+        <View style={{...styles.scrollViewContainer, height: bodyHeight}}>
           <ScrollView contentContainerStyle={styles.commandContainer}>
+            {/*
+             *** RENDERS IN FOLDER VIEW ***
+             */}
             {isFolderView &&
               !activeFolder &&
               categories
@@ -303,6 +323,9 @@ const HomeScreen = ({navigation}) => {
                   );
                 })}
 
+            {/*
+             *** RENDERS IN FOLDER SELECTED VIEW ***
+             */}
             {activeFolder !== '' && (
               <Command
                 name={activeFolder}
@@ -380,6 +403,9 @@ const HomeScreen = ({navigation}) => {
                   );
                 })}
 
+            {/*
+             *** RENDERS IN COMMAND VIEW ***
+             */}
             {!isFolderView &&
               commands
                 .sort((a, b) => {

@@ -70,14 +70,12 @@ const styles = StyleSheet.create({
     left: 10,
     zIndex: -1,
   },
-  scrollViewContainer: {
-    height: '90%',
-  },
+  scrollViewContainer: {},
   commandContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 10,
+    justifyContent: 'center',
   },
   footer: {
     position: 'absolute',
