@@ -15,6 +15,7 @@ import Tts from 'react-native-tts';
 
 import {googleSpeech} from '../backend/googleCloudTTS_functions';
 import Command from '../components/command';
+import Folder from '../components/folder';
 import styles from '../styles/homescreen_styles';
 
 import AppContext from '../components/appContext';
@@ -25,14 +26,13 @@ import PremiumAd from '../components/premiumAd';
 import {validatePremiumSubscription} from '../backend/firestore_functions';
 import BoardContext from '../components/boardContext';
 
-import {storeDefaultData} from '../backend/firestore_functions';
-
 const HomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
   const boardContext = useContext(BoardContext);
   const theme = context.theme;
   const voice = context.voice;
   const commands = boardContext.commands;
+  const categories = boardContext.categories;
   const name = context.firstName;
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,6 +43,7 @@ const HomeScreen = ({navigation}) => {
   const [isAlphaSort, setIsAlphaSort] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
   const [search, setSearch] = useState('');
+  const [isFolderView, setIsFolderView] = useState(false);
 
   const [commandsInPromptBar, setCommandsInPromptBar] = useState([]);
 
@@ -183,7 +184,7 @@ const HomeScreen = ({navigation}) => {
           {isSearching ? (
             <TextInput
               style={{...styles.searchBar, backgroundColor: theme.textInput}}
-              placeholder="Search commands"
+              placeholder={isFolderView ? 'Search Folders' : 'Search commands'}
               placeholderTextColor={theme.placeholderText}
               onChangeText={setSearch}
             />
@@ -194,7 +195,7 @@ const HomeScreen = ({navigation}) => {
                 color: theme.iconColor,
                 width: '60%',
               }}>
-              Your Commands
+              {!isFolderView ? 'Your Commands' : 'Your Folders'}
             </Text>
           )}
           <TouchableOpacity
@@ -226,10 +227,16 @@ const HomeScreen = ({navigation}) => {
           {!isSearching ? (
             <TouchableOpacity
               onPress={() => {
-                if (context.isPremiumUser) navigation.navigate('AddCommand');
-                else setPremiumAdVisible(true);
+                // if (context.isPremiumUser) navigation.navigate('AddCommand');
+                // else setPremiumAdVisible(true);
+
+                setIsFolderView(!isFolderView);
               }}>
-              <Icon name={'plus'} size={35} color={theme.iconColor} />
+              <Icon
+                name={'folder-outline'}
+                size={30}
+                color={!isFolderView ? theme.iconColor : 'dodgerblue'}
+              />
             </TouchableOpacity>
           ) : null}
 
@@ -248,59 +255,114 @@ const HomeScreen = ({navigation}) => {
 
         <View style={styles.scrollViewContainer}>
           <ScrollView contentContainerStyle={styles.commandContainer}>
-            {commands
-              .sort((a, b) => {
-                if (isAlphaSort) {
-                  if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-                  if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-                } else {
-                  if (a.timestamp == b.timestamp) {
+            {isFolderView &&
+              categories
+                .sort((a, b) => {
+                  if (isAlphaSort) {
                     if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                     if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                  } else {
+                    if (a.timestamp == b.timestamp) {
+                      if (a.name.toLowerCase() < b.name.toLowerCase())
+                        return -1;
+                      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                    }
+                    if (a.timestamp > b.timestamp) return -1;
+                    if (a.timestamp < b.timestamp) return 1;
                   }
-                  if (a.timestamp > b.timestamp) return -1;
-                  if (a.timestamp < b.timestamp) return 1;
-                }
-              })
-              .filter(cmd => {
-                return cmd.name.toLowerCase().includes(search.toLowerCase());
-              })
-              .map(cmd => {
-                return (
-                  <Command
-                    name={cmd.name}
-                    iconName={cmd.iconName}
-                    iconURL={cmd.iconURL}
-                    key={cmd.name}
-                    updateTimestamp={() => {
-                      cmd.timestamp = Date.now();
-                      boardContext.updateContext(boardContext, {
-                        commands: commands,
-                      });
-                    }}
-                    style={{
-                      color: cmd.textColor ? cmd.textColor : theme.text,
-                      backgroundColor: cmd.backgroundColor
-                        ? cmd.backgroundColor
-                        : theme.textInput,
-                    }}
-                    iconColor={cmd.iconColor ? cmd.iconColor : theme.iconColor}
-                    voice={voice}
-                    onPress={() => {
-                      console.log(cmd);
-                      setCommandsInPromptBar([cmd, ...commandsInPromptBar]);
-                    }}
-                    onLongPress={() => {
-                      if (!context.isPremiumUser) {
-                        setPremiumAdVisible(true);
-                        return;
+                })
+                .filter(cmd => {
+                  return cmd.name.toLowerCase().includes(search.toLowerCase());
+                })
+                .map(category => {
+                  return (
+                    <Folder
+                      name={category.name}
+                      iconName={category.iconName}
+                      key={category.name}
+                      style={{
+                        color: theme.text,
+                        backgroundColor: theme.textInput,
+                      }}
+                      iconColor={theme.iconColor}
+                      onPress={() => {
+                        var cmdList = commands.filter(cmd => {
+                          return cmd.category === category.name;
+                        });
+                        navigation.navigate('Folder', {
+                          commands: cmdList,
+                          category: category.name,
+                        });
+                      }}
+                      onLongPress={() => {
+                        if (!context.isPremiumUser) {
+                          setPremiumAdVisible(true);
+                          return;
+                        }
+                        setFolderModalVisible(true);
+                        setFolderToDelete(category.name);
+                      }}
+                    />
+                  );
+                })}
+
+            {!isFolderView &&
+              commands
+                .sort((a, b) => {
+                  if (isAlphaSort) {
+                    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                  } else {
+                    if (a.timestamp == b.timestamp) {
+                      if (a.name.toLowerCase() < b.name.toLowerCase())
+                        return -1;
+                      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                    }
+                    if (a.timestamp > b.timestamp) return -1;
+                    if (a.timestamp < b.timestamp) return 1;
+                  }
+                })
+                .filter(cmd => {
+                  return cmd.name.toLowerCase().includes(search.toLowerCase());
+                })
+                .map(cmd => {
+                  return (
+                    <Command
+                      name={cmd.name}
+                      iconName={cmd.iconName}
+                      iconURL={cmd.iconURL}
+                      key={cmd.name}
+                      updateTimestamp={() => {
+                        cmd.timestamp = Date.now();
+                        boardContext.updateContext(boardContext, {
+                          commands: commands,
+                        });
+                      }}
+                      style={{
+                        color: cmd.textColor ? cmd.textColor : theme.text,
+                        backgroundColor: cmd.backgroundColor
+                          ? cmd.backgroundColor
+                          : theme.textInput,
+                      }}
+                      iconColor={
+                        cmd.iconColor ? cmd.iconColor : theme.iconColor
                       }
-                      setModalVisible(true);
-                      setCmdToDelete(cmd.name);
-                    }}
-                  />
-                );
-              })}
+                      voice={voice}
+                      onPress={() => {
+                        console.log(cmd);
+                        setCommandsInPromptBar([cmd, ...commandsInPromptBar]);
+                      }}
+                      onLongPress={() => {
+                        if (!context.isPremiumUser) {
+                          setPremiumAdVisible(true);
+                          return;
+                        }
+                        setModalVisible(true);
+                        setCmdToDelete(cmd.name);
+                      }}
+                    />
+                  );
+                })}
           </ScrollView>
         </View>
       </SafeAreaView>
