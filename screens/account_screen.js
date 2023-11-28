@@ -103,6 +103,13 @@ const AccountScreen = ({navigation}) => {
         <Icon name="ios-chevron-forward" size={25} color={theme.iconColor} />
       </TouchableOpacity>
 
+      <TouchableOpacity
+        onPress={() => navigation.navigate('GridSize')}
+        style={styles.selectionMenu}>
+        <Text style={{color: theme.text, fontSize: 16}}>Change Grid Size</Text>
+        <Icon name="ios-chevron-forward" size={25} color={theme.iconColor} />
+      </TouchableOpacity>
+
       <View
         style={{
           ...styles.accountOptions,

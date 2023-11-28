@@ -35,8 +35,7 @@ const HomeScreen = ({navigation}) => {
   const commands = boardContext.commands;
   const categories = boardContext.categories;
   const name = context.firstName;
-
-  const gridSize = 3;
+  const gridSize = context.gridSize;
 
   const windowHeight = Dimensions.get('window').height;
   const bodyHeight = windowHeight - 175 - 90;
@@ -116,7 +115,10 @@ const HomeScreen = ({navigation}) => {
               backgroundColor: theme.textInput,
             }}>
             {commandsInPromptBar.length == 0 && (
-              <Text style={styles.tempPromptBarText}>Select commands</Text>
+              <Text
+                style={{...styles.tempPromptBarText, color: theme.iconColor}}>
+                Select commands
+              </Text>
             )}
             <ScrollView
               style={styles.promptBarScrollView}

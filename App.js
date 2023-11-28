@@ -19,6 +19,7 @@ import SelectIconAACScreen from './screens/selectIconAAC_screen';
 import PurchaseScreen from './screens/purchase_screen';
 import PremiumPurchased from './screens/premium_purchased_screen';
 import ManageSubscriptionScreen from './screens/manage_subscriptions_screen';
+import GridSizeScreen from './screens/gridSize_screen';
 
 import {themes} from './styles/color_themes';
 import RNTTSvoices from './backend/RNTTS_voices';
@@ -43,6 +44,7 @@ const App = () => {
     lastName: '',
     chronologicalAge: 0,
     cognitiveAge: 0,
+    gridSize: 3,
 
     setNewContext: newContext => {
       setContext(newContext);
@@ -171,6 +173,11 @@ const App = () => {
             <Stack.Screen
               component={ManageSubscriptionScreen}
               name="ManageSubscriptions"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={GridSizeScreen}
+              name="GridSize"
               options={{headerShown: false}}
             />
           </Stack.Navigator>
