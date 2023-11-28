@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 
 import {
   Text,
@@ -17,12 +17,16 @@ import DeleteCommandModal from '../components/deleteCommandModal';
 
 import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
+import BoardContext from '../components/boardContext';
+import Command from '../components/command';
+import {getActiveBoard} from '../backend/firestore_functions';
 
 const FolderHomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
+  const boardContext = useContext(BoardContext);
   const theme = context.theme;
-  const commands = context.commands;
-  const categories = context.categories;
+  const commands = boardContext.commands;
+  const categories = boardContext.categories;
   const name = context.firstName;
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,9 +34,10 @@ const FolderHomeScreen = ({navigation}) => {
   const [cmdToDelete, setCmdToDelete] = useState('');
   const [folderToDelete, setFolderToDelete] = useState('');
   const [premiumAdVisible, setPremiumAdVisible] = useState(false);
+  const [savedBoards, setSavedBoards] = useState([]);
 
   const deleteCommand = () => {
-    const newCmdList = context.commands.filter(cmd => {
+    const newCmdList = boardContext.commands.filter(cmd => {
       return cmd.name !== cmdToDelete;
     });
     context.updateContext(context, {
@@ -43,7 +48,7 @@ const FolderHomeScreen = ({navigation}) => {
   };
 
   const deleteFolder = () => {
-    const newCatList = context.categories.filter(cat => {
+    const newCatList = boardContext.categories.filter(cat => {
       return cat.name !== folderToDelete;
     });
     context.updateContext(context, {
@@ -53,12 +58,23 @@ const FolderHomeScreen = ({navigation}) => {
     // setCategoryList(newCatList, () => {});
   };
 
+  useEffect(() => {
+    for (let i = 0; i < boardContext.savedBoards.length; i++) {
+      getActiveBoard(boardContext.savedBoards[i], boardData => {
+        if (savedBoards.some(e => e.name === boardData.name)) {
+          return;
+        }
+        setSavedBoards([...savedBoards, {...boardData}]);
+      });
+    }
+  }, [boardContext.savedBoards]);
+
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: theme.background}}>
       <View style={styles.header}>
         <Text style={{...styles.headerText, color: theme.text}}>
-          Welcome, {name}
+          Board Editor
         </Text>
       </View>
       <DeleteCommandModal
@@ -79,50 +95,141 @@ const FolderHomeScreen = ({navigation}) => {
           navigation.navigate('PurchaseScreen');
         }}
       />
-      <Text style={{color: theme.text}}>Folders</Text>
-      <ScrollView contentContainerStyle={styles.commandContainer}>
-        {categories.map(category => {
-          return (
-            <Folder
-              name={category.name}
-              iconName={category.iconName}
-              key={category.name}
-              style={{color: theme.text, backgroundColor: theme.textInput}}
-              iconColor={theme.iconColor}
-              onPress={() => {
-                var cmdList = commands.filter(cmd => {
-                  return cmd.category === category.name;
-                });
-                navigation.navigate('Folder', {
-                  commands: cmdList,
-                  category: category.name,
-                });
-              }}
-              onLongPress={() => {
-                if (!context.isPremiumUser) {
-                  setPremiumAdVisible(true);
-                  return;
-                }
-                setFolderModalVisible(true);
-                setFolderToDelete(category.name);
-              }}
-            />
-          );
-        })}
+      <ScrollView>
+        <Text style={{color: theme.text}}>Active Board</Text>
+        <Text>{boardContext.name}</Text>
+        <View style={{...styles.commandContainer}}>
+          {commands
+            .sort((a, b) => {
+              if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+              if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+            })
+            .slice(0, 5)
+            .map(cmd => {
+              return (
+                <Command
+                  name={cmd.name}
+                  iconName={cmd.iconName}
+                  iconURL={cmd.iconURL}
+                  key={cmd.name}
+                  style={{color: theme.text, backgroundColor: theme.textInput}}
+                  iconColor={theme.iconColor}
+                  gridSize={3}
+                  onLongPress={() => {
+                    if (!context.isPremiumUser) {
+                      setPremiumAdVisible(true);
+                      return;
+                    }
+                    setFolderModalVisible(true);
+                    setFolderToDelete(category.name);
+                  }}
+                />
+              );
+            })}
+
+          <Command
+            name={'More...'}
+            iconName={'arrow-right'}
+            style={{color: theme.text, backgroundColor: theme.textInput}}
+            iconColor={theme.iconColor}
+            gridSize={3}
+          />
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              width: '100%',
+              backgroundColor: '#dddddd77',
+              borderRadius: 10,
+              paddingTop: 10,
+              paddingBottom: 10,
+              bottom: 0,
+              top: 0,
+              zIndex: 3,
+            }}
+          />
+        </View>
+        <Text style={{color: theme.text}}>Saved</Text>
+        {boardContext.savedBoards ? (
+          savedBoards.map((boardData, idx) => {
+            return (
+              <View key={idx}>
+                <Text>{boardData.name}</Text>
+                <View style={styles.commandContainer}>
+                  {commands
+                    .sort((a, b) => {
+                      if (a.name.toLowerCase() < b.name.toLowerCase())
+                        return -1;
+                      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                    })
+                    .slice(0, 5)
+                    .map(cmd => {
+                      return (
+                        <Command
+                          name={cmd.name}
+                          iconName={cmd.iconName}
+                          iconURL={cmd.iconURL}
+                          key={cmd.name}
+                          style={{
+                            color: theme.text,
+                            backgroundColor: theme.textInput,
+                          }}
+                          iconColor={theme.iconColor}
+                          gridSize={3}
+                          onLongPress={() => {
+                            if (!context.isPremiumUser) {
+                              setPremiumAdVisible(true);
+                              return;
+                            }
+                            setFolderModalVisible(true);
+                            setFolderToDelete(category.name);
+                          }}
+                        />
+                      );
+                    })}
+                  <Command
+                    name={'More...'}
+                    iconName={'arrow-right'}
+                    style={{
+                      color: theme.text,
+                      backgroundColor: theme.textInput,
+                    }}
+                    iconColor={theme.iconColor}
+                    gridSize={3}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      width: '100%',
+                      backgroundColor: '#dddddd77',
+                      borderRadius: 10,
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                      bottom: 0,
+                      top: 0,
+                      zIndex: 3,
+                    }}
+                  />
+                </View>
+              </View>
+            );
+          })
+        ) : (
+          <View style={styles.commandContainer}>
+            <Text>Saved Boards Will Appear Here</Text>
+          </View>
+        )}
       </ScrollView>
-      <View style={styles.footer}>
+
+      {/* <View style={styles.footer}>
         <TouchableOpacity
           onPress={() => {
             if (context.isPremiumUser) navigation.navigate('AddFolder');
             else setPremiumAdVisible(true);
           }}>
-          <Icon
-            name={'folder-plus-outline'}
-            size={35}
-            color={theme.iconColor}
-          />
+          <Icon name={'plus'} size={35} color={theme.iconColor} />
         </TouchableOpacity>
-      </View>
+        <Text>Create New</Text>
+      </View> */}
     </SafeAreaView>
   );
 };

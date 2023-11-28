@@ -23,8 +23,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    height: '100%',
+    justifyContent: 'center',
+    marginTop: 10,
     marginBottom: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    position: 'relative',
   },
   footer: {
     height: 30,

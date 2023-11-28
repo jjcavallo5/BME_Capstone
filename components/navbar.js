@@ -28,12 +28,10 @@ const NavBar = () => {
         },
         tabBarIcon: ({focused, color, size}) => {
           if (route.name === 'Home') {
-            return (
-              <Icon name="view-grid-plus-outline" size={25} color={color} />
-            );
+            return <Icon name="home-outline" size={30} color={color} />;
           } else if (route.name === 'Folders') {
             return (
-              <Icon name="folder-multiple-outline" size={25} color={color} />
+              <Icon name="view-grid-plus-outline" size={25} color={color} />
             );
           } else if (route.name === 'TTS') {
             return <Icon name="magnify" size={30} color={color} />;

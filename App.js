@@ -72,6 +72,8 @@ const App = () => {
   const [boardContext, setBoardContext] = useState({
     categories: defaultCategoryList,
     commands: defaultCommandList,
+    name: '',
+    savedBoards: [],
 
     setNewContext: newContext => {
       setBoardContext(newContext);
