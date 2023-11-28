@@ -4,6 +4,8 @@ import {
   defaultCategoryList,
   defaultCommandList,
 } from '../components/default_commands';
+import {default_commands_05} from '../components/default_commands_05';
+import {default_commands_69} from '../components/default_commands_69';
 
 export function storeUserInfo(
   first,
@@ -22,6 +24,10 @@ export function storeUserInfo(
     failCallback('Please fill in all fields');
     return;
   }
+
+  var commandList = defaultCommandList;
+  if (cognitiveAge < 6) commandList = default_commands_05;
+  else if (cognitiveAge < 10) commandList = default_commands_69;
 
   var currentUser = auth().currentUser;
   console.log(currentUser.uid);
@@ -43,7 +49,7 @@ export function storeUserInfo(
         },
       },
       categories: defaultCategoryList,
-      commands: defaultCommandList,
+      commands: commandList,
       isPremiumUser: false,
       purchaseToken: null,
     })
@@ -62,6 +68,16 @@ export function getUserData(callback) {
   firestore()
     .collection('users')
     .doc(userDoc)
+    .get()
+    .then(snap => {
+      callback(snap.data());
+    });
+}
+
+export function getActiveBoard(boardID, callback) {
+  firestore()
+    .collection('boards')
+    .doc(boardID)
     .get()
     .then(snap => {
       callback(snap.data());

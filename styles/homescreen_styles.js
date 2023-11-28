@@ -17,6 +17,34 @@ const styles = StyleSheet.create({
     fontSize: 36,
     textAlign: 'left',
   },
+  commandPromptBar: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 20,
+    position: 'relative',
+  },
+  tempPromptBarText: {
+    position: 'absolute',
+    top: 46,
+    fontSize: 20,
+    left: 20,
+  },
+  promptBarScrollView: {
+    display: 'flex',
+    flexDirection: 'row',
+    transform: [{scaleX: -1}],
+    width: '85%',
+    height: 110,
+  },
+  promptBarOptions: {
+    position: 'absolute',
+    right: 10,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   subHeaderText: {
     marginTop: 25,
   },
@@ -30,7 +58,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     position: 'relative',
-    marginBottom: 20,
+    marginBottom: 15,
+    marginTop: 15,
   },
   searchBar: {
     height: 40,
@@ -41,11 +70,11 @@ const styles = StyleSheet.create({
     left: 10,
     zIndex: -1,
   },
+  scrollViewContainer: {},
   commandContainer: {
-    display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 10,
+    justifyContent: 'center',
   },
   footer: {
     position: 'absolute',

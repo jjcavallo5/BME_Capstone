@@ -13,11 +13,13 @@ import {Icon} from 'react-native-elements';
 
 import styles from '../styles/registration_styles';
 import {loginUser} from '../backend/auth_functions';
-import {getUserData} from '../backend/firestore_functions';
+import {getUserData, getActiveBoard} from '../backend/firestore_functions';
 import AppContext from '../components/appContext';
+import BoardContext from '../components/boardContext';
 
 const LoginScreen = ({navigation}) => {
   const context = useContext(AppContext);
+  const boardContext = useContext(BoardContext);
   const theme = context.theme;
   const [email, changeEmail] = useState('');
   const [pass, changePass] = useState('');
@@ -30,7 +32,11 @@ const LoginScreen = ({navigation}) => {
       () => {
         getUserData(data => {
           context.setNewContext({...context, ...data});
-          navigation.navigate('NavBar');
+          let boardID = data.boardID;
+          getActiveBoard(boardID, boardData => {
+            boardContext.setNewContext(boardData);
+            navigation.navigate('NavBar');
+          });
         });
       },
       setErrorMessage,

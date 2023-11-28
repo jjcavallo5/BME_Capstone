@@ -87,6 +87,7 @@ const PurchaseScreen = ({navigation}) => {
             isConsumable: false,
           });
 
+          console.log(JSON.parse(currentPurchase.dataAndroid).purchaseToken);
           validatePremiumSubscription(
             JSON.parse(currentPurchase.dataAndroid).purchaseToken,
             () => {
@@ -100,7 +101,10 @@ const PurchaseScreen = ({navigation}) => {
 
               navigation.navigate('PremiumPurchased');
             },
-            () => setErrorMessage('Unable to Validate Receipt'),
+            () => {
+              setIsLoading(false);
+              setErrorMessage('Unable to Validate Receipt');
+            },
           );
         }
       } catch (error) {

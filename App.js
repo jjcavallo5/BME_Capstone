@@ -28,13 +28,14 @@ import {
 } from './components/default_commands';
 import AppContext from './components/appContext';
 import {updateDatabase} from './backend/firestore_functions';
+import BoardContext from './components/boardContext';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [context, setContext] = useState({
-    categories: defaultCategoryList,
-    commands: defaultCommandList,
+    // categories: defaultCategoryList,
+    // commands: defaultCommandList,
     recentSearches: [],
     voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
     theme: themes.light,
@@ -53,8 +54,8 @@ const App = () => {
     clearContext: () => {
       setContext({
         ...context,
-        categories: defaultCategoryList,
-        commands: defaultCommandList,
+        // categories: defaultCategoryList,
+        // commands: defaultCommandList,
         recentSearches: [],
         voice: {category: 'RNTTS', data: RNTTSvoices[0].data},
         theme: themes.light,
@@ -66,91 +67,115 @@ const App = () => {
     },
   });
 
+  const [boardContext, setBoardContext] = useState({
+    categories: defaultCategoryList,
+    commands: defaultCommandList,
+
+    setNewContext: newContext => {
+      setBoardContext(newContext);
+    },
+    updateContext: (oldContext, update) => {
+      setBoardContext({...oldContext, ...update});
+
+      //! Needs Work
+      updateDatabase(update, () => {});
+    },
+    clearContext: () => {
+      setBoardContext({
+        ...context,
+        categories: defaultCategoryList,
+        commands: defaultCommandList,
+      });
+    },
+  });
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
   return (
     <AppContext.Provider value={context}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            component={LoginScreen}
-            name="Login"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={PasswordResetScreen}
-            name="PasswordReset"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={RegistrationScreen}
-            name="Registration"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={UserInfoScreen}
-            name="UserInfo"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={NavBar}
-            name="NavBar"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={SettingsScreen}
-            name="Settings"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={VoiceSelectionScreen}
-            name="VoiceSelection"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={FolderScreen}
-            name="Folder"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={AddCommandScreen}
-            name="AddCommand"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={AddFolderScreen}
-            name="AddFolder"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={SelectIconScreen}
-            name="SelectIcon"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={SelectIconAACScreen}
-            name="SelectIconAAC"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={PurchaseScreen}
-            name="PurchaseScreen"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={PremiumPurchased}
-            name="PremiumPurchased"
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            component={ManageSubscriptionScreen}
-            name="ManageSubscriptions"
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <BoardContext.Provider value={boardContext}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              component={LoginScreen}
+              name="Login"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={PasswordResetScreen}
+              name="PasswordReset"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={RegistrationScreen}
+              name="Registration"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={UserInfoScreen}
+              name="UserInfo"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={NavBar}
+              name="NavBar"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={SettingsScreen}
+              name="Settings"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={VoiceSelectionScreen}
+              name="VoiceSelection"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={FolderScreen}
+              name="Folder"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={AddCommandScreen}
+              name="AddCommand"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={AddFolderScreen}
+              name="AddFolder"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={SelectIconScreen}
+              name="SelectIcon"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={SelectIconAACScreen}
+              name="SelectIconAAC"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={PurchaseScreen}
+              name="PurchaseScreen"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={PremiumPurchased}
+              name="PremiumPurchased"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={ManageSubscriptionScreen}
+              name="ManageSubscriptions"
+              options={{headerShown: false}}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </BoardContext.Provider>
     </AppContext.Provider>
   );
 };

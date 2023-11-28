@@ -13,6 +13,12 @@ import {Icon} from 'react-native-elements';
 
 import styles from '../styles/registration_styles';
 import {storeUserInfo} from '../backend/firestore_functions';
+import {
+  defaultCategoryList,
+  defaultCommandList,
+} from '../components/default_commands';
+import {default_commands_05} from '../components/default_commands_05';
+import {default_commands_69} from '../components/default_commands_69';
 import AppContext from '../components/appContext';
 
 const UserInfoScreen = ({navigation}) => {
@@ -25,6 +31,10 @@ const UserInfoScreen = ({navigation}) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const continuePressed = () => {
+    var commandList = defaultCommandList;
+    if (cognitiveAge < 6) commandList = default_commands_05;
+    else if (cognitiveAge < 10) commandList = default_commands_69;
+
     storeUserInfo(
       first,
       last,
@@ -36,6 +46,7 @@ const UserInfoScreen = ({navigation}) => {
           lastName: last,
           chronologicalAge: chronologicalAge,
           cognitiveAge: cognitiveAge,
+          commands: commandList,
         };
         context.setNewContext({...context, ...update});
         navigation.navigate('NavBar');
