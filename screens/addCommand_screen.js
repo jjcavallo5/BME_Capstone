@@ -13,7 +13,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import styles from '../styles/add_styles';
 import AppContext from '../components/appContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ColorPickerModal from '../components/colorPicker';
+// import ColorPickerModal from '../components/colorPicker';
 import CommandIcon from '../components/CommandIcon';
 
 const AddCommandScreen = ({route, navigation}) => {
@@ -59,7 +59,7 @@ const AddCommandScreen = ({route, navigation}) => {
           <Text style={{color: theme.text, fontSize: 32}}>Add Command</Text>
         </View>
 
-        <ColorPickerModal
+        {/* <ColorPickerModal
           callback={setBackgroundColor}
           hideModal={setBackgroundColorDisplay}
           display={backgroundColorDisplay}
@@ -76,7 +76,7 @@ const AddCommandScreen = ({route, navigation}) => {
           hideModal={setIconColorDisplay}
           display={iconColorDisplay}
           caption={'Change Background'}
-        />
+        /> */}
 
         <View style={styles.textContainer}>
           <Icon

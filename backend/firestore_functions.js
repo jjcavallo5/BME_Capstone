@@ -84,6 +84,29 @@ export function getActiveBoard(boardID, callback) {
     });
 }
 
+export function updateBoard(boardID, newBoard, callback) {
+  firestore()
+    .collection('boards')
+    .doc(boardID)
+    .update(newBoard)
+    .then(() => callback())
+    .catch(err => console.error(err));
+}
+
+export function saveNewBoard(boardIndex, newBoard, callback) {
+  var UID = auth().currentUser.uid;
+  const privateBoardID = UID + '_' + boardIndex;
+
+  firestore()
+    .collection('boards')
+    .doc(privateBoardID)
+    .set({...newBoard, public: false})
+    .then(() => {
+      callback(privateBoardID);
+    })
+    .catch(err => console.error(err.message));
+}
+
 export function getVoiceData(callback) {
   var userDoc = auth().currentUser.email;
 
@@ -172,6 +195,17 @@ export function updateDatabase(update, callback) {
     .collection('users')
     .doc(userDoc)
     .update({...update})
+    .then(() => callback())
+    .catch(err => console.error(err));
+}
+
+export function addSavedBoardToUser(newBoardID, callback) {
+  var userDoc = auth().currentUser.email;
+
+  firestore()
+    .collection('users')
+    .doc(userDoc)
+    .update({savedBoards: firestore.FieldValue.arrayUnion(newBoardID)})
     .then(() => callback())
     .catch(err => console.error(err));
 }

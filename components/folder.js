@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 const Folder = props => {

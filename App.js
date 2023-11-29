@@ -28,8 +28,12 @@ import {
   defaultCommandList,
 } from './components/default_commands';
 import AppContext from './components/appContext';
-import {updateDatabase} from './backend/firestore_functions';
+import {
+  updateDatabase,
+  addSavedBoardToUser,
+} from './backend/firestore_functions';
 import BoardContext from './components/boardContext';
+import BoardEditorScreen from './screens/boardEditor_screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,20 +77,24 @@ const App = () => {
     categories: defaultCategoryList,
     commands: defaultCommandList,
     name: '',
+    public: false,
     savedBoards: [],
 
     setNewContext: newContext => {
       setBoardContext(newContext);
     },
-    updateContext: (oldContext, update) => {
-      setBoardContext({...oldContext, ...update});
+    addSavedBoard: (oldContext, newBoardID) => {
+      setBoardContext({
+        ...oldContext,
+        savedBoards: [...oldContext.savedBoards, newBoardID],
+      });
 
       //! Needs Work
-      updateDatabase(update, () => {});
+      addSavedBoardToUser(newBoardID, () => {});
     },
     clearContext: () => {
       setBoardContext({
-        ...context,
+        ...boardContext,
         categories: defaultCategoryList,
         commands: defaultCommandList,
       });
@@ -180,6 +188,11 @@ const App = () => {
             <Stack.Screen
               component={GridSizeScreen}
               name="GridSize"
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              component={BoardEditorScreen}
+              name="BoardEditor"
               options={{headerShown: false}}
             />
           </Stack.Navigator>

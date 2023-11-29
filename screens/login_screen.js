@@ -33,11 +33,12 @@ const LoginScreen = ({navigation}) => {
         getUserData(data => {
           context.setNewContext({...context, ...data});
           let boardID = data.boardID;
-          let savedBoards = data.savedBoards;
+          let savedBoardsList = data.savedBoards;
           getActiveBoard(boardID, boardData => {
             boardContext.setNewContext({
+              ...boardContext,
               ...boardData,
-              savedBoards: savedBoards,
+              savedBoards: savedBoardsList,
             });
             navigation.navigate('NavBar');
           });

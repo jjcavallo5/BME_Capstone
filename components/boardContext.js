@@ -5,10 +5,11 @@ const BoardContext = createContext({
   categories: defaultCategoryList,
   commands: defaultCommandList,
   name: '',
+  public: false,
   savedBoards: [],
 
   setNewContext: () => {},
-  updateContext: () => {},
+  addSavedBoard: () => {},
   clearContext: () => {},
 });
 

@@ -36,57 +36,37 @@ const FolderHomeScreen = ({navigation}) => {
   const [premiumAdVisible, setPremiumAdVisible] = useState(false);
   const [savedBoards, setSavedBoards] = useState([]);
 
-  const deleteCommand = () => {
-    const newCmdList = boardContext.commands.filter(cmd => {
-      return cmd.name !== cmdToDelete;
-    });
-    context.updateContext(context, {
-      commands: newCmdList,
-    });
+  const recursiveGetBoard = (array, i, callback) => {
+    getActiveBoard(boardContext.savedBoards[i], boardData => {
+      array.push(boardData);
 
-    // setCommandList(newCmdList, () => {});
-  };
-
-  const deleteFolder = () => {
-    const newCatList = boardContext.categories.filter(cat => {
-      return cat.name !== folderToDelete;
+      if (i + 1 < boardContext.savedBoards.length)
+        recursiveGetBoard(array, i + 1, callback);
+      else callback(array);
     });
-    context.updateContext(context, {
-      categories: newCatList,
-    });
-
-    // setCategoryList(newCatList, () => {});
   };
 
   useEffect(() => {
-    for (let i = 0; i < boardContext.savedBoards.length; i++) {
-      getActiveBoard(boardContext.savedBoards[i], boardData => {
-        if (savedBoards.some(e => e.name === boardData.name)) {
-          return;
-        }
-        setSavedBoards([...savedBoards, {...boardData}]);
-      });
-    }
-  }, [boardContext.savedBoards]);
+    let array = [];
+    recursiveGetBoard(array, 0, arr => setSavedBoards(arr));
+
+    // getActiveBoard(boardContext.savedBoards[i], boardData => {
+    //   if (!savedBoards.some(e => e.name === boardData.name)) {
+    //     setSavedBoards([...savedBoards, boardData]);
+    //     // console.log(boardContext.savedBoards[i], savedBoards);
+    //   }
+    // });
+
+    // console.log(boardContext.savedBoards.length);
+    // console.log('HI', savedBoards);
+  }, [boardContext]);
 
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: theme.background}}>
       <View style={styles.header}>
-        <Text style={{...styles.headerText, color: theme.text}}>
-          Board Editor
-        </Text>
+        <Text style={{...styles.headerText, color: theme.text}}>My Boards</Text>
       </View>
-      <DeleteCommandModal
-        modalVisible={modalVisible}
-        minimizeModal={() => setModalVisible(false)}
-        deleteCallback={deleteCommand}
-      />
-      <DeleteFolderModal
-        modalVisible={folderModalVisible}
-        minimizeModal={() => setFolderModalVisible(false)}
-        deleteCallback={deleteFolder}
-      />
       <PremiumAd
         modalVisible={premiumAdVisible}
         minimizeModal={() => setPremiumAdVisible(false)}
@@ -115,14 +95,6 @@ const FolderHomeScreen = ({navigation}) => {
                   style={{color: theme.text, backgroundColor: theme.textInput}}
                   iconColor={theme.iconColor}
                   gridSize={3}
-                  onLongPress={() => {
-                    if (!context.isPremiumUser) {
-                      setPremiumAdVisible(true);
-                      return;
-                    }
-                    setFolderModalVisible(true);
-                    setFolderToDelete(category.name);
-                  }}
                 />
               );
             })}
@@ -146,10 +118,13 @@ const FolderHomeScreen = ({navigation}) => {
               top: 0,
               zIndex: 3,
             }}
+            onPress={() =>
+              navigation.navigate('BoardEditor', {boardID: context.boardID})
+            }
           />
         </View>
         <Text style={{color: theme.text}}>Saved</Text>
-        {boardContext.savedBoards ? (
+        {savedBoards.length > 0 ? (
           savedBoards.map((boardData, idx) => {
             return (
               <View key={idx}>
@@ -175,14 +150,6 @@ const FolderHomeScreen = ({navigation}) => {
                           }}
                           iconColor={theme.iconColor}
                           gridSize={3}
-                          onLongPress={() => {
-                            if (!context.isPremiumUser) {
-                              setPremiumAdVisible(true);
-                              return;
-                            }
-                            setFolderModalVisible(true);
-                            setFolderToDelete(category.name);
-                          }}
                         />
                       );
                     })}
@@ -208,6 +175,11 @@ const FolderHomeScreen = ({navigation}) => {
                       top: 0,
                       zIndex: 3,
                     }}
+                    onPress={() =>
+                      navigation.navigate('BoardEditor', {
+                        boardID: boardContext.savedBoards[idx],
+                      })
+                    }
                   />
                 </View>
               </View>
