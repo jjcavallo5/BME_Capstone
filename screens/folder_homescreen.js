@@ -7,32 +7,23 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Folder from '../components/folder';
 import styles from '../styles/folderHomescreenStyles';
 
 import AppContext from '../components/appContext';
-import DeleteCommandModal from '../components/deleteCommandModal';
 
-import DeleteFolderModal from '../components/deleteFolderModal';
 import PremiumAd from '../components/premiumAd';
 import BoardContext from '../components/boardContext';
 import Command from '../components/command';
 import {getActiveBoard} from '../backend/firestore_functions';
+import ThemedListItem from 'react-native-elements/dist/list/ListItem';
 
 const FolderHomeScreen = ({navigation}) => {
   const context = useContext(AppContext);
   const boardContext = useContext(BoardContext);
   const theme = context.theme;
   const commands = boardContext.commands;
-  const categories = boardContext.categories;
-  const name = context.firstName;
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [folderModalVisible, setFolderModalVisible] = useState(false);
-  const [cmdToDelete, setCmdToDelete] = useState('');
-  const [folderToDelete, setFolderToDelete] = useState('');
   const [premiumAdVisible, setPremiumAdVisible] = useState(false);
   const [savedBoards, setSavedBoards] = useState([]);
 
@@ -49,16 +40,6 @@ const FolderHomeScreen = ({navigation}) => {
   useEffect(() => {
     let array = [];
     recursiveGetBoard(array, 0, arr => setSavedBoards(arr));
-
-    // getActiveBoard(boardContext.savedBoards[i], boardData => {
-    //   if (!savedBoards.some(e => e.name === boardData.name)) {
-    //     setSavedBoards([...savedBoards, boardData]);
-    //     // console.log(boardContext.savedBoards[i], savedBoards);
-    //   }
-    // });
-
-    // console.log(boardContext.savedBoards.length);
-    // console.log('HI', savedBoards);
   }, [boardContext]);
 
   return (
@@ -77,7 +58,7 @@ const FolderHomeScreen = ({navigation}) => {
       />
       <ScrollView>
         <Text style={{color: theme.text}}>Active Board</Text>
-        <Text>{boardContext.name}</Text>
+        <Text style={{color: theme.iconColor}}>{boardContext.name}</Text>
         <View style={{...styles.commandContainer}}>
           {commands
             .sort((a, b) => {
@@ -110,7 +91,7 @@ const FolderHomeScreen = ({navigation}) => {
             style={{
               position: 'absolute',
               width: '100%',
-              backgroundColor: '#dddddd77',
+              backgroundColor: theme.textInput + '77',
               borderRadius: 10,
               paddingTop: 10,
               paddingBottom: 10,
@@ -128,7 +109,7 @@ const FolderHomeScreen = ({navigation}) => {
           savedBoards.map((boardData, idx) => {
             return (
               <View key={idx}>
-                <Text>{boardData.name}</Text>
+                <Text style={{color: theme.iconColor}}>{boardData.name}</Text>
                 <View style={styles.commandContainer}>
                   {commands
                     .sort((a, b) => {
@@ -167,7 +148,7 @@ const FolderHomeScreen = ({navigation}) => {
                     style={{
                       position: 'absolute',
                       width: '100%',
-                      backgroundColor: '#dddddd77',
+                      backgroundColor: theme.textInput + '77',
                       borderRadius: 10,
                       paddingTop: 10,
                       paddingBottom: 10,

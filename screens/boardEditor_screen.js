@@ -10,6 +10,7 @@ import {
   Modal,
   TouchableWithoutFeedback,
   TextInput,
+  Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -34,7 +35,6 @@ const BoardEditorScreen = ({route, navigation}) => {
   const boardContext = useContext(BoardContext);
   const theme = context.theme;
 
-  const name = context.firstName;
   const voice = context.voice;
   const gridSize = context.gridSize;
   const windowHeight = Dimensions.get('window').height;
@@ -91,6 +91,11 @@ const BoardEditorScreen = ({route, navigation}) => {
     <SafeAreaView
       style={{...styles.container, backgroundColor: theme.background}}>
       <View style={styles.header}>
+        <TouchableOpacity
+          style={{position: 'absolute', top: 5, left: 5}}
+          onPress={() => navigation.pop()}>
+          <Icon name={'arrow-left'} size={30} color={theme.iconColor} />
+        </TouchableOpacity>
         <Text style={{...styles.headerText, color: theme.text}}>
           Edit Board
         </Text>
